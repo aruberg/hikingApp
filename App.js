@@ -1,15 +1,23 @@
 import 'react-native-gesture-handler';
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SplashScreen from './screens/Splash';
 
-const App = () => {
+const Stack = createStackNavigator();
+
+const AppNavigator = () => {
   return (
-    // Wrap code with navigation container
     <NavigationContainer>
-
+      <Stack.Navigator>
+        <Stack.Screen
+       
+        />
+      </Stack.Navigator>
     </NavigationContainer>
 
   );
 };
 
-export default app
+export default createAppContainer(AppNavigator);
+
