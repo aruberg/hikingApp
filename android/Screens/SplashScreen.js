@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated } from 'react-native';
-import logo from '../images/logo.png';
+import logo from './images/logo.png';
 
-class Splash extends Component {
-    state = {
-        logoAnime: new Animated.Value(0),
-        loadingSpinner: false,
-    }
+class SplashScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
@@ -16,7 +12,7 @@ class Splash extends Component {
     }
 }
 
-export default SplashScreen
+export default SplashScreen;
 
 const styles = StyleSheet.create({
     container: {
