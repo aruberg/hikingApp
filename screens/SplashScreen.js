@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import FadeInView from '../components/FadeInView';
 import { 
     View,
     Image, 
@@ -12,7 +13,9 @@ class SplashScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={logo} style={styles.image} />
+                <FadeInView>
+                    <Image source={logo} style={styles.image} />
+                </FadeInView>            
             </View>
         )
     }

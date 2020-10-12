@@ -10,7 +10,6 @@ import ProfileScreen from './screens/ProfileScreen';
 import SetANewGoalScreen from './screens/SetANewGoalScreen';
 import SplashScreen from './screens/SplashScreen';
 
-
 const Stack = createStackNavigator();
 
 const App = () => {
