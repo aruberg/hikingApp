@@ -3,7 +3,7 @@ import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from
 import { block } from 'react-native-reanimated';
 import logo from '../images/logo.png';
 
-class homeScreen extends Component {
+class HomeScreen extends Component {
     render() {
         global.currentScreenIndex = 'HomeScreen';
         return (
@@ -36,7 +36,7 @@ class homeScreen extends Component {
               };
     }
 
-export default homeScreen;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {

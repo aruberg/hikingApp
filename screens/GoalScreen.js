@@ -1,24 +1,30 @@
 import React, {Component} from 'react';
-import { View, Image, Text, StyleSheet, Animated } from 'react-native';
-import logo from './images/logo.png';
+import { 
+    View,
+    Image, 
+    Text, 
+    StyleSheet, 
+    Animated 
+} from 'react-native';
 
-class SplashScreen extends Component {
+class GoalScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={logo} />
+
             </View>
         )
     }
 }
 
-export default SplashScreen;
+export default GoalScreen;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#C98F39',
+        backgroundColor: '#3C413E',
         justifyContent: 'center',
         alignItems: 'center',
     },
+
 });

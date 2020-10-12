@@ -3,7 +3,7 @@ import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert, TextI
 import { block } from 'react-native-reanimated';
 import logo from '../images/logo.png';
 
-class setANewGoalScreen extends Component {
+class SetANewGoalScreen extends Component {
         state = {
            timeFrame: '',
            distance: '',
@@ -82,7 +82,7 @@ class setANewGoalScreen extends Component {
         }
      }
 
-export default setANewGoalScreen;
+export default SetANewGoalScreen;
 
 const styles = StyleSheet.create({
     container: {
