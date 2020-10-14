@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "37900722239",
+    "firebase_url": "https://trailpro-4e5a0.firebaseio.com",
+    "project_id": "trailpro-4e5a0",
+    "storage_bucket": "trailpro-4e5a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37900722239:android:4206c157d0fbb401e8d88a",
+        "android_client_info": {
+          "package_name": "com.hikingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37900722239-6mprm2e5rnppth7oec0topblds4337vs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYbd8blFRoZ4NRJtHWK2CGRY4AU5dJmso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37900722239-6mprm2e5rnppth7oec0topblds4337vs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
