@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect } from 'react';
 import { 
     View, 
     Image, 
@@ -8,8 +8,14 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import logo from '../images/logo.png';
+import auth from '@react-native-firebase/auth';
 
 class LoginScreen extends Component {
+    handleUserLogin = () => {
+        //TO do - add login steps
+        console.log('handleLogin')
+    }
+
     render() {
         return (
             <>

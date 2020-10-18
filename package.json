@@ -28,9 +28,13 @@
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
+<<<<<<< HEAD
     "react-native-screens": "^2.11.0",
     "react-navigation": "^4.4.2",
     "react-navigation-stack": "^2.8.4"
+=======
+    "react-native-screens": "^2.11.0"
+>>>>>>> e6abea6ca88802a5b2127be2367b4db1546dc19c
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
