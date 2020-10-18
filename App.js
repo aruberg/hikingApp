@@ -1,8 +1,10 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
+import { useState, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
 
 import GoalScreen from './screens/GoalScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -93,35 +95,36 @@ export default function App({ navigation }) {
     []
   );
 */
+
+  //Add Authentication piece following guide here: https://rnfirebase.io/auth/usage
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
+/*
+  if (!user) {
+      return (
+        <View>
+          <Text>Login</Text>
+        </View>
+      );
+    }
+*/
   return (
     //<AuthContext.Provider value={authContext}>
     <NavigationContainer>
         <Stack.Navigator initialRouteName="Splash">
-          /*{state.isLoading ? (
-            // We haven't finished checking for the token yet
-            <Stack.Screen 
-              name="Splash"
-              component={SplashScreen}
-              options={{headerShown: false}} 
-            />
-          ) : state.userToken == null ? (
-            // No token found, user isn't signed in
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ 
-                headerShown: false,
-                animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-              }}
-            />
-          ) : (
-            // User is signed in
-            <Stack.Screen 
-              name="Home" 
-              component={HomeScreen} 
-            />
-          )}
-          */
             <Stack.Screen
               name="Splash"
               component={SplashScreen}
@@ -134,29 +137,19 @@ export default function App({ navigation }) {
               options={{ headerShown: false }}
             />
 
-          <StackScreen
+          <Stack.Screen
             name="Home"
             component={HomeScreen}
           />
 
-          <StackScreen
-            name="Profile"
-            component={ProfileScreen}
-          />
-
-          <StackScreen
+          <Stack.Screen
             name="Goal"
             component={GoalScreen}
           />
 
-          <StackScreen
+          <Stack.Screen
             name="SetNewGoal"
             component={SetANewGoalScreen}
-          />
-
-          <StackScreen
-            name="InHike"
-            component={InHikeScreen}
           />
         </Stack.Navigator>
     </NavigationContainer>

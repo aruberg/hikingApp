@@ -10,14 +10,13 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import logo from '../images/logo.png';
-import firebase from 'react-native-firebase'; //Needed to for authentication check
+import auth, { firebase } from '@react-native-firebase/auth';//Needed to for authentication check
 
 class SplashScreen extends Component {
-    //Guide to check auth state on load included here:
-    //https://medium.com/better-programming/react-native-firebase-authentication-7652e1d2c8a2
-    componentDidMount(){
+    componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'Home' : 'Login')})
+            this.props.navigation.navigate(user ? "Home" : "Login");
+        });
     }
 
     render() {
