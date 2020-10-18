@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import * as React from 'react'
+import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -13,10 +13,12 @@ import SetANewGoalScreen from './screens/SetANewGoalScreen';
 import SplashScreen from './screens/SplashScreen';
 
 
-const AuthContext = React.createContext();
+//const AuthContext = React.createContext();
 const Stack = createStackNavigator();
 
 export default function App({ navigation }) {
+
+/*
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -90,12 +92,12 @@ export default function App({ navigation }) {
     }),
     []
   );
-
+*/
   return (
-    <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {state.isLoading ? (
+    //<AuthContext.Provider value={authContext}>
+    <NavigationContainer>
+        <Stack.Navigator initialRouteName="Splash">
+          /*{state.isLoading ? (
             // We haven't finished checking for the token yet
             <Stack.Screen 
               name="Splash"
@@ -119,8 +121,45 @@ export default function App({ navigation }) {
               component={HomeScreen} 
             />
           )}
+          */
+            <Stack.Screen
+              name="Splash"
+              component={SplashScreen}
+              options={{headerShown: false}}
+            />
+
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+
+          <StackScreen
+            name="Home"
+            component={HomeScreen}
+          />
+
+          <StackScreen
+            name="Profile"
+            component={ProfileScreen}
+          />
+
+          <StackScreen
+            name="Goal"
+            component={GoalScreen}
+          />
+
+          <StackScreen
+            name="SetNewGoal"
+            component={SetANewGoalScreen}
+          />
+
+          <StackScreen
+            name="InHike"
+            component={InHikeScreen}
+          />
         </Stack.Navigator>
-      </NavigationContainer>
-    </AuthContext.Provider>
+    </NavigationContainer>
+    //</AuthContext.Provider>
   );
 }
