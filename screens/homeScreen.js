@@ -7,29 +7,32 @@ class HomeScreen extends Component {
     render() {
         global.currentScreenIndex = 'HomeScreen';
         return (
-
                 <View style={styles.container}>
+
                      <Image source={logo} style={styles.image} />
+                     
                     <TouchableOpacity
-                        style={styles.buttonStyle}
+                        style={styles.buttonContainer}
                         activeOpacity={0.5}
                         onPress={alert('you are going to take a hike')}>
                         <Text style={styles.buttonTextStyle}>Do a Hike!</Text>
                      </TouchableOpacity>
                      <TouchableOpacity
-                        style={styles.buttonStyle}
+                        style={styles.buttonContainer}
                         activeOpacity={0.5}
                         onPress={alert('going to your profile')}>
                         <Text style={styles.buttonTextStyle}>My profile</Text>  
                      </TouchableOpacity>
-
+                     
                      <View style={styles.board}>
                             <Text style={styles.boardTextStyle} >Goals</Text>
                         </View>
                         <View style={styles.board}>
                             <Text style={styles.boardTextStyle} >Awards</Text>
                         </View>
-                  </View>
+                         </View>
+
+                 
                   
 
                 );
@@ -45,20 +48,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-
-    buttonStyle: {
-        backgroundColor: '#C98F39',
-        borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#453D5F',
-        height: 40,
-        width: 150,
+    header:{
+        backgroundColor: "#679267",
+        height:200,
+      },
+    buttonContainer: {
+        marginTop:10,
+        height:45,
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        marginBottom: 20,
+        marginBottom:20,
+        width:250,
+        borderRadius:30,
+        backgroundColor: "#C98F39",
 
       },
       buttonTextStyle: {
@@ -68,17 +71,16 @@ const styles = StyleSheet.create({
       },
       image: {
         resizeMode: "contain",
-        marginTop: -50,
+        marginTop: 30,
         marginBottom: 70,
 
     },
     board: {
-        width: 250,
-        height: 100,
-        backgroundColor: '#86608e',
+        width: 330,
+        height: 150,
+        backgroundColor: '#679267',
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 20,
         marginBottom: 20,
         borderRadius: 20,
 
