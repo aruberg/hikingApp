@@ -35,7 +35,7 @@ class SetANewGoalScreen extends Component {
                  <TextInput style = {styles.input}
                     underlineColorAndroid = "transparent"
                     placeholder = "in days "
-                    placeholderTextColor = "#9a73ef"
+                    placeholderTextColor = "#C98F39"
                     autoCapitalize = "none"
                     onChangeText = {this.handleTimeFrame}/>
                     </View> 
@@ -45,7 +45,7 @@ class SetANewGoalScreen extends Component {
                  <TextInput style = {styles.input}
                     underlineColorAndroid = "transparent"
                     placeholder = "# in Km "
-                    placeholderTextColor = "#9a73ef"
+                    placeholderTextColor = "#C98F39"
                     autoCapitalize = "none"
                     onChangeText = {this.handleDistance}/>
                  </View> 
@@ -55,7 +55,7 @@ class SetANewGoalScreen extends Component {
                  <TextInput style = {styles.input}
                     underlineColorAndroid = "transparent"
                     placeholder = "0.0 "
-                    placeholderTextColor = "#9a73ef"
+                    placeholderTextColor = "#C98F39"
                     autoCapitalize = "none"
                     onChangeText = {this.handleElevation}/>
                 </View>
@@ -65,7 +65,7 @@ class SetANewGoalScreen extends Component {
                  <TextInput style = {styles.input}
                     underlineColorAndroid = "transparent"
                     placeholder = "type a location in bc  "
-                    placeholderTextColor = "#9a73ef"
+                    placeholderTextColor = "#C98F39"
                     autoCapitalize = "none"
                     onChangeText = {this.handleLocation}/>
                  </View>   
@@ -87,16 +87,16 @@ export default SetANewGoalScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#C98F39',
+        backgroundColor: '#3C413E',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     submitButton: {
-        backgroundColor: '#453D5F',
+        backgroundColor: '#C98F39',
         borderWidth: 0,
         color: '#FFFFFF',
-        borderColor: '#453D5F',
+        borderColor: '#C98F39',
         height: 60,
         width: 150,
         alignItems: 'center',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
       },
        TextStyle: {
-        color: '#453D5F',
+        color: '#C98F39',
         paddingVertical:10,
         fontSize: 25,
         margin: 20,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
            margin: 20,
            height: 50,
            width: 80,
-           borderColor: '#453D5F',
+           borderColor: '#C98F39',
            borderWidth: 3,
 
         },

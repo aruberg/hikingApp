@@ -30,7 +30,7 @@
 // const styles = StyleSheet.create({
 //     container: {
 //         flex: 1,
-//         backgroundColor: '#C98F39',
+//         backgroundColor: '#3C413E',
 //         justifyContent: 'center',
 //         alignItems: 'center',
 //     },
@@ -51,7 +51,7 @@
 
 //       },
 //       buttonTextStyle: {
-//         color: '#C9C8B9',
+//         color: '#C98F39',
 //         paddingVertical: 55,
 //         fontSize: 30,
 //       },

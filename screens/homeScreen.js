@@ -41,13 +41,13 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#C98F39',
+        backgroundColor: '#3C413E',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     buttonStyle: {
-        backgroundColor: '#453D5F',
+        backgroundColor: '#C98F39',
         borderWidth: 0,
         color: '#FFFFFF',
         borderColor: '#453D5F',
