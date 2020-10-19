@@ -1,3 +1,12 @@
+/**
+ * This is the Screen users will see when they are perfoming a hike. 
+ * The map should be the trail chosen and it should indicate where the QR code is 
+ * The button when clicked it should open the camera to be able to scan the QR code. 
+ * 
+ * Improvements: 
+ * Add a exit hike button 
+ * Set 24h timer HERE after QR has been scan
+ */
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import logo from '../images/logo.png';

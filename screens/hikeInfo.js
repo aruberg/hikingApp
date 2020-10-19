@@ -1,3 +1,8 @@
+/**
+ * This Screen should display the information about each trail accordingly. 
+ * It should pull from the database and populate sections accordingly. 
+ */
+
 import React, { Component } from 'react';
 import {
   StyleSheet,

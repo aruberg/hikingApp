@@ -1,3 +1,10 @@
+/**
+ * This Screen should display the information about a particular users goals accordingly. 
+ * It should pull from the database and populate sections. 
+ * 
+ * Potential improvements: 
+ * Set a new goal Button 
+ */
 import React, { Component } from 'react';
 import {
   StyleSheet,

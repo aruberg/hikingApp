@@ -1,3 +1,11 @@
+/**
+ * This is the home screen. 
+ * When clicking on Do a hike it should redirect user to hikeMenu.
+ * When clicking on my profile it should redirect user to ProfileScreen 
+ * In the Goals board a summary of all the users goals should be displayed in addition 
+ * to how much they have completed so far. 
+ * In the Awards board a summary of all the awards earned so far should be displayed. 
+ */
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import { block } from 'react-native-reanimated';

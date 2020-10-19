@@ -1,3 +1,8 @@
+/**
+ * This Screen should display a type of menu with all the trails available. 
+ * It should pull from the database and populate sections accordingly. 
+ * It may still need some work on the design and pictures.
+ */
 import React, { Component } from 'react';
 import {
   StyleSheet,
