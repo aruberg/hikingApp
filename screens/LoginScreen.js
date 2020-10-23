@@ -1,4 +1,6 @@
+
 import React, {Component, Button, useState, useEffect } from 'react';
+import { TextInput } from 'react-native-gesture-handler';
 import { 
     View, 
     Image, 
@@ -7,7 +9,7 @@ import {
     TouchableOpacity, 
     ImageBackground,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+
 import logo from '../images/logo.png';
 import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
@@ -18,34 +20,32 @@ import {
 } from '@react-native-community/google-signin';
 
 
-class LoginScreen extends Component {
-    _signIn = async () => {
-        try {
-            await GoogleSignin.hasPlayServices();
-            const {accessToken, idToken} = await GoogleSignin.signIn();
-            setloggedIn(true);
-            const credential = auth.GoogleAuthProvider.credential(
-                idToken,
-                accessToken,
-              );
-              await auth().signInWithCredential(credential);           
-        } catch (error) {
-          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // user cancelled the login flow
-            alert('Cancel');
-          } else if (error.code === statusCodes.IN_PROGRESS) {
-            alert('Signin in progress');
-            // operation (f.e. sign in) is in progress already
-          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            alert('PLAY_SERVICES_NOT_AVAILABLE');
-            // play services not available or outdated
-          } else {
-            // some other error happened
-          }
-        }
-      }
+function LoginScreen({navigation}) {
 
-    render() {
+    // _signIn = async () => {
+    //     try {
+    //         await GoogleSignin.hasPlayServices();
+    //         const userInfo = await GoogleSignin.signIn();
+    //         setUser(userInfo);
+    //         setError(null);
+    //         setLoggedIn(true);          
+    //     } catch (error) {
+    //       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+    //         // user cancelled the login flow
+    //         alert('Cancel');
+    //       } else if (error.code === statusCodes.IN_PROGRESS) {
+    //         alert('Signin in progress');
+    //         // operation (f.e. sign in) is in progress already
+    //       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+    //         alert('PLAY_SERVICES_NOT_AVAILABLE');
+    //         // play services not available or outdated
+    //       } else {
+    //         // some other error happened
+    //       }
+    //     }
+    //   }
+
+    //render() {
         return (
             <>
                 <View style={styles.container}>
@@ -56,14 +56,6 @@ class LoginScreen extends Component {
                     </ImageBackground>
                     <View style={styles.logoContainer}>
                         <Image source={logo} style={styles.image} />
-                    </View>
-                    <View style={styles.googleContainer}>
-                        <GoogleSigninButton
-                            style={{width: 192, height: 48}}
-                            size={GoogleSigninButton.Size.Wide}
-                            color={GoogleSigninButton.Color.Dark}
-                            onPress={this._signIn}
-                        />
                     </View>
                     <View style={styles.userInput}>
                         <TextInput
@@ -81,7 +73,7 @@ class LoginScreen extends Component {
                             placeholder="Password"
                             placeholderTextColor="#fff"
                             onChangeText={
-                                text => this.setState({username:text})
+                                text => this.setState({password:text})
                             }
                         />       
                     </View>
@@ -91,14 +83,21 @@ class LoginScreen extends Component {
                     <TouchableOpacity>
                         <Text style={styles.forgotPassword}>Forgot Password</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.signUpButton}>
+                    <View style={styles.googleContainer}>
+                        {/* <GoogleSigninButton
+                            style={{width: 192, height: 48}}
+                            size={GoogleSigninButton.Size.Wide}
+                            color={GoogleSigninButton.Color.Dark}
+                            onPress={this._signIn}
+                        /> */}
+                    </View>
+                    <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('SignUp')}>
                         <Text style={styles.signUpText}>Create Account</Text>
                     </TouchableOpacity>
                 </View>
             </>       
         );
-    }
+    //}
 }
 
 export default LoginScreen;
@@ -174,7 +173,8 @@ const styles = StyleSheet.create({
     },
 
     googleContainer: {
-        marginBottom: 10,
+        marginTop: 30,
+        marginBottom: 20,
     },
 
     backgroundImage: {
