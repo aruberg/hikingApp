@@ -17,7 +17,7 @@ import {
   FlatList,
   Button
 } from 'react-native';
-import hike1 from '/Users/camicas/projectCOMP4910/hikingApp/images/hike1.jpg';
+//import hike1 from '/Users/camicas/projectCOMP4910/hikingApp/images/hike1.jpg';
 
 export default class Posts extends Component {
 
