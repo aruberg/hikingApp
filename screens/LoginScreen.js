@@ -1,18 +1,27 @@
-import React, {Component, useState, useEffect } from 'react';
+import React, {Component, Button, useState, useEffect } from 'react';
 import { 
     View, 
     Image, 
     Text, 
     StyleSheet, 
-    TouchableOpacity 
+    TouchableOpacity, 
+    ImageBackground,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import logo from '../images/logo.png';
+import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
+import { 
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from '@react-native-community/google-signin';
+
 
 class LoginScreen extends Component {
     handleUserLogin = () => {
         //TO do - add login steps
+
         console.log('handleLogin')
     }
 
@@ -20,8 +29,21 @@ class LoginScreen extends Component {
         return (
             <>
                 <View style={styles.container}>
+                    <ImageBackground 
+                        source={ require('../images/background.jpg') }
+                        resizeMode='cover' 
+                        style={styles.backgroundImage}>
+                    </ImageBackground>
                     <View style={styles.logoContainer}>
                         <Image source={logo} style={styles.image} />
+                    </View>
+                    <View style={styles.googleContainer}>
+                        <GoogleSigninButton
+                            style={{width: 192, height: 48}}
+                            size={GoogleSigninButton.Size.Wide}
+                            color={GoogleSigninButton.Color.Dark}
+                            onPress={this._signIn}
+                        />
                     </View>
                     <View style={styles.userInput}>
                         <TextInput
@@ -66,7 +88,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#3C413E",
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center'       
     },
 
     logoContainer: {
@@ -129,5 +151,13 @@ const styles = StyleSheet.create({
     signUpText: {
         color: '#C98F39'
         
-    }
+    },
+
+    googleContainer: {
+        marginBottom: 10,
+    },
+
+    backgroundImage: {
+        width: '100%',
+    },
 });

@@ -10,7 +10,7 @@
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import logo from '../images/logo.png';
-import mapGeneric from '/Users/camicas/projectCOMP4910/hikingApp/images/mapGeneric.jpg';
+//import mapGeneric from '/Users/camicas/projectCOMP4910/hikingApp/images/mapGeneric.jpg';
 
 class InHikeScreen extends Component {
     render() {
