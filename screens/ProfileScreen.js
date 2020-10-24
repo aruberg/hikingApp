@@ -6,18 +6,30 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
-export default class Profile extends Component {
+function signOutUser() {
+  auth()
+      .signOut()
+      .then(() => {
+          console.log('User signed out!');
+       })
+  };
 
-  render() {
+function Profile({navigation}){
+
+ 
     return (
       <View style={styles.container}>
-          <View style={styles.header}></View>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
+                <Text>Sign Out</Text> 
+            </TouchableOpacity>
+          </View>
           <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>Nickname </Text>
-              
               <TouchableOpacity style={styles.buttonContainer}>
                 <Text>Hikes Completed </Text>  
               </TouchableOpacity>              
@@ -30,13 +42,15 @@ export default class Profile extends Component {
         <View style={styles.board}>
             <Text style={styles.boardTextStyle}>Km hiked:  </Text>
             <Text style={styles.boardTextStyle}>Awards:  </Text>
-            </View>
-            </View>
+          </View>
+        </View>
       </View>
       
     );
-  }
+  
 }
+
+export default Profile;
 
 const styles = StyleSheet.create({
   header:{
@@ -101,4 +115,16 @@ boardTextStyle: {
     alignSelf: 'center',
    
 },
+
+signOutButton: {
+  marginTop:10,
+  height:45,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginBottom:20,
+  width: "100%",
+  borderRadius:30,
+  backgroundColor: "#C98F39",
+}
 });

@@ -19,8 +19,6 @@ import {
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 function createNewUser(email, password) {
-    alert(email)
-    alert(password)
     auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
@@ -45,62 +43,62 @@ function CreateAccountScreen({navigation})  {
     
         return (
             <>
-                <View style={styles.container}>
-                    <ImageBackground 
-                        source={ require('../images/background.jpg') }
-                        resizeMode='cover' 
-                        style={styles.backgroundImage}>
-                    </ImageBackground>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.titleText}>Create account</Text>
-                    </View>
-                    <View style={styles.logoContainer}>
-                        <Image source={path} style={styles.image} />
-                    </View>
-                    <View style={styles.userInput}>
-                        <TextInput
-                            style={styles.inputText}
-                            placeholder="First name"
-                            placeholderTextColor="#fff"
-                            onChangeText={
-                                text => this.setState({firstName:text})
-                            }
-                        />       
-                    </View>
-                    <View style={styles.userInput}>
-                        <TextInput
-                            style={styles.inputText}
-                            placeholder="Last name"
-                            placeholderTextColor="#fff"
-                            onChangeText={
-                                text => this.setState({lastName:text})
-                            }
-                        />       
-                    </View>
-                    <View style={styles.userInput}>
-                        <TextInput
-                            style={styles.inputText}
-                            placeholder="Email"
-                            placeholderTextColor="#fff"
-                            onChangeText={
-                                text => setEmail(text)
-                            }
-                        />       
-                    </View>
-                    <View style={styles.userInput}>
-                        <TextInput
-                            style={styles.inputText}
-                            placeholder="Password"
-                            placeholderTextColor="#fff"
-                            onChangeText={
-                                text => setPassword(text)
-                            }
-                        />       
-                    </View>
-                    <TouchableOpacity style={styles.signUpButton} onPress={() => createNewUser(email, password)}>
-                        <Text style={styles.signUpText}>Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
+                <ImageBackground 
+                    source={ require('../images/background.jpg') }
+                    resizeMode='cover' 
+                    style={styles.backgroundImage}
+                    imageStyle={{opacity: 0.2}}>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.titleText}>Create Account</Text>
+                        </View>
+                        <View style={styles.logoContainer}>
+                            <Image source={path} style={styles.image} />
+                        </View>
+                        <View style={styles.userInput}>
+                            <TextInput
+                                style={styles.inputText}
+                                placeholder="First name"
+                                placeholderTextColor="#fff"
+                                onChangeText={
+                                    text => this.setState({firstName:text})
+                                }
+                            />       
+                        </View>
+                        <View style={styles.userInput}>
+                            <TextInput
+                                style={styles.inputText}
+                                placeholder="Last name"
+                                placeholderTextColor="#fff"
+                                onChangeText={
+                                    text => this.setState({lastName:text})
+                                }
+                            />       
+                        </View>
+                        <View style={styles.userInput}>
+                            <TextInput
+                                style={styles.inputText}
+                                placeholder="Email"
+                                placeholderTextColor="#fff"
+                                onChangeText={
+                                    text => setEmail(text)
+                                }
+                            />       
+                        </View>
+                        <View style={styles.userInput}>
+                            <TextInput
+                                style={styles.inputText}
+                                placeholder="Password"
+                                placeholderTextColor="#fff"
+                                onChangeText={
+                                    text => setPassword(text)
+                                }
+                            />       
+                        </View>
+                        <TouchableOpacity style={styles.signUpButton} onPress={() => createNewUser(email, password)}>
+                            <Text style={styles.signUpText}>Sign Up</Text>
+                        </TouchableOpacity>
+                </ImageBackground>
+
             </>       
         );
     
@@ -109,7 +107,8 @@ function CreateAccountScreen({navigation})  {
 export default CreateAccountScreen;
 
 const styles = StyleSheet.create({
-    container: {
+    backgroundImage: {
+        width: "100%",
         flex: 1,
         backgroundColor: "#3C413E",
         alignItems: 'center',
@@ -122,10 +121,6 @@ const styles = StyleSheet.create({
 
     titleContainer: {
         marginBottom: 5,
-    },
-
-    backgroundImage: {
-        width: '100%',
     },
 
     image: {
