@@ -8,17 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:37900722239:android:4206c157d0fbb401e8d88a",
+        "mobilesdk_app_id": "1:37900722239:android:e4d70a1b7e117a6ce8d88a",
         "android_client_info": {
           "package_name": "com.hikingapp"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "37900722239-6mprm2e5rnppth7oec0topblds4337vs.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyAYbd8blFRoZ4NRJtHWK2CGRY4AU5dJmso"
@@ -26,12 +21,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "37900722239-6mprm2e5rnppth7oec0topblds4337vs.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

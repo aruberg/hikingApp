@@ -10,28 +10,31 @@
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import logo from '../images/logo.png';
-//import mapGeneric from '/Users/camicas/projectCOMP4910/hikingApp/images/mapGeneric.jpg';
+import mapGeneric from '../images/mapGeneric.jpg';
+import MapboxGL from "@react-native-mapbox-gl/maps";
 
-class InHikeScreen extends Component {
-    render() {
-        global.currentScreenIndex = 'InHikeScreen';
-        return (
+MapboxGL.setAccessToken("pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXFyNHdrMDZzYTJ4bzEwdzRpb3BzNyJ9.XsNRLNsh273gGyt99pFlzw");
+MapboxGL.setConnected(true);
 
-                <View style={styles.container}>
-                     <Image source={logo} style={styles.image} />
-                     <Image source={mapGeneric} style={styles.mapImage} />
-                     <TouchableOpacity
-                        style={styles.buttonContainerCircle}
-                        activeOpacity={0.5}
-                        onPress={alert("Opening Camera")}>
-                        <Text style={styles.buttonTextStyle}>QR Scan!</Text>
-                     </TouchableOpacity>
-                </View>
+function InHikeScreen() {
 
-                  
+    return (
 
-                );
-              };
+            <View style={styles.container}>
+                    <Image source={logo} style={styles.image} />
+                    <Image source={mapGeneric} style={styles.mapImage} />
+                    <TouchableOpacity
+                    style={styles.buttonContainerCircle}
+                    activeOpacity={0.5}
+                    onPress={alert("Opening Camera")}>
+                    <Text style={styles.buttonTextStyle}>QR Scan!</Text>
+                    </TouchableOpacity>
+            </View>
+
+                
+
+            );
+            
     }
 
 export default InHikeScreen;

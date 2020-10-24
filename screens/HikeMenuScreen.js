@@ -60,6 +60,7 @@ export default class HikeMenuScreen extends Component {
               underlineColorAndroid='transparent'
               onChangeText={(name_address) => this.setState({name_address})}/>
           </View>
+
         </View>
 
         <FlatList 
@@ -165,5 +166,16 @@ const styles = StyleSheet.create({
     marginHorizontal:3,
     backgroundColor: "#BECEB4",
     marginTop:5,
+  },
+
+  buttonContainer: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width:"100%",
+    borderRadius:30,
+    backgroundColor: "#C98F39",
   },
 });  

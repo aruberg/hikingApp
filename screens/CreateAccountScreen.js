@@ -11,11 +11,6 @@ import { TextInput } from 'react-native-gesture-handler';
 import path from '../images/path.png';
 import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
-import { 
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-community/google-signin';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 function createNewUser(email, password) {

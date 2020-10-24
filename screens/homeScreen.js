@@ -9,32 +9,32 @@
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import { block } from 'react-native-reanimated';
-import logo from '../images/logo.png';
+import hikePhoto from '../images/hikePhoto.jpg';
 
 function HomeScreen({navigation}) {
     global.currentScreenIndex = 'HomeScreen';
     return (
-      <View style={styles.container}>
-        <Image source={logo} style={styles.image} />       
-        <TouchableOpacity
-            style={styles.buttonContainer}
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('HikeMenu')}>
-            <Text style={styles.buttonTextStyle}>Do a Hike!</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('Profile')}>
-            <Text style={styles.buttonTextStyle}>My profile</Text>  
-          </TouchableOpacity>
+      <View style={styles.container}> 
+        <View style={styles.featuredHike}>
+          <Text style={styles.boardTextStyle}>Featured Hike</Text>
+          <View style={styles.featuredCenter}>
+            <Image source={hikePhoto} style={styles.featuredImage} />
+          </View>
           
+        </View>     
+        
           <View style={styles.board}>
             <Text style={styles.boardTextStyle}>Goals</Text>
           </View>
           <View style={styles.board}>
             <Text style={styles.boardTextStyle}>Awards</Text>
           </View>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('InHike')}>
+            <Text style={styles.buttonTextStyle}>In Hike Demo</Text>  
+          </TouchableOpacity> 
       </View>
     );
   };
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
     board: {
         width: 330,
-        height: 150,
+        height: 100,
         backgroundColor: '#679267',
         marginLeft: 10,
         marginRight: 10,
@@ -93,4 +93,24 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         fontSize: 16,
       },
+
+    featuredHike: {
+      width: 330,
+      height: 170,
+      backgroundColor: '#679267',
+      marginLeft: 10,
+      marginRight: 10,
+      marginBottom: 20,
+      borderRadius: 20,
+    },
+
+    featuredImage: {
+      width: 300,
+      height: 110,
+    },
+
+    featuredCenter: {
+      alignItems: "center",
+      justifyContent: "center",
+    },
 });

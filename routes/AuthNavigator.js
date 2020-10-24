@@ -4,11 +4,6 @@ import SignInStack from './SignInStack'
 import SignOutStack from './SignOutStack'
 import SplashScreen from '../screens/SplashScreen'
 import TabNavigator from './TabNavigator'
-import { 
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-community/google-signin';
 
 
 export const AuthContext = createContext(null);
