@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -20,7 +20,8 @@ const Tab = createBottomTabNavigator();
 function HomeStack() {
     return (
         <Stack.Navigator initialRouteName="Home" headerMode="none">
-            <Stack.Screen name="Home" component={HomeScreen} />        
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="InHike" component={InHikeScreen} />        
         </Stack.Navigator>
     )
 }
@@ -49,20 +50,58 @@ function TabNavigator() {
     return (
       <NavigationContainer>
         <Tab.Navigator 
-            initialRouteName="Home" 
-            screenOptions={{
-                tabBarOptions: {
-                    style: {
-                        backgroundColor: '#C98F39',
-                    }
-                }
-            }}
-                
-                
+            initialRouteName="Home"
+            tabBarOptions= {{
+                activeBackgroundColor: '#6F6035',
+                activeTintColor: '#C9C8B9',
+                inactiveTintColor:'#3C413E',
+                style: {
+                    backgroundColor: '#C98F39'
+                },
+            }}                      
         >        
-          <Tab.Screen name="HomeStack" component={HomeStack} />
-          <Tab.Screen name="ProfileStack" component={ProfileStack} />
-          <Tab.Screen name="HikeMenuStack" component={HikeStack} />
+          <Tab.Screen 
+            name="HomeStack" 
+            component={HomeStack}
+            options={{
+                tabBarLabel: 'Home',
+                tabBarIcon: ({ color, size }) => (
+                    <Icon
+                        name="home"
+                        color={color}
+                        size={size}
+                    />
+                ),
+            }} 
+          />
+          <Tab.Screen 
+            name="ProfileStack" 
+            component={ProfileStack} 
+            options={{
+                tabBarLabel: 'Profile',
+                tabBarIcon: ({ color, size }) => (
+                    <Icon
+                        name="user"
+                        color={color}
+                        size={size}
+                    />
+                ),
+            }} 
+          />
+          <Tab.Screen 
+            name="HikeStack" 
+            component={HikeStack}
+            options={{
+                tabBarLabel: 'Hikes',
+                tabBarIcon: ({ color, size }) => (
+                    <Icon
+                        name="map-signs"
+                        color={color}
+                        size={size}
+                    />
+                ),
+            }}  
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );

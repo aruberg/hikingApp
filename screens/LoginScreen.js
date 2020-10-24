@@ -13,11 +13,6 @@ import {
 import logo from '../images/logo.png';
 import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
-import { 
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-community/google-signin';
 
 function signInUser(email, password) {
     auth()
@@ -83,12 +78,6 @@ function LoginScreen({navigation}) {
                                 <Text style={styles.forgotPassword}>Forgot Password</Text>
                             </TouchableOpacity>
                             <View style={styles.googleContainer}>
-                                {/* <GoogleSigninButton
-                                    style={{width: 192, height: 48}}
-                                    size={GoogleSigninButton.Size.Wide}
-                                    color={GoogleSigninButton.Color.Dark}
-                                    onPress={this._signIn}
-                                /> */}
                             </View>
                             <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('SignUp')}>
                                 <Text style={styles.signUpText}>Create Account</Text>
