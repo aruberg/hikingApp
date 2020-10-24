@@ -114,7 +114,7 @@ export default class ProductView extends Component {
 
           <View style={styles.card}>
             <View style={styles.cardContent}>
-              <TouchableOpacity style={styles.shareButton} onPress={()=> this.clickEventListener()}>
+              <TouchableOpacity style={styles.shareButton} onPress={() => navigation.navigate('InHike')}>
                 <Text style={styles.shareButtonText}>Hike it!</Text>  
               </TouchableOpacity>
             </View>

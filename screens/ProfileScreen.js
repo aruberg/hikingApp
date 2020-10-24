@@ -30,10 +30,10 @@ function Profile({navigation}){
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>Nickname </Text>
-              <TouchableOpacity style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('HikeInfo')}>
                 <Text>Hikes Completed </Text>  
               </TouchableOpacity>              
-              <TouchableOpacity style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
                 <Text>Goals</Text> 
               </TouchableOpacity>
             </View>
