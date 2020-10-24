@@ -16,7 +16,7 @@ import {
   FlatList
 } from 'react-native';
 
-export default class HikeMenu extends Component {
+export default class HikeMenuScreen extends Component {
 
   constructor(props) {
     super(props);

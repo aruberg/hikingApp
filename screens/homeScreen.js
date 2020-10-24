@@ -19,7 +19,7 @@ function HomeScreen({navigation}) {
         <TouchableOpacity
             style={styles.buttonContainer}
             activeOpacity={0.5}
-            onPress={alert('you are going to take a hike')}>
+            onPress={() => navigation.navigate('HikeMenu')}>
             <Text style={styles.buttonTextStyle}>Do a Hike!</Text>
           </TouchableOpacity>
           <TouchableOpacity
