@@ -11,41 +11,34 @@ import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from
 import { block } from 'react-native-reanimated';
 import logo from '../images/logo.png';
 
-class HomeScreen extends Component {
-    render() {
-        global.currentScreenIndex = 'HomeScreen';
-        return (
-                <View style={styles.container}>
-
-                     <Image source={logo} style={styles.image} />
-                     
-                    <TouchableOpacity
-                        style={styles.buttonContainer}
-                        activeOpacity={0.5}
-                        onPress={alert('you are going to take a hike')}>
-                        <Text style={styles.buttonTextStyle}>Do a Hike!</Text>
-                     </TouchableOpacity>
-                     <TouchableOpacity
-                        style={styles.buttonContainer}
-                        activeOpacity={0.5}
-                        onPress={alert('going to your profile')}>
-                        <Text style={styles.buttonTextStyle}>My profile</Text>  
-                     </TouchableOpacity>
-                     
-                     <View style={styles.board}>
-                            <Text style={styles.boardTextStyle} >Goals</Text>
-                        </View>
-                        <View style={styles.board}>
-                            <Text style={styles.boardTextStyle} >Awards</Text>
-                        </View>
-                         </View>
-
-                 
-                  
-
-                );
-              };
-    }
+function HomeScreen({navigation}) {
+    global.currentScreenIndex = 'HomeScreen';
+    return (
+      <View style={styles.container}>
+        <Image source={logo} style={styles.image} />       
+        <TouchableOpacity
+            style={styles.buttonContainer}
+            activeOpacity={0.5}
+            onPress={alert('you are going to take a hike')}>
+            <Text style={styles.buttonTextStyle}>Do a Hike!</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('Profile')}>
+            <Text style={styles.buttonTextStyle}>My profile</Text>  
+          </TouchableOpacity>
+          
+          <View style={styles.board}>
+            <Text style={styles.boardTextStyle}>Goals</Text>
+          </View>
+          <View style={styles.board}>
+            <Text style={styles.boardTextStyle}>Awards</Text>
+          </View>
+      </View>
+    );
+  };
+    
 
 export default HomeScreen;
 

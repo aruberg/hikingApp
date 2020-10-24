@@ -1,4 +1,6 @@
+
 import React, {Component, Button, useState, useEffect } from 'react';
+import { TextInput } from 'react-native-gesture-handler';
 import { 
     View, 
     Image, 
@@ -7,7 +9,7 @@ import {
     TouchableOpacity, 
     ImageBackground,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+
 import logo from '../images/logo.png';
 import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
@@ -17,68 +19,84 @@ import {
     statusCodes,
 } from '@react-native-community/google-signin';
 
+function signInUser(email, password) {
+    auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+            console.log('User account created & signed in!');
+         })
+    .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
+        }
 
-class LoginScreen extends Component {
-    handleUserLogin = () => {
-        //TO do - add login steps
+        if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
+        }
 
-        console.log('handleLogin')
-    }
+    console.error(error);
+  });
+}
 
-    render() {
+
+function LoginScreen({navigation}) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
         return (
             <>
-                <View style={styles.container}>
+
                     <ImageBackground 
                         source={ require('../images/background.jpg') }
                         resizeMode='cover' 
-                        style={styles.backgroundImage}>
+                        style={styles.backgroundImage}
+                        imageStyle={{opacity: 0.2}}
+                        >
+                            <View style={styles.logoContainer}>
+                                <Image source={logo} style={styles.image} />
+                            </View>
+                            <View style={styles.userInput}>
+                                <TextInput
+                                    style={styles.inputText}
+                                    placeholder="Email address"
+                                    placeholderTextColor="#fff"
+                                    onChangeText={
+                                        text => setEmail(text)
+                                    }
+                                />       
+                            </View>
+                            <View style={styles.userInput}>
+                                <TextInput
+                                    style={styles.inputText}
+                                    placeholder="Password"
+                                    placeholderTextColor="#fff"
+                                    secureTextEntry={true}
+                                    onChangeText={
+                                        text => setPassword(text)
+                                    }
+                                />       
+                            </View>
+                            <TouchableOpacity style={styles.loginButton} onPress={() => signInUser(email, password)}>
+                                <Text style={styles.loginText}>Login</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={styles.forgotPassword}>Forgot Password</Text>
+                            </TouchableOpacity>
+                            <View style={styles.googleContainer}>
+                                {/* <GoogleSigninButton
+                                    style={{width: 192, height: 48}}
+                                    size={GoogleSigninButton.Size.Wide}
+                                    color={GoogleSigninButton.Color.Dark}
+                                    onPress={this._signIn}
+                                /> */}
+                            </View>
+                            <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('SignUp')}>
+                                <Text style={styles.signUpText}>Create Account</Text>
+                            </TouchableOpacity>
                     </ImageBackground>
-                    <View style={styles.logoContainer}>
-                        <Image source={logo} style={styles.image} />
-                    </View>
-                    <View style={styles.googleContainer}>
-                        <GoogleSigninButton
-                            style={{width: 192, height: 48}}
-                            size={GoogleSigninButton.Size.Wide}
-                            color={GoogleSigninButton.Color.Dark}
-                            onPress={this._signIn}
-                        />
-                    </View>
-                    <View style={styles.userInput}>
-                        <TextInput
-                            style={styles.inputText}
-                            placeholder="Username"
-                            placeholderTextColor="#fff"
-                            onChangeText={
-                                text => this.setState({username:text})
-                            }
-                        />       
-                    </View>
-                    <View style={styles.userInput}>
-                        <TextInput
-                            style={styles.inputText}
-                            placeholder="Password"
-                            placeholderTextColor="#fff"
-                            onChangeText={
-                                text => this.setState({username:text})
-                            }
-                        />       
-                    </View>
-                    <TouchableOpacity style={styles.loginButton}>
-                        <Text style={styles.loginText}>Login</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.forgotPassword}>Forgot Password</Text>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.signUpButton}>
-                        <Text style={styles.signUpText}>Create Account</Text>
-                    </TouchableOpacity>
-                </View>
             </>       
         );
-    }
 }
 
 export default LoginScreen;
@@ -111,14 +129,14 @@ const styles = StyleSheet.create({
 
     inputText: {
         height: 50,
-        color: "#C9C8B9"
+        color: "#C9C8B9",
+        fontFamily: "Roboto",
     },
 
     forgotPassword: {
         color: "#C9C8B9",
         fontSize: 11,
         marginTop: 10,
-        marginBottom: 10
     },
 
     loginButton: {
@@ -140,7 +158,6 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 10,
         marginBottom: 10
     },
 
@@ -154,10 +171,15 @@ const styles = StyleSheet.create({
     },
 
     googleContainer: {
-        marginBottom: 10,
+        marginTop: 30,
+        marginBottom: 20,
     },
 
     backgroundImage: {
         width: '100%',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center', 
+        backgroundColor: "#3C413E"   
     },
 });
