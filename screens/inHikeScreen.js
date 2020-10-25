@@ -11,29 +11,22 @@ import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import logo from '../images/logo.png';
 import mapGeneric from '../images/mapGeneric.jpg';
-import MapboxGL from "@react-native-mapbox-gl/maps";
-
-MapboxGL.setAccessToken("pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXFyNHdrMDZzYTJ4bzEwdzRpb3BzNyJ9.XsNRLNsh273gGyt99pFlzw");
-MapboxGL.setConnected(true);
+import ShowMap from '../components/ShowMap';
 
 function InHikeScreen() {
 
     return (
-
-            <View style={styles.container}>
-                    <Image source={logo} style={styles.image} />
-                    <Image source={mapGeneric} style={styles.mapImage} />
-                    <TouchableOpacity
-                    style={styles.buttonContainerCircle}
-                    activeOpacity={0.5}
-                    onPress={alert("Opening Camera")}>
-                    <Text style={styles.buttonTextStyle}>QR Scan!</Text>
-                    </TouchableOpacity>
-            </View>
-
-                
-
-            );
+        <View style={styles.container}>
+            <Image source={logo} style={styles.image} />
+            <Image source={mapGeneric} style={styles.mapImage} />
+            <TouchableOpacity
+            style={styles.buttonContainerCircle}
+            activeOpacity={0.5}
+            >
+            <Text style={styles.buttonTextStyle}>QR Scan!</Text>
+            </TouchableOpacity>
+        </View>
+        );
             
     }
 
@@ -103,4 +96,8 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         fontSize: 16,
       },
+
+    map: {
+        flex: 1,
+    },
 });
