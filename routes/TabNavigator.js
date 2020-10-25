@@ -13,6 +13,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import InHikeScreen from '../screens/InHikeScreen';
 import GoalScreen from '../screens/GoalScreen'; 
 import HikeInfoScreen from '../screens/HikeInfoScreen';
+import QRScreen from '../screens/QRScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,7 +22,8 @@ function HomeStack() {
     return (
         <Stack.Navigator initialRouteName="Home" headerMode="none">
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="InHike" component={InHikeScreen} />        
+            <Stack.Screen name="InHike" component={InHikeScreen} />
+            <Stack.Screen name="QRScanner" component={QRScreen} />         
         </Stack.Navigator>
     )
 }

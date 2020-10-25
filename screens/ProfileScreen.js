@@ -70,8 +70,9 @@ const styles = StyleSheet.create({
   },
   body:{
     marginTop:40,
-    
+  
   },
+
   bodyContent: {
     flex: 1,
     alignItems: 'center',
@@ -100,8 +101,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#679267',
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 160,
-    marginBottom: 20,
+    marginTop: 140,
+    marginBottom: 10,
     borderRadius: 20,
     borderWidth: 3, 
     borderColor: '#3C413E',
@@ -126,5 +127,6 @@ signOutButton: {
   width: "100%",
   borderRadius:30,
   backgroundColor: "#C98F39",
-}
+},
+
 });

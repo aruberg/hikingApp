@@ -13,19 +13,25 @@ import logo from '../images/logo.png';
 import mapGeneric from '../images/mapGeneric.jpg';
 import ShowMap from '../components/ShowMap';
 
-function InHikeScreen() {
+function InHikeScreen({navigation}) {
 
     return (
-        <View style={styles.container}>
-            <Image source={logo} style={styles.image} />
-            <Image source={mapGeneric} style={styles.mapImage} />
+        <>
+        <View style={{height: "65%", width: "100%", backgroundColor:"#3C413E"}}>
+            <ShowMap >
+            </ShowMap>
+        </View>
+        <View style={styles.container}>    
             <TouchableOpacity
             style={styles.buttonContainerCircle}
             activeOpacity={0.5}
+            onPress={() => navigation.navigate('QRScanner')}
             >
             <Text style={styles.buttonTextStyle}>QR Scan!</Text>
             </TouchableOpacity>
         </View>
+        </>
+        
         );
             
     }
@@ -51,8 +57,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 20,
-        marginBottom: 20,
+        marginTop: 10,
+        paddingBottom: 10,
 
       },
       buttonTextStyle: {
@@ -97,7 +103,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
       },
 
-    map: {
-        flex: 1,
+    mapContainer: {
+
     },
+
 });

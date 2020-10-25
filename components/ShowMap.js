@@ -23,14 +23,14 @@ export default App = () => {
           >
           </MapboxGL.Camera>
       </MapboxGL.MapView>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
       <TouchableOpacity
         style={styles.buttonContainerCircle}
         activeOpacity={0.5}
       >
       <Text style={styles.buttonTextStyle}>QR Scan!</Text>
       </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   )
 }
