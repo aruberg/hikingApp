@@ -15,8 +15,8 @@ import ShowMap from '../components/ShowMap';
 
 function InHikeScreen() {
 
-    return (
-        <View style={styles.container}>
+    return (<ShowMap> </ShowMap>
+        /*<View style={styles.container}>
             <Image source={logo} style={styles.image} />
             <Image source={mapGeneric} style={styles.mapImage} />
             <TouchableOpacity
@@ -25,7 +25,7 @@ function InHikeScreen() {
             >
             <Text style={styles.buttonTextStyle}>QR Scan!</Text>
             </TouchableOpacity>
-        </View>
+        </View>*/
         );
             
     }
