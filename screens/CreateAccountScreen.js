@@ -35,6 +35,7 @@ function createNewUser(email, password) {
 function CreateAccountScreen({navigation})  {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     
         return (
             <>
@@ -84,12 +85,33 @@ function CreateAccountScreen({navigation})  {
                                 style={styles.inputText}
                                 placeholder="Password"
                                 placeholderTextColor="#fff"
+                                secureTextEntry={true}
                                 onChangeText={
                                     text => setPassword(text)
                                 }
                             />       
                         </View>
-                        <TouchableOpacity style={styles.signUpButton} onPress={() => createNewUser(email, password)}>
+                        <View style={styles.userInput}>
+                            <TextInput
+                                style={styles.inputText}
+                                placeholder="Confirm Password"
+                                placeholderTextColor="#fff"
+                                secureTextEntry={true}
+                                onChangeText={
+                                    text => setConfirmPassword(text)
+                                }
+                            />       
+                        </View>
+                        <TouchableOpacity 
+                            style={styles.signUpButton} 
+                            onPress={() => 
+                                {
+                                    if (password.length < 6)
+                                        alert("Password must be at least 6 characters");
+                                    else
+                                        password == confirmPassword ? createNewUser(email, password) : alert("Password does not match")}
+                                }
+                        >
                             <Text style={styles.signUpText}>Sign Up</Text>
                         </TouchableOpacity>
                 </ImageBackground>

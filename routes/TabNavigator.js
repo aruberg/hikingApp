@@ -34,6 +34,7 @@ function ProfileStack() {
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Goal" component={GoalScreen} /> 
             <Stack.Screen name="SetANewGoal" component={SetANewGoalScreen} /> 
+            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} /> 
         </Stack.Navigator>
     )
 }
