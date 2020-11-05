@@ -138,6 +138,7 @@ android {
         versionName "1.0"
         //Enabling multidex to allow firebase to not cause app:mergeDexDebug error
         multiDexEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {

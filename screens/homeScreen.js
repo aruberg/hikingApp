@@ -7,35 +7,36 @@
  * In the Awards board a summary of all the awards earned so far should be displayed. 
  */
 import React, {Component} from 'react';
-import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
+import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import { block } from 'react-native-reanimated';
 import hikePhoto from '../images/hikePhoto.jpg';
 
 function HomeScreen({navigation}) {
     global.currentScreenIndex = 'HomeScreen';
     return (
-      <View style={styles.container}> 
-        <View style={styles.featuredHike}>
-          <Text style={styles.boardTextStyle}>Featured Hike</Text>
-          <View style={styles.featuredCenter}>
-            <Image source={hikePhoto} style={styles.featuredImage} />
-          </View>
+      <ImageBackground 
+      source={ require('../images/background.jpg') }
+      resizeMode='cover' 
+      style={styles.backgroundImage}
+      imageStyle={{opacity: 0.2}}
+      >
+        <View> 
+          <View style={styles.featuredHike}>
+            <Text style={styles.boardTextStyle}>Featured Hike</Text>
+            <View style={styles.featuredCenter}>
+              <Image source={hikePhoto} style={styles.featuredImage} />
+            </View>
+            
+          </View>     
           
-        </View>     
-        
-          <View style={styles.board}>
-            <Text style={styles.boardTextStyle}>Goals</Text>
-          </View>
-          <View style={styles.board}>
-            <Text style={styles.boardTextStyle}>Awards</Text>
-          </View>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('InHike')}>
-            <Text style={styles.buttonTextStyle}>In Hike Demo</Text>  
-          </TouchableOpacity> 
-      </View>
+            <View style={styles.board}>
+              <Text style={styles.boardTextStyle}>Goals</Text>
+            </View>
+            <View style={styles.board}>
+              <Text style={styles.boardTextStyle}>Awards</Text>
+            </View>
+        </View>
+      </ImageBackground>
     );
   };
     
@@ -43,12 +44,13 @@ function HomeScreen({navigation}) {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#3C413E',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+    backgroundImage: {
+      width: '100%',
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center', 
+      backgroundColor: "#3C413E"   
+  },
     header:{
         backgroundColor: "#679267",
         height:200,

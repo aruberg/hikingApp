@@ -4,9 +4,11 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 function signOutUser() {
   auth()
@@ -16,38 +18,71 @@ function signOutUser() {
        })
   };
 
-function Profile({navigation}){
+class Profile extends Component{
+    state = {
+        user: {
+            DistanceHiked: 0,
+            ElevationClimbed: 0,
+            First: "",
+            HikesCompleted: 0,
+            Last: "",
+            Nickname: "",
+        }
+    }
 
- 
-    return (
-      <View style={styles.container}>
-          <View style={styles.header}>
-            <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
-                <Text>Sign Out</Text> 
-            </TouchableOpacity>
-          </View>
-          <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.name}>Nickname </Text>
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('HikeInfo')}>
-                <Text>Hikes Completed </Text>  
-              </TouchableOpacity>              
-              <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
-                <Text>Goals</Text> 
-              </TouchableOpacity>
-            </View>
-        </View>
-        <View style={styles.bodyContent}>
-        <View style={styles.board}>
-            <Text style={styles.boardTextStyle}>Km hiked:  </Text>
-            <Text style={styles.boardTextStyle}>Awards:  </Text>
-          </View>
-        </View>
-      </View>
-      
-    );
-  
+    constructor(props){
+        super(props);
+        this.getUser();
+        this.subscriber = firestore().collection('Profiles')
+        .doc('ProfileTemplate').onSnapshot( doc => {
+            this.setState({
+                user: {
+                    DistanceHiked: doc.data().DistanceHiked,
+                    ElevationClimbed: doc.data().ElevationClimbed,
+                    First: doc.data().First,
+                    HikesCompleted: doc.data().HikesCompleted,
+                    Last: doc.data().Last,
+                    Nickname: doc.data().Nickname
+                }
+            });
+        })
+    }
+
+    getUser = async() => {
+        const userDocument = await firestore().collection('Profiles')
+            .doc('ProfileTemplate').get();
+        console.log(userDocument);
+    }
+
+    render() {
+        const  { navigation } = this.props;
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
+                        <Text>Sign Out</Text>
+                    </TouchableOpacity>
+                </View>
+                <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+                <View style={styles.body}>
+                    <View style={styles.bodyContent}>
+                        <Text style={styles.name}>Nickname: {this.state.user.Nickname}</Text>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
+                            <Text>Hikes Completed </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
+                            <Text>Goals</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.bodyContent}>
+                    <View style={styles.board}>
+                        <Text style={styles.boardTextStyle}>Total Distance: {(this.state.user.DistanceHiked)/1000}km</Text>
+                        <Text style={styles.boardTextStyle}>Awards:  </Text>
+                    </View>
+                </View>
+            </View>);
+    }
 }
 
 export default Profile;
@@ -126,5 +161,5 @@ signOutButton: {
   width: "100%",
   borderRadius:30,
   backgroundColor: "#C98F39",
-}
+},
 });
