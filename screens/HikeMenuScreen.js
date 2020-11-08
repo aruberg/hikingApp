@@ -34,14 +34,25 @@ import { back } from 'react-native/Libraries/Animated/src/Easing';
 //       ],
 //     };
 //   }
+// function searchFilterFunction(text, trails) {    
+//   const newTrails = trails.filter(item => {      
+//     const itemData = `${item.TrailName}`;
+    
+//      const textData = text.toUpperCase();
+      
+//      return itemData.indexOf(textData) > -1;    
+//   });
+  
+//   setFilterTrails(newTrails);  
+// };
 
 const defaultStoragebucket = storage();
-
 
 function HikeMenuScreen({navigation}) {
   const [loading, setLoading] = useState(true); // Set Loading to true on component mount
   const [trails, setTrails] = useState([]); // Initial empty array of trails
   const [data, setData] = useState([]);
+  const [filterTrails, setFilterTrails] = useState([]);
 
   useEffect(() => {
     const trailsCollection = firestore()
@@ -60,8 +71,6 @@ function HikeMenuScreen({navigation}) {
         setLoading(false);
       });
 
-    
-    // return () => trails();
   }, []);
 
   if (loading) {
@@ -75,25 +84,34 @@ function HikeMenuScreen({navigation}) {
     style={styles.backgroundImage}
     imageStyle={{opacity: 0.2}}
     >
+      <View style={styles.formContent}>
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+            useRef={'txtSearch'}
+            placeholder="Search"
+            underlineColorAndroid='transparent'
+            //onChangeText={text => searchFilterFunction(text, trails)}
+          />
+        </View>
+      </View>
       <FlatList
       style={styles.notificationList}
         data={trails}
         renderItem={({ item }) => (
           <View>
-            <TouchableOpacity style={[styles.card, {borderColor:item.color}]} onPress={() => navigation.navigate('HikeInfo', {item})}>
+            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('HikeInfo', {item})}>
               <View style={styles.cardHeader}>
                 <Text style={[styles.name, styles.cardContent]}>{item.TrailName}</Text>
               </View>     
               <View style={styles.cardContent}>
                 <View style={styles.leftCardContent}>
-                  <Image style={[styles.image, styles.imageContent]} source={{uri: item.PhotoURL}}/>
+                  <Image style={styles.image} source={{uri: item.PhotoURL}}/>
                 </View>
-                <View style={[styles.rightCardContent, styles.tagsContent]}>
+                <View style={styles.rightCardContent}>
                   <Text style={styles.btnColor}>Distance: {item.Distance/1000}km</Text>
                   <Text style={styles.btnColor}>Time: {Number(item.Duration/60).toPrecision(2)} hr</Text>
                   <Text style={styles.btnColor}>Elevation: {item.Elevation}m</Text>
                   <Text style={styles.btnColor}>{item.Rating}</Text>
-
                 </View>
               </View>
             </TouchableOpacity>
@@ -106,9 +124,7 @@ function HikeMenuScreen({navigation}) {
 
 export default HikeMenuScreen;
 
-function loadHikeDetail() {
 
-}
 
   //   <View style={styles.container}>
   //   <View style={styles.formContent}>
@@ -164,38 +180,29 @@ function loadHikeDetail() {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#3C413E',
-  },
   backgroundImage: {
     width: '100%',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center', 
     backgroundColor: "#3C413E"   
-},
+  },
   formContent:{
     flexDirection: 'row',
-    marginTop:30,
+    marginTop:15,
   },
   inputContainer: {
-    borderColor: '#C98F39',
-    backgroundColor: '#FFFFFF',
+    borderColor: '#C9C8B9',
+    backgroundColor: '#C9C8B9',
     borderRadius:30,
     borderWidth: 3,
     height:45,
     flexDirection: 'row',
     alignItems:'center',
     flex:1,
-    margin:10,
-  },
-  icon:{
-    width:30,
-    height:30,
-  },
-  iconBtnSearch:{
-    alignSelf:'center'
+    marginLeft:10,
+    marginRight: 10,
+    marginTop: 10,
   },
   inputs:{
     height:45,
@@ -203,9 +210,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#FFFFFF',
     flex:1,
   },
-  inputIcon:{
-    marginLeft:15,
-    justifyContent: 'center',
+  icon:{
+    width:30,
+    height:30,
   },
   notificationList:{
     marginTop:20,
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: "100%",
     height: "22%",
-    backgroundColor: '#C98F39',
+    backgroundColor: '#453D5F',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -232,30 +239,22 @@ const styles = StyleSheet.create({
   leftCardContent: {
     width: "60%",
     height: 195,
-    backgroundColor: "black",
   },
   rightCardContent: {
-    backgroundColor: 'black',
+    backgroundColor: '#C9C8B9',
     width: "40%",
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 8,
   },
   name:{
     fontSize:20,
     fontWeight: 'bold',
-    backgroundColor: '#C98F39',
+    backgroundColor: '#453D5F',
     textAlign: 'center',
     flexWrap: "wrap",
+    color: "#C9C8B9",
   },
-  // imageContent:{
-  //   marginTop:0,
-  //   alignItems: 'center',
-  // },
-  // tagsContent:{
-  //   marginTop:10,
-  //   flexWrap:'wrap',
-  //   backgroundColor: 'black',
-  // },
   image:{
     width: "100%",
     height: "100%",
@@ -266,21 +265,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius:40,
-    marginHorizontal:3,
-    backgroundColor: "#BECEB4",
+    backgroundColor: "#6F6035",
     marginTop:6,
     width: "95%",
     textAlign: 'center',
-  },
-
-  buttonContainer: {
-    marginTop:10,
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:"100%",
-    borderRadius:30,
-    backgroundColor: "#C98F39",
+    color: '#C9C8B9',
   },
 });  
