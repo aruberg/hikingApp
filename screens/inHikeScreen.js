@@ -11,15 +11,87 @@ import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import logo from '../images/logo.png';
 import mapGeneric from '../images/mapGeneric.jpg';
-import ShowMap from '../components/ShowMap';
+//import ShowMap from '../components/ShowMap';
+import MapboxGL from "@react-native-mapbox-gl/maps";
 
-function InHikeScreen({navigation}) {
+MapboxGL.setAccessToken('pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg',);
 
+class InHikeScreen extends Component {
+
+    state = {
+        coordinates: []
+    };
+
+    constructor(props){
+        super(props);
+        var item = props.route.params;
+        this.updateCoordinates(item);
+        //console.log(item);
+
+    }
+
+    updateCoordinates(item) {
+        let isMounted = true;
+        var coordinatesArray = [];
+        for (let i=0; i < item.Path.length; i++)
+        {
+           coordinatesArray.push([item.Path[i]['longitude'], item.Path[i]['latitude']]);
+        }
+        this.state = {coordinates: coordinatesArray}
+      
+
+         console.log(this.state.coordinates);
+
+        return isMounted = false;
+    }
+
+    renderAnnotation(i) {
+        const id = 'pointAnnotation' + i;
+        const key = 'pointAnnotation' + i;
+        return ( 
+            <MapboxGL.PointAnnotation 
+                key={key}
+                id={id} 
+                coordinate={this.state.coordinates[i]}
+            > 
+                <View style={styles.annotation}
+
+                /> 
+            </MapboxGL.PointAnnotation> 
+        ); 
+    }
+
+    renderAnnotations() {
+        const points = [];
+
+        for (let i = 0; i < this.state.coordinates.length; i++) {
+            points.push(this.renderAnnotation(i));
+        }
+
+        return points;
+    }
+
+    render() {
+        const  { navigation } = this.props;
     return (
         <>
         <View style={{height: "65%", width: "100%", backgroundColor:"#3C413E"}}>
-            <ShowMap >
-            </ShowMap>
+            <View style={{ height: "100%", width: "100%", backgroundColor:"#3C413E"}}>
+                <MapboxGL.MapView
+                    styleURL={MapboxGL.StyleURL.Street}
+                    zoomLevel={14}
+                    centerCoordinate={this.state.coordinates[0]}
+                    style={{flex: 1}}>
+                    <MapboxGL.Camera
+                        zoomLevel={14}
+                        centerCoordinate={this.state.coordinates[0]}
+                        animationMode={'flyTo'}
+                        animationDuration={0}
+                    >
+                    </MapboxGL.Camera>
+                    {this.renderAnnotations()}
+                </MapboxGL.MapView>
+            </View>
         </View>
         <View style={styles.container}>    
             <TouchableOpacity
@@ -35,7 +107,7 @@ function InHikeScreen({navigation}) {
         );
             
     }
-
+};
 export default InHikeScreen;
 
 const styles = StyleSheet.create({
@@ -107,4 +179,12 @@ const styles = StyleSheet.create({
 
     },
 
+    annotation: {
+        height: 30, 
+        width: 30, 
+        backgroundColor: '#00cccc', 
+        borderRadius: 50, 
+        borderColor: '#fff', 
+        borderWidth: 3, 
+    },
 });

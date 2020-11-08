@@ -7,7 +7,7 @@ import auth from '@react-native-firebase/auth';
 
 class QRScreen extends Component {
     state = {
-        user: {
+        myDetails: {
             DistanceHiked: 0,
             ElevationClimbed: 0,
             HikesCompleted: 0,
@@ -20,7 +20,7 @@ class QRScreen extends Component {
         this.subscriber = firestore().collection('Profiles')
         .doc('ProfileTemplate').onSnapshot( doc => {
             this.setState({
-                user: {
+                myDetails: {
                     DistanceHiked: doc.data().DistanceHiked,
                     ElevationClimbed: doc.data().ElevationClimbed,
                     HikesCompleted: doc.data().HikesCompleted,
@@ -36,8 +36,10 @@ class QRScreen extends Component {
      }
 
     updateUser = async() => {
+        let isMounted = true;
          const userDocument = await firestore().collection('Profiles')
-             .doc('ProfileTemplate').update({DistanceHiked: 1000});
+             .doc('ProfileTemplate').update({DistanceHiked: this.state.myDetails.DistanceHiked + 1000});
+        return isMounted = false;
     }
 
     render() {
