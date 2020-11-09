@@ -94,7 +94,7 @@ import logo from '../images/logo.png';
   
             <View style={styles.card}>
               <View style={styles.cardContent}>
-                <TouchableOpacity style={styles.shareButton} onPress={() => navigation.navigate('InHike')}>
+                <TouchableOpacity style={styles.shareButton} onPress={() => navigation.navigate('InHike', item)}>
                   <Text style={styles.shareButtonText}>Hike it!</Text>  
                 </TouchableOpacity>
               </View>

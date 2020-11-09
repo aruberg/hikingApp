@@ -11,15 +11,120 @@ import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert } from 'react-native';
 import logo from '../images/logo.png';
 import mapGeneric from '../images/mapGeneric.jpg';
-import ShowMap from '../components/ShowMap';
+//import ShowMap from '../components/ShowMap';
+import MapboxGL from "@react-native-mapbox-gl/maps";
+import Icon from 'react-native-vector-icons/FontAwesome';
+// import {lineString as makeLineString} from '@turf/helpers';
+// import MapboxDirectionsFactory from '@mapbox/mapbox-sdk/services/directions';
 
-function InHikeScreen({navigation}) {
+MapboxGL.setAccessToken('pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg',);
+// const accessToken = 'pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg';
+// const directionsClient = MapboxDirectionsFactory({accessToken});
 
+class InHikeScreen extends Component {
+
+    state = {
+        coordinates: [],
+        // route: [],
+    };
+
+    constructor(props){
+        super(props);
+        var item = props.route.params;
+        this.updateCoordinates(item);
+        // this.fetchRoute();
+    }
+
+    // fetchRoute = async () => {
+    //     //var coordinateObjects = [];
+    //     // for (let i=0; i<this.state.coordinates.length; i++)
+    //     // {
+    //     //     coordinateObjects.push({coordinate: this.state.coordinates[i]});
+    //     //     console.log(coordinateObjects);
+    //     // }
+
+    //     const reqOptions = {
+    //         waypoints: [
+    //             {coordinates: [-120.329369, 50.666869]},
+    //             {coordinates: [-120.329947, 50.659692]},
+    //         ],
+    //       profile: 'walking',
+    //       geometries: 'geojson',
+    //     };
+
+    //     const res = await directionsClient.getDirections(reqOptions).send();
+    //     const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
+    //     this.state.route = newRoute;
+    // };
+        
+
+    updateCoordinates(item) {
+        let isMounted = true;
+        var coordinatesArray = [];
+        for (let i=0; i < item.Path.length; i++)
+        {
+           coordinatesArray.push([item.Path[i]['longitude'], item.Path[i]['latitude']]);
+        }
+        this.state = {coordinates: coordinatesArray}
+
+        return isMounted = false;
+    }
+
+    renderAnnotation(i) {
+        const id = 'pointAnnotation' + i;
+        const key = 'pointAnnotation' + i;
+        return ( 
+            <MapboxGL.PointAnnotation 
+                key={key}
+                id={id} 
+                coordinate={this.state.coordinates[i]}
+            > 
+                <View style={styles.annotation}
+
+                /> 
+            </MapboxGL.PointAnnotation> 
+        ); 
+    }
+
+    renderAnnotations() {
+        const points = [];
+
+        for (let i = 0; i < this.state.coordinates.length; i++) {
+            points.push(this.renderAnnotation(i));
+        }
+
+        return points;
+    }
+
+    render() {
+        const  { navigation } = this.props;
     return (
         <>
-        <View style={{height: "65%", width: "100%", backgroundColor:"#3C413E"}}>
-            <ShowMap >
-            </ShowMap>
+        <View style={{height: "80%", width: "100%", backgroundColor:"#3C413E"}}>
+            <View style={{ height: "100%", width: "100%", backgroundColor:"#3C413E"}}>
+                <MapboxGL.MapView
+                    styleURL={MapboxGL.StyleURL.Street}
+                    zoomLevel={16}
+                    centerCoordinate={this.state.coordinates[0]}
+                    style={{flex: 1}}>
+                    <MapboxGL.Camera
+                        zoomLevel={16}
+                        centerCoordinate={this.state.coordinates[0]}
+                        animationMode={'flyTo'}
+                        animationDuration={0}
+                    >
+                    </MapboxGL.Camera>
+                    {this.renderAnnotations()}
+                    {/* {
+                    // this.state.route && (
+                        <MapboxGL.ShapeSource id='shapeSource' shape={this.state.route}>
+                            <MapboxGL.LineLayer id='lineLayer' style={{lineWidth: 5, lineJoin: 'bevel', lineColor: '#ff0000'}} />
+                        </MapboxGL.ShapeSource>
+                    // )
+                    } */}
+                </MapboxGL.MapView>
+
+            </View>
         </View>
         <View style={styles.container}>    
             <TouchableOpacity
@@ -27,7 +132,9 @@ function InHikeScreen({navigation}) {
             activeOpacity={0.5}
             onPress={() => navigation.navigate('QRScanner')}
             >
-            <Text style={styles.buttonTextStyle}>QR Scan!</Text>
+            <Text style={styles.buttonTextStyle}>QR Scan</Text>
+            <Icon name="qrcode" size={75} color={'#3C413E'}/>
+            
             </TouchableOpacity>
         </View>
         </>
@@ -35,7 +142,7 @@ function InHikeScreen({navigation}) {
         );
             
     }
-
+};
 export default InHikeScreen;
 
 const styles = StyleSheet.create({
@@ -51,10 +158,10 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         color: '#6F6035',
         borderColor: 'black',
-        height: 200,
-        width: 200,
+        height: "80%",
+        width: "90%",
         alignItems: 'center',
-        borderRadius: 100,
+        borderRadius: 50,
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
@@ -62,9 +169,9 @@ const styles = StyleSheet.create({
 
       },
       buttonTextStyle: {
-        color: '#C9C8B9',
-        paddingVertical: 75,
-        fontSize: 30,
+        color: '#3C413E',
+        //paddingVertical: 30,
+        fontSize: 20,
       },
       image: {
         resizeMode: "contain",
@@ -107,4 +214,12 @@ const styles = StyleSheet.create({
 
     },
 
+    annotation: {
+        height: 30, 
+        width: 30, 
+        backgroundColor: '#00cccc', 
+        borderRadius: 50, 
+        borderColor: '#fff', 
+        borderWidth: 3, 
+    },
 });
