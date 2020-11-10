@@ -104,11 +104,11 @@ class InHikeScreen extends Component {
             <View style={{ height: "100%", width: "100%", backgroundColor:"#3C413E"}}>
                 <MapboxGL.MapView
                     styleURL={MapboxGL.StyleURL.Street}
-                    zoomLevel={16}
+                    zoomLevel={14}
                     centerCoordinate={this.state.coordinates[0]}
                     style={{flex: 1}}>
                     <MapboxGL.Camera
-                        zoomLevel={16}
+                        zoomLevel={14}
                         centerCoordinate={this.state.coordinates[0]}
                         animationMode={'flyTo'}
                         animationDuration={0}
@@ -133,7 +133,7 @@ class InHikeScreen extends Component {
             onPress={() => navigation.navigate('QRScanner')}
             >
             <Text style={styles.buttonTextStyle}>QR Scan</Text>
-            <Icon name="qrcode" size={75} color={'#3C413E'}/>
+            <Icon name="qrcode" size={75} color={'#C9C8B9'}/>
             
             </TouchableOpacity>
         </View>
@@ -148,28 +148,25 @@ export default InHikeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#3C413E',
+        //backgroundColor: '#3C413E',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     buttonContainerCircle: {
-        backgroundColor: '#C98F39',
-        borderWidth: 5,
+        backgroundColor: '#453D5F',
+        //borderWidth: 5,
         color: '#6F6035',
-        borderColor: 'black',
+        //borderColor: 'black',
         height: "80%",
         width: "90%",
         alignItems: 'center',
         borderRadius: 50,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
         paddingBottom: 10,
 
       },
       buttonTextStyle: {
-        color: '#3C413E',
+        color: '#C9C8B9',
         //paddingVertical: 30,
         fontSize: 20,
       },
@@ -200,8 +197,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 20,
         borderRadius: 20,
-
-
     },
     boardTextStyle: {
         color: '#C9C8B9',
@@ -209,11 +204,8 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         fontSize: 16,
       },
-
     mapContainer: {
-
     },
-
     annotation: {
         height: 30, 
         width: 30, 

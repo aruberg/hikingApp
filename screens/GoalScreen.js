@@ -5,7 +5,7 @@
  * Potential improvements: 
  * Set a new goal Button 
  */
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,32 +14,67 @@ import {
   Image,
   Alert,
   ScrollView,
+  ActivityIndicator,
   FlatList,
   Button
 } from 'react-native';
+import { StackRouter } from 'react-navigation';
 import hike1 from '../images/hike1.jpg';
+import firestore from '@react-native-firebase/firestore';
+import storage, {firebase} from '@react-native-firebase/storage';
+import { back } from 'react-native/Libraries/Animated/src/Easing';
 
-export default class Posts extends Component {
+// export default class Posts extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        {id:1, title: "Goal 1",             time:"1 days a go",    image:"https://via.placeholder.com/400x200/5F9EA0/000000"},
-        {id:2, title: "Goal 2",             time:"2 minutes a go", image:"https://via.placeholder.com/400x200/FF7F50/000000"} ,
-        {id:3, title: "Goal 3",             time:"3 hour a go",    image:"https://via.placeholder.com/400x200/6495ED/000000"}, 
-        {id:4, title: "Goal 4 ",            time:"4 months a go",  image:"https://via.placeholder.com/400x200/8A2BE2/000000"}, 
-        {id:5, title: "Goal 5",             time:"5 weeks a go",   image:"https://via.placeholder.com/400x200/008B8B/000000"}, 
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       data: [
+//         {id:1, title: "Goal 1",             time:"1 days a go",    image:"https://via.placeholder.com/400x200/5F9EA0/000000"},
+//         {id:2, title: "Goal 2",             time:"2 minutes a go", image:"https://via.placeholder.com/400x200/FF7F50/000000"} ,
+//         {id:3, title: "Goal 3",             time:"3 hour a go",    image:"https://via.placeholder.com/400x200/6495ED/000000"}, 
+//         {id:4, title: "Goal 4 ",            time:"4 months a go",  image:"https://via.placeholder.com/400x200/8A2BE2/000000"}, 
+//         {id:5, title: "Goal 5",             time:"5 weeks a go",   image:"https://via.placeholder.com/400x200/008B8B/000000"}, 
        
-      ]
-    };
-  }
+//       ]
+//     };
+//   }
 
-  render() {
+//   render() {
+
+  const defaultStoragebucket = storage();
+
+  function GoalScreen({navigation}){
+    const [loading, setLoading] = useState(true); 
+    const [goals, setGoals] = useState([]);
+    const [data, setData] = useState([]);
+    const [filterGoals, setFilterGOals] = useState([]);
+  
+  useEffect(() => {
+    const goalsCollection = firestore().
+      collection('Goals').onSnapshot(querySnapshot => {
+        const goals = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          goals.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setGoals(goals);
+        setLoading(false);
+      });
+
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
     return (
       <View style={styles.container}>
         <FlatList style={styles.list}
-          data={this.state.data}
+          //data={this.state.data}
           keyExtractor= {(item) => {
             return item.id;
           }}
@@ -88,8 +123,8 @@ export default class Posts extends Component {
           }}/>
       </View>
     );
-  }
-}
+        };
+export default GoalScreen; 
 
 const styles = StyleSheet.create({
   container:{
