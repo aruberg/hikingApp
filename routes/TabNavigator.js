@@ -59,7 +59,8 @@ function TabNavigator() {
                 activeTintColor: '#C9C8B9',
                 inactiveTintColor:'#3C413E',
                 style: {
-                    backgroundColor: '#C98F39'
+                    backgroundColor: '#C98F39',
+                    borderTopColor: 'C98F39',
                 },
             }}                      
         >        
