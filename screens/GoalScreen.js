@@ -42,88 +42,124 @@ import { back } from 'react-native/Libraries/Animated/src/Easing';
 
 //   render() {
 
-  const defaultStoragebucket = storage();
+  // const defaultStoragebucket = storage();
 
-  function GoalScreen({navigation}){
-    const [loading, setLoading] = useState(true); 
-    const [goals, setGoals] = useState([]);
-    const [data, setData] = useState([]);
-    const [filterGoals, setFilterGOals] = useState([]);
-  
-  useEffect(() => {
-    const goalsCollection = firestore().
-      collection('Goals').onSnapshot(querySnapshot => {
-        const goals = [];
+  // function GoalScreen({navigation}){
+  //   const [loading, setLoading] = useState(true); 
+  //   const [goals, setGoals] = useState([]);
+  //   const [data, setData] = useState([]);
+  //   const [filterGoals, setFilterGOals] = useState([]);
 
-        querySnapshot.forEach(documentSnapshot => {
-          goals.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
+  class GoalScreen extends Component {
+    state = {
+        myGoals: {
+            DistanceHiked: 0,
+            ElevationClimbed: 0,
+            HikesCompleted: 0,
+            Goals: [],
+            Distance: 0,
+            Elevation: 0,
+            DaysToComplete: 0,
+        }
+    }
+
+    constructor(props){
+      super(props);
+      this.getUser();
+      this.subscriber = firestore().collection('Profiles')
+      .doc('ProfileTemplate').onSnapshot( doc => {
+          this.setState({
+              myGoals: {
+                  DistanceHiked: doc.data().DistanceHiked,
+                  ElevationClimbed: doc.data().ElevationClimbed,
+                  HikesCompleted: doc.data().HikesCompleted,
+                  Goals: doc.data().Goals,
+                  Distance: doc.data().Goals[0],
+                  Elevation: doc.data().Goals[1],
+                  NumHikes: doc.data().Goals[2],
+                  DaysToComplete: doc.data().Goals[3],
+              }
           });
-        });
-
-        setGoals(goals);
-        setLoading(false);
-      });
-
-  }, []);
-
-  if (loading) {
-    return <ActivityIndicator />;
+      })
   }
-    return (
-      <View style={styles.container}>
-        <FlatList style={styles.list}
-          //data={this.state.data}
-          keyExtractor= {(item) => {
-            return item.id;
-          }}
-          ItemSeparatorComponent={() => {
-            return (
-              <View style={styles.separator}/>
-            )
-          }}
-          renderItem={(post) => {
-            const item = post.item;
-            return (
-              <View style={styles.card}>
-               
-               <View style={styles.cardHeader}>
-                  <View>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.time}>{item.time}</Text>
-                  </View>
-                </View>
 
-                <Image style={styles.cardImage} source={{uri:item.image}}/>
+  getUser = async() => {
+    const userDocument = await firestore().collection('Profiles')
+        .doc('ProfileTemplate').get();
+    console.log(userDocument);
+  }
+
+
+render() {
+  const  { navigation } = this.props;
+    return (
+      <>
+        <View>
+          <Text>{this.state.myGoals.Distance}</Text>
+        </View>
+        <View>
+            <Text>{this.state.myGoals.Elevation}</Text>
+        </View>
+        <View>
+            <Text>{this.state.myGoals.NumHikes}</Text>
+        </View>
+        <View>
+            <Text>{this.state.myGoals.DaysToComplete}</Text>
+        </View>
+      </>
+
+    //       data={this.state.Goals}
+    //       // keyExtractor= {(item) => {
+    //       //   return item.id;
+    //       // }}
+    //       ItemSeparatorComponent={() => {
+    //         return (
+    //           <View style={styles.separator}/>
+    //         )
+    //       }}
+
+    //       renderItem={(post) => {
+    //         const item = post.item;
+    //         return (
+    //           <View style={styles.card}>
+               
+    //            <View style={styles.cardHeader}>
+    //               <View>
+    //                 <Text style={styles.title}>{item.DistanceHiked}</Text>
+    //                 <Text style={styles.time}>{item.ElevationClimbed}</Text>
+    //               </View>
+    //             </View>
+
+    //             <Image style={styles.cardImage} source={{uri:item.image}}/>
                 
-                <View style={styles.cardFooter}>
-                  <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={hike1}/>
-                        <Text style={styles.socialBarLabel}>Completed: </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={hike1}/>
-                        <Text style={styles.socialBarLabel}> NUMBER %  </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity style={styles.socialBarButton}>
-                        <Image style={styles.icon} source={hike1}/>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            )
-          }}/>
-      </View>
-    );
-        };
+    //             <View style={styles.cardFooter}>
+    //               <View style={styles.socialBarContainer}>
+    //                 <View style={styles.socialBarSection}>
+    //                   <TouchableOpacity style={styles.socialBarButton}>
+    //                     <Image style={styles.icon} source={hike1}/>
+    //                     <Text style={styles.socialBarLabel}>Completed: </Text>
+    //                   </TouchableOpacity>
+    //                 </View>
+    //                 <View style={styles.socialBarSection}>
+    //                   <TouchableOpacity style={styles.socialBarButton}>
+    //                     <Image style={styles.icon} source={hike1}/>
+    //                     <Text style={styles.socialBarLabel}> NUMBER %  </Text>
+    //                   </TouchableOpacity>
+    //                 </View>
+    //                 <View style={styles.socialBarSection}>
+    //                   <TouchableOpacity style={styles.socialBarButton}>
+    //                     <Image style={styles.icon} source={hike1}/>
+    //                   </TouchableOpacity>
+    //                 </View>
+    //               </View>
+    //             </View>
+    //           </View>
+    //         )
+    //       }}/>
+    //   </View>
+     )
+  }
+}
 export default GoalScreen; 
 
 const styles = StyleSheet.create({

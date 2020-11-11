@@ -1,105 +1,91 @@
-import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import React, {useState, useEffect } from "react";
+import { View } from "react-native";
 import MapboxGL from "@react-native-mapbox-gl/maps";
+import {lineString as makeLineString} from '@turf/helpers';
+import MapboxDirectionsFactory from '@mapbox/mapbox-sdk/services/directions';
 
+const accessToken = 'pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg';
 
-MapboxGL.setAccessToken('pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg',);
-//Used Guide here:
-//https://reactnativeforyou.com/how-to-integrate-mapbox-in-react-native/
-export default App = () => {
+MapboxGL.setAccessToken(accessToken);
+
+const directionsClient = MapboxDirectionsFactory({accessToken});
+
+function ShowMap() {
+
+  const startingPoint = [-120.329369, 50.666869];
+  const destinationPoint = [-120.329947, 50.659692];
+
+  const [route, setRoute] = useState(null);
+
+  const startDestinationPoints = [startingPoint,  destinationPoint]
+
+  useEffect(() => {
+    fetchRoute();
+  })
+  
+  const fetchRoute = async () => {
+    const reqOptions = {
+      waypoints: [
+        {coordinates: startingPoint},
+        {coordinates: destinationPoint},
+      ],
+      profile: 'driving-traffic',
+      geometries: 'geojson',
+    };
+
+    const res = await directionsClient.getDirections(reqOptions).send();
+
+    const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
+    setRoute(newRoute);
+  };
+
+  const renderAnnotations = () => {
+    return (
+      startDestinationPoints.map((point, index) => (
+        <MapboxGL.PointAnnotation
+            key={`${index}-PointAnnotation`}
+            id={`${index}-PointAnnotation`}
+            coordinate={point}> 
+            <View style={{
+              height: 30, 
+              width: 30, 
+              backgroundColor: '#00cccc', 
+              borderRadius: 50, 
+              borderColor: '#fff', 
+              borderWidth: 3
+            }} 
+          />
+        </MapboxGL.PointAnnotation>
+      ))
+    );
+  }
+
 
   return (
-    <View style={{ height: "100%", width: "100%", backgroundColor:"#3C413E"}}>
+    <View style={{flex: 1, height: "100%", width: "100%" }}>
       <MapboxGL.MapView
         styleURL={MapboxGL.StyleURL.Street}
         zoomLevel={11}
-        centerCoordinate={[-120.3428, 50.6782]}
+        centerCoordinate={startingPoint}
         style={{flex: 1}}>
           <MapboxGL.Camera
             zoomLevel={11}
-            centerCoordinate={[-120.3428, 50.6782]}
+            centerCoordinate={startingPoint}
             animationMode={'flyTo'}
             animationDuration={0}
           >
           </MapboxGL.Camera>
+          {renderAnnotations()}
+          {
+          route && (
+           <MapboxGL.ShapeSource id='shapeSource' shape={route}>
+              <MapboxGL.LineLayer id='lineLayer' style={{lineWidth: 5, lineJoin: 'bevel', lineColor: '#ff0000'}} />
+            </MapboxGL.ShapeSource>
+          )
+        }
       </MapboxGL.MapView>
-      {/* <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.buttonContainerCircle}
-        activeOpacity={0.5}
-      >
-      <Text style={styles.buttonTextStyle}>QR Scan!</Text>
-      </TouchableOpacity>
-      </View> */}
     </View>
   )
-}
+};
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#3C413E',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    buttonContainerCircle: {
-        backgroundColor: '#C98F39',
-        borderWidth: 5,
-        color: '#6F6035',
-        borderColor: 'black',
-        height: 200,
-        width: 200,
-        alignItems: 'center',
-        borderRadius: 100,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        marginBottom: 20,
-
-      },
-      buttonTextStyle: {
-        color: '#C9C8B9',
-        paddingVertical: 75,
-        fontSize: 30,
-      },
-      image: {
-        resizeMode: "contain",
-        width: 200,
-        height: 250,
-        marginTop: -70,
-        marginBottom: 0,
-
-    },
-    mapImage: {
-        resizeMode: "contain",
-        width: 300,
-        height: 300,
-        marginTop: -60,
-        marginBottom: 0,
-        borderWidth: 5,
-        borderColor: '#C9C8B9',
-
-    },
-    board: {
-        width: 250,
-        height: 100,
-        backgroundColor: '#86608e',
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        marginBottom: 20,
-        borderRadius: 20,
-
-
-    },
-    boardTextStyle: {
-        color: '#C9C8B9',
-        paddingVertical: 10,
-        paddingLeft: 20,
-        fontSize: 16,
-      },
-
-    map: {
-        flex: 1,
-    },
-});
+export default ShowMap;

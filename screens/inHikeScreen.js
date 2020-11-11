@@ -14,48 +14,53 @@ import mapGeneric from '../images/mapGeneric.jpg';
 //import ShowMap from '../components/ShowMap';
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import {lineString as makeLineString} from '@turf/helpers';
-// import MapboxDirectionsFactory from '@mapbox/mapbox-sdk/services/directions';
+import {lineString as makeLineString} from '@turf/helpers';
+import MapboxDirectionsFactory from '@mapbox/mapbox-sdk/services/directions';
 
-MapboxGL.setAccessToken('pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg',);
+//MapboxGL.setAccessToken('pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg',);
 // const accessToken = 'pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg';
-// const directionsClient = MapboxDirectionsFactory({accessToken});
+
+
+const accessToken = 'pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg';
+MapboxGL.setAccessToken(accessToken);
+const directionsClient = MapboxDirectionsFactory({accessToken});
 
 class InHikeScreen extends Component {
 
     state = {
-        coordinates: [],
-        // route: [],
-    };
+        geopointsArray: [],
+        route: [],
+    }
 
     constructor(props){
         super(props);
         var item = props.route.params;
         this.updateCoordinates(item);
-        // this.fetchRoute();
+        this.fetchRoute();
     }
 
-    // fetchRoute = async () => {
-    //     //var coordinateObjects = [];
-    //     // for (let i=0; i<this.state.coordinates.length; i++)
-    //     // {
-    //     //     coordinateObjects.push({coordinate: this.state.coordinates[i]});
-    //     //     console.log(coordinateObjects);
-    //     // }
+    fetchRoute = async () => {
+        var coordinateObjects = [];
+        for (let i=0; i<this.state.geopointsArray.length; i++)
+        {
+            coordinateObjects.push({coordinates: this.state.geopointsArray[i]});
+        }
 
-    //     const reqOptions = {
-    //         waypoints: [
-    //             {coordinates: [-120.329369, 50.666869]},
-    //             {coordinates: [-120.329947, 50.659692]},
-    //         ],
-    //       profile: 'walking',
-    //       geometries: 'geojson',
-    //     };
+        const reqOptions = {
+            waypoints: coordinateObjects,
+            // waypoints: [
+            //     {coordinates: [-120.329369, 50.666869]},
+            //     {coordinates: [-120.329947, 50.659692]},
+            // ],
+          profile: 'walking',
+          geometries: 'geojson',
+        };
 
-    //     const res = await directionsClient.getDirections(reqOptions).send();
-    //     const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
-    //     this.state.route = newRoute;
-    // };
+        const res = await directionsClient.getDirections(reqOptions).send();
+        //console.log(res.body.routes[0].geometry.coordinates);
+        const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
+        this.state.route = newRoute;
+    };
         
 
     updateCoordinates(item) {
@@ -65,11 +70,12 @@ class InHikeScreen extends Component {
         {
            coordinatesArray.push([item.Path[i]['longitude'], item.Path[i]['latitude']]);
         }
-        this.state = {coordinates: coordinatesArray}
+        this.state = {geopointsArray: coordinatesArray}
 
         return isMounted = false;
     }
 
+    // Renders a specific coordinate
     renderAnnotation(i) {
         const id = 'pointAnnotation' + i;
         const key = 'pointAnnotation' + i;
@@ -77,7 +83,7 @@ class InHikeScreen extends Component {
             <MapboxGL.PointAnnotation 
                 key={key}
                 id={id} 
-                coordinate={this.state.coordinates[i]}
+                coordinate={this.state.geopointsArray[i]}
             > 
                 <View style={styles.annotation}
 
@@ -86,10 +92,11 @@ class InHikeScreen extends Component {
         ); 
     }
 
+    // Loop through each coordinate and render annotation
     renderAnnotations() {
         const points = [];
 
-        for (let i = 0; i < this.state.coordinates.length; i++) {
+        for (let i = 0; i < this.state.geopointsArray.length; i++) {
             points.push(this.renderAnnotation(i));
         }
 
@@ -105,25 +112,24 @@ class InHikeScreen extends Component {
                 <MapboxGL.MapView
                     styleURL={MapboxGL.StyleURL.Street}
                     zoomLevel={14}
-                    centerCoordinate={this.state.coordinates[0]}
+                    centerCoordinate={this.state.geopointsArray[0]}
                     style={{flex: 1}}>
                     <MapboxGL.Camera
                         zoomLevel={14}
-                        centerCoordinate={this.state.coordinates[0]}
+                        centerCoordinate={this.state.geopointsArray[0]}
                         animationMode={'flyTo'}
                         animationDuration={0}
                     >
                     </MapboxGL.Camera>
                     {this.renderAnnotations()}
-                    {/* {
-                    // this.state.route && (
-                        <MapboxGL.ShapeSource id='shapeSource' shape={this.state.route}>
-                            <MapboxGL.LineLayer id='lineLayer' style={{lineWidth: 5, lineJoin: 'bevel', lineColor: '#ff0000'}} />
-                        </MapboxGL.ShapeSource>
-                    // )
-                    } */}
+                    {
+                        this.state.route && (
+                            <MapboxGL.ShapeSource id='shapeSource' shape={this.state.route.geometry}>
+                                <MapboxGL.LineLayer id='lineLayer' style={{lineWidth: 5, lineJoin: 'bevel', lineColor: '#ff0000'}} />
+                            </MapboxGL.ShapeSource>
+                        )
+                    }
                 </MapboxGL.MapView>
-
             </View>
         </View>
         <View style={styles.container}>    
