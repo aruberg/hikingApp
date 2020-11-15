@@ -22,6 +22,7 @@ function HomeStack() {
     return (
         <Stack.Navigator initialRouteName="Home" headerMode="none">
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} /> 
             <Stack.Screen name="InHike" component={InHikeScreen} />
             <Stack.Screen name="QRScanner" component={QRScreen} />         
         </Stack.Navigator>

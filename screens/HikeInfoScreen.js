@@ -47,6 +47,7 @@ import logo from '../images/logo.png';
 
   function HikeInfoScreen({route, navigation}) {
     const {item} = route.params;
+    console.log(item)
 
     // render() {
     //   var mainImage = (this.state.selectedImage) ? this.state.selectedImage: this.state.product.images[0]; 
