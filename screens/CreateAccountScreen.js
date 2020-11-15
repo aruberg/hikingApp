@@ -12,12 +12,24 @@ import path from '../images/path.png';
 import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
+import firestore from '@react-native-firebase/firestore';
+import storage, {firebase} from '@react-native-firebase/storage';
 
-function createNewUser(email, password) {
+function createNewUser(email, password, first, last) {
     auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-            console.log('User account created & signed in!');
+            var clientId = firebase.auth().currentUser.uid;
+            console.log(clientId);
+            // Add user to Firestore and populate fields
+            firebase.firestore().collection('Profiles').doc(clientId).set({
+                FirstName: first,
+                LastName: last,
+                DistanceHiked: 0,
+                ElevationClimbed: 0,
+                HikesCompleted: 0,
+                Goals: [0, 0, 0, 0], 
+            })
          })
     .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -33,6 +45,8 @@ function createNewUser(email, password) {
 }
 
 function CreateAccountScreen({navigation})  {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,8 +69,9 @@ function CreateAccountScreen({navigation})  {
                                 style={styles.inputText}
                                 placeholder="First name"
                                 placeholderTextColor="#fff"
+                                autoCapitalize='words'
                                 onChangeText={
-                                    text => this.setState({firstName:text})
+                                    text => setFirstName(text)
                                 }
                             />       
                         </View>
@@ -65,8 +80,9 @@ function CreateAccountScreen({navigation})  {
                                 style={styles.inputText}
                                 placeholder="Last name"
                                 placeholderTextColor="#fff"
+                                autoCapitalize='words'
                                 onChangeText={
-                                    text => this.setState({lastName:text})
+                                    text => setLastName(text)
                                 }
                             />       
                         </View>
@@ -106,10 +122,26 @@ function CreateAccountScreen({navigation})  {
                             style={styles.signUpButton} 
                             onPress={() => 
                                 {
+                                    // Error checking
                                     if (password.length < 6)
                                         alert("Password must be at least 6 characters");
+                                    
+                                    else if (firstName == "")
+                                    {
+                                        alert("Please enter your first name")
+                                    }
+
+                                    else if (lastName == "")
+                                    {
+                                        alert("Please enter your last name")
+                                    }
+
                                     else
-                                        password == confirmPassword ? createNewUser(email, password) : alert("Password does not match")}
+                                    {
+                                        password == confirmPassword ? createNewUser(email, password, firstName, lastName) : alert("Password does not match")}
+
+                                    }
+                                        
                                 }
                         >
                             <Text style={styles.signUpText}>Sign Up</Text>
@@ -153,7 +185,7 @@ const styles = StyleSheet.create({
 
     inputText: {
         height: 50,
-        color: "#C9C8B9"
+        color: "#C9C8B9",
     },
 
     signUpButton: {
