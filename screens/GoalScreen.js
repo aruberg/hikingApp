@@ -5,50 +5,27 @@
  * Potential improvements: 
  * Set a new goal Button 
  */
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Image,
   Alert,
   ScrollView,
   ActivityIndicator,
   FlatList,
-  Button
+  Button,
+  Image,
+  ImageBackground
 } from 'react-native';
 import { StackRouter } from 'react-navigation';
 import hike1 from '../images/hike1.jpg';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { back } from 'react-native/Libraries/Animated/src/Easing';
+import {ProgressBar} from '@react-native-community/progress-bar-android';
 
-// export default class Posts extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       data: [
-//         {id:1, title: "Goal 1",             time:"1 days a go",    image:"https://via.placeholder.com/400x200/5F9EA0/000000"},
-//         {id:2, title: "Goal 2",             time:"2 minutes a go", image:"https://via.placeholder.com/400x200/FF7F50/000000"} ,
-//         {id:3, title: "Goal 3",             time:"3 hour a go",    image:"https://via.placeholder.com/400x200/6495ED/000000"}, 
-//         {id:4, title: "Goal 4 ",            time:"4 months a go",  image:"https://via.placeholder.com/400x200/8A2BE2/000000"}, 
-//         {id:5, title: "Goal 5",             time:"5 weeks a go",   image:"https://via.placeholder.com/400x200/008B8B/000000"}, 
-       
-//       ]
-//     };
-//   }
-
-//   render() {
-
-  // const defaultStoragebucket = storage();
-
-  // function GoalScreen({navigation}){
-  //   const [loading, setLoading] = useState(true); 
-  //   const [goals, setGoals] = useState([]);
-  //   const [data, setData] = useState([]);
-  //   const [filterGoals, setFilterGOals] = useState([]);
 
   class GoalScreen extends Component {
     state = {
@@ -91,72 +68,73 @@ import { back } from 'react-native/Libraries/Animated/src/Easing';
 
 
 render() {
-  const  { navigation } = this.props;
+ 
     return (
       <>
-        <View>
-          <Text>{this.state.myGoals.Distance}</Text>
-        </View>
-        <View>
-            <Text>{this.state.myGoals.Elevation}</Text>
-        </View>
-        <View>
-            <Text>{this.state.myGoals.NumHikes}</Text>
-        </View>
-        <View>
-            <Text>{this.state.myGoals.DaysToComplete}</Text>
-        </View>
+
+        <View style={styles.container}>
+        <ImageBackground 
+            source={ {uri: "https://www.srectrade.com/assets/img/public_site/homepage/stock-illustration-23256124-stock-market-chart.jpg" }}
+            resizeMode='cover' 
+            style={styles.backgroundImage}
+            imageStyle={{opacity: 0.15}}>            
+
+              <View style={styles.box}>
+                <View style={styles.info}>
+                  <Text  style={styles.name}>Goal 1</Text>
+                  
+                  <View style={styles.row}>
+                    <View style={styles.iconContainer}>
+                        <Image style={styles.icon} source={{uri: "https://cdn2.iconfinder.com/data/icons/road-and-navigation/180/02-512.png"}} />
+                        <Text>Distance</Text>
+                        <ProgressBar style={styles.progressBar}
+                        styleAttr="Horizontal"
+                        indeterminate={false}
+                        progress={(parseInt(this.state.myGoals.Distance))/ 100}
+                        />
+                        <Text>{(parseInt(this.state.myGoals.Distance))} Km</Text>
+                    </View>
+                    <View style={styles.iconContainer}>
+                        <Image style={styles.icon} source={{uri: "https://cdn0.iconfinder.com/data/icons/travel-37/94/mountain-512.png"}} />
+                        <Text>Elevation</Text>
+                        <ProgressBar style={styles.progressBar}
+                        styleAttr="Horizontal"
+                        indeterminate={false}
+                        progress={(parseInt(this.state.myGoals.Elevation))/ 100}
+                        />
+                         <Text>{(parseInt(this.state.myGoals.Elevation))} </Text>
+                    </View>
+                    
+                    <View style={styles.iconContainer}>
+                        <Image style={styles.icon} source={{uri: "https://image.flaticon.com/icons/png/512/55/55281.png"}} />
+                        <Text>Days</Text>
+                        <ProgressBar style={styles.progressBar}
+                        styleAttr="Horizontal"
+                        indeterminate={false}
+                        progress={(parseInt(this.state.myGoals.DaysToComplete))/ 100}
+                        />
+                        <Text>{(parseInt(this.state.myGoals.DaysToComplete))} </Text>
+                    </View>
+                    <View style={styles.iconContainer}>
+                        <Image style={styles.icon} source={{uri: "https://static.thenounproject.com/png/204712-200.png"}} />
+                        <Text>Hikes:</Text>
+                        <Text>{parseInt(this.state.myGoals.NumHikes)}</Text>
+                        
+                    </View>
+                    
+                    
+                  </View>
+                </View>
+              </View>
+              </ImageBackground>
+</View>
+
+
+        
+
+ 
       </>
 
-    //       data={this.state.Goals}
-    //       // keyExtractor= {(item) => {
-    //       //   return item.id;
-    //       // }}
-    //       ItemSeparatorComponent={() => {
-    //         return (
-    //           <View style={styles.separator}/>
-    //         )
-    //       }}
-
-    //       renderItem={(post) => {
-    //         const item = post.item;
-    //         return (
-    //           <View style={styles.card}>
-               
-    //            <View style={styles.cardHeader}>
-    //               <View>
-    //                 <Text style={styles.title}>{item.DistanceHiked}</Text>
-    //                 <Text style={styles.time}>{item.ElevationClimbed}</Text>
-    //               </View>
-    //             </View>
-
-    //             <Image style={styles.cardImage} source={{uri:item.image}}/>
-                
-    //             <View style={styles.cardFooter}>
-    //               <View style={styles.socialBarContainer}>
-    //                 <View style={styles.socialBarSection}>
-    //                   <TouchableOpacity style={styles.socialBarButton}>
-    //                     <Image style={styles.icon} source={hike1}/>
-    //                     <Text style={styles.socialBarLabel}>Completed: </Text>
-    //                   </TouchableOpacity>
-    //                 </View>
-    //                 <View style={styles.socialBarSection}>
-    //                   <TouchableOpacity style={styles.socialBarButton}>
-    //                     <Image style={styles.icon} source={hike1}/>
-    //                     <Text style={styles.socialBarLabel}> NUMBER %  </Text>
-    //                   </TouchableOpacity>
-    //                 </View>
-    //                 <View style={styles.socialBarSection}>
-    //                   <TouchableOpacity style={styles.socialBarButton}>
-    //                     <Image style={styles.icon} source={hike1}/>
-    //                   </TouchableOpacity>
-    //                 </View>
-    //               </View>
-    //             </View>
-    //           </View>
-    //         )
-    //       }}/>
-    //   </View>
      )
   }
 }
@@ -166,7 +144,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#3C413E',
-    marginTop: 20,
+    marginTop: 0,
   },
   list: {
     paddingHorizontal: 17,
@@ -174,6 +152,9 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginTop: 30,
+  },
+  example: {
+    marginVertical: 24,
   },
   /******** card **************/
   card:{
@@ -184,63 +165,87 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
     marginVertical: 8,
+    marginHorizontal: 60, 
+    paddingHorizontal: 16,
     backgroundColor:"#BECEB4"
   },
   cardHeader: {
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 16,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  cardContent: {
-    paddingVertical: 12.5,
-    paddingHorizontal: 16,
-  },
   cardFooter:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 12.5,
+    paddingTop: 10,
     paddingBottom: 25,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
   },
-  cardImage:{
-    flex: 1,
-    height: 150,
-    width: null,
-  },
+
   /******** card components **************/
   title:{
     fontSize:18,
     flex:1,
   },
-  time:{
-    fontSize:13,
-    color: "#808080",
-    marginTop: 5
+  /********* trial ****************/
+  icon:{
+    width:30,
+    height:30,
   },
-  icon: {
-    width:25,
-    height:25,
+  image: {
+    width: 100,
+    height:100
   },
-  /******** social bar ******************/
-  socialBarContainer: {
+  box: {
+    backgroundColor: '#BECEB4',
+    flexDirection: 'row',
+    shadowColor: 'black',
+    shadowOpacity: .2,
+    marginHorizontal: 20, 
+    height: 140,
+    shadowOffset: {
+      height:1,
+      width:-2
+    },
+    elevation:2
+  },
+  info: {
+    flex:1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  name: {
+    fontSize:20,
+    marginTop:10,
+    color: '#333'
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 40,
+    marginTop:10
+  },
+  iconContainer: {
+    flex: 1,
+    alignItems:'center'
+  },
+  iconFonts: {
+    color: 'gray',
+  },
+  red: {
+    color: '#FF4500',
+  },
+  backgroundImage: {
+    width: "100%",
+    flex: 1,
+    backgroundColor: '#3C413E',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1
-  },
-  socialBarSection: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flex: 1,
-  },
-  socialBarlabel: {
-    marginLeft: 8,
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-  },
+},
 }); 
