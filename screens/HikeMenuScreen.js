@@ -117,7 +117,7 @@ function HikeMenuScreen({navigation}) {
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
             useRef={'txtSearch'}
-            placeholder="Search"
+            placeholder="Find a trail"
             value={search}
             underlineColorAndroid='transparent'
             onChangeText={(text) => searchFilterFunction(text)}
@@ -138,9 +138,9 @@ function HikeMenuScreen({navigation}) {
                   <Image style={styles.image} source={{uri: item.PhotoURL}}/>
                 </View>
                 <View style={styles.rightCardContent}>
-                  <Text style={styles.btnColor}>Distance: {item.Distance/1000}km</Text>
-                  <Text style={styles.btnColor}>Time: {Number(item.Duration/60).toPrecision(2)} hr</Text>
-                  <Text style={styles.btnColor}>Elevation: {item.Elevation}m</Text>
+                  <Text style={styles.btnColor}>Distance: {item.Distance/1000} km</Text>
+                  <Text style={styles.btnColor}>Time: {Number(item.Duration/60).toPrecision(2)} hrs</Text>
+                  <Text style={styles.btnColor}>Elevation: {item.Elevation} m</Text>
                   <Text style={styles.btnColor}>{item.Rating}</Text>
                 </View>
               </View>
@@ -164,12 +164,11 @@ const styles = StyleSheet.create({
   },
   formContent:{
     flexDirection: 'row',
-    marginTop:15,
   },
   inputContainer: {
     borderColor: '#C9C8B9',
     backgroundColor: '#C9C8B9',
-    borderRadius:30,
+    borderRadius:15,
     borderWidth: 3,
     height:45,
     flexDirection: 'row',
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
     flex:1,
     marginLeft:10,
     marginRight: 10,
-    marginTop: 10,
+    marginTop: 20,
   },
   inputs:{
     height:45,
@@ -190,15 +189,15 @@ const styles = StyleSheet.create({
     height:30,
   },
   notificationList:{
-    marginTop:20,
-    padding:10,
+    paddingLeft:10,
+    paddingRight: 10,
   },
   card: {
     height: 250,
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: '#FFFFFF',
     flexDirection: 'column',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   cardHeader: {
     alignSelf: 'center',

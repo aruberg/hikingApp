@@ -29,6 +29,7 @@ class HomeScreen extends Component {
         PhotoURL: "",
         Rating: "",
         Region: "",
+        ShortDescription: "",
         StartLocation: [],
         Description: "",
 
@@ -54,6 +55,7 @@ class HomeScreen extends Component {
                 Path: doc.data().Path,
                 Rating: doc.data().Rating,
                 Region: doc.data().Region,
+                ShortDescription: doc.data().ShortDescription,
                 StartLocation: doc.data().StartLocation,
             },    
         });
@@ -141,9 +143,8 @@ class HomeScreen extends Component {
                   <Image style={styles.image} source={this.state.featuredHike.PhotoURL ? {uri: this.state.featuredHike.PhotoURL } : null}/>
                 </View>
                 <View style={styles.hikeDescription}>
-                  <Text style={styles.hikeDescription}>{this.state.featuredHike.Description}</Text>
+                  <Text style={styles.hikeDescription}>{this.state.featuredHike.ShortDescription}</Text>
                 </View>
-     
               </View>
               
             </TouchableOpacity>     
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center', 
       backgroundColor: "#3C413E"   
-  },
+    },
     masterContainer: {
       flex: 1,
     },
@@ -194,12 +195,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#C98F39",
 
       },
-      buttonTextStyle: {
-        color: '#C9C8B9',
-        paddingVertical: 10,
-        fontSize: 16,
-      },
-      image: {
+    image: {
         width: "100%",
         height: "100%",
         // marginTop: 30,
@@ -207,38 +203,33 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
       width: "100%",
-      height: "50%",
+      height: 200,
       margin: 0,
     },
     board: {
       flex: 1,
         // width: 330,
         // height: "15%",
-        backgroundColor: '#679267',
+        backgroundColor: '#C9C8B9',
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 20,
-        borderRadius: 20,
-
     },
     boardTextStyle: {
         color: '#C9C8B9',
-        // paddingVertical: 10,
+        backgroundColor: '#6F6035',
         fontSize: 20,
         textAlign: 'center',
+        paddingVertical: "2%",
       },
 
     featuredHikeContainer: {
       flex: 3,
-      // width: "95%",
-      // height: "50%",
-      backgroundColor: '#679267',
+      backgroundColor: '#C9C8B9',
       marginLeft: 10,
       marginRight: 10,
       marginBottom: 20,
-      marginTop: "2%",
-      borderRadius: 20,
-      
+      marginTop: "2%",     
     },
 
     featuredCenter: {
@@ -247,7 +238,6 @@ const styles = StyleSheet.create({
     },
 
     hikeDescription: {
-      color: '#C9C8B9',
       fontSize: 16,
       marginTop: 5,
     },

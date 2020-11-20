@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
+import path from '../images/path.png';
 
 import HomeScreen from '../screens/HomeScreen';
 import HikeMenuScreen from '../screens/HikeMenuScreen';
@@ -20,32 +21,70 @@ const Tab = createBottomTabNavigator();
 
 function HomeStack() {
     return (
-        <Stack.Navigator initialRouteName="Home" headerMode="none">
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} /> 
-            <Stack.Screen name="InHike" component={InHikeScreen} />
-            <Stack.Screen name="QRScanner" component={QRScreen} />         
+        <Stack.Navigator 
+            initialRouteName="Home"
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#3C413E',
+                    borderBottomColor: '#C98F39',
+                    borderBottomWidth: 1,
+                },
+                headerTitleStyle: {
+                    color: '#C9C8B9',
+                },
+                headerLeft: () => <Image source={path} style={styles.image} />
+            }}
+        >
+            <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} options={{ title: 'Trail Information' }} /> 
+            <Stack.Screen name="InHike" component={InHikeScreen} options={{ title: 'Location' }}/>
+            <Stack.Screen name="QRScanner" component={QRScreen} options={{ title: 'QR Scanner' }}/>         
         </Stack.Navigator>
     )
 }
 
 function ProfileStack() {
     return (
-        <Stack.Navigator initialRouteName="Profile" headerMode="none">
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="Goal" component={GoalScreen} /> 
-            <Stack.Screen name="SetANewGoal" component={SetANewGoalScreen} /> 
-            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} /> 
+        <Stack.Navigator 
+            initialRouteName="Profile"
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#3C413E',
+                    borderBottomColor: '#C98F39',
+                    borderBottomWidth: 1,
+                },
+                headerTitleStyle: {
+                    color: '#C9C8B9',
+                },
+                headerLeft: () => <Image source={path} style={styles.image} />
+            }}
+        >
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }}/>
+            <Stack.Screen name="Goal" component={GoalScreen} options={{ title: 'Goals' }}/> 
+            <Stack.Screen name="SetANewGoal" component={SetANewGoalScreen} options={{ title: 'Set Goals' }}/> 
         </Stack.Navigator>
     )
 }
 
 function HikeStack() {
     return (
-        <Stack.Navigator initialRouteName="Hike" headerMode="none">
-            <Stack.Screen name="HikeMenu" component={HikeMenuScreen} />
-            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} /> 
-            <Stack.Screen name="InHike" component={InHikeScreen} /> 
+        <Stack.Navigator 
+            initialRouteName="Hike"
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#3C413E',
+                    borderBottomColor: '#C98F39',
+                    borderBottomWidth: 1,
+                },
+                headerTitleStyle: {
+                    color: '#C9C8B9',
+                },
+                headerLeft: () => <Image source={path} style={styles.image} />
+            }}
+        >
+            <Stack.Screen name="HikeMenu" component={HikeMenuScreen} options={{ title: 'Find Trails' }} />
+            <Stack.Screen name="HikeInfo" component={HikeInfoScreen} options={{ title: 'Trail Information' }}/> 
+            <Stack.Screen name="InHike" component={InHikeScreen} options={{ title: 'Location' }}/> 
         </Stack.Navigator>
     )
 }
@@ -61,7 +100,8 @@ function TabNavigator() {
                 inactiveTintColor:'#3C413E',
                 style: {
                     backgroundColor: '#C98F39',
-                    borderTopColor: 'C98F39',
+                    borderTopColor: '#C98F39',
+                    // borderTopWidth: 1,
                 },
             }}                      
         >        
@@ -113,3 +153,9 @@ function TabNavigator() {
   }
 
   export default TabNavigator;
+
+  const styles = StyleSheet.create({
+    image: {
+        resizeMode: "center",       
+    },
+});

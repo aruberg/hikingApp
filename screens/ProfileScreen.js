@@ -30,6 +30,7 @@ class Profile extends Component{
         }
     }
 
+
     constructor(props){
         super(props);
         var clientId = firebase.auth().currentUser.uid;
@@ -46,12 +47,12 @@ class Profile extends Component{
                 }
             });
         })
+
     }
 
     getUser = async(cId) => {
         const userDocument = await firestore().collection('Profiles')
             .doc(cId).get();
-        console.log(userDocument);
     }
 
     render() {
@@ -59,9 +60,7 @@ class Profile extends Component{
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
-                        <Text>Sign Out</Text>
-                    </TouchableOpacity>
+
                 </View>
                 <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
                 <View style={styles.body}>
@@ -72,6 +71,9 @@ class Profile extends Component{
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
                             <Text>Goals</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
+                            <Text>Sign Out</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
