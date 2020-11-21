@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import QRCodeScanner from '../components/QRCodeScanner';
 import firestore from '@react-native-firebase/firestore';
+import storage, {firebase} from '@react-native-firebase/storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 
 class QRScreen extends Component {
+    
     state = {
         myDetails: {
             DistanceHiked: 0,
@@ -18,9 +20,10 @@ class QRScreen extends Component {
 
     constructor(props){
         super(props);
-        this.getUser();
+        var clientId = firebase.auth().currentUser.uid;
+        this.getUser(clientId);
         this.subscriber = firestore().collection('Profiles')
-        .doc('ProfileTemplate').onSnapshot( doc => {
+        .doc(clientId).onSnapshot( doc => {
             this.setState({
                 myDetails: {
                     DistanceHiked: doc.data().DistanceHiked,
@@ -45,24 +48,25 @@ class QRScreen extends Component {
         console.error(err)
     }
 
-     getUser = async() => {
-         const userDocument = await firestore().collection('Profiles')
-             .doc('ProfileTemplate').get();
-         console.log(userDocument);
-     }
+    getUser = async(cId) => {
+        const userDocument = await firestore().collection('Profiles')
+            .doc(cId).get();
+      }
 
      // Used QR guide as reference https://www.npmjs.com/package/react-qr-scanner
     updateUser = async() => {
         let isMounted = true;
+         var clientId = firebase.auth().currentUser.uid;
          const userDocument = await firestore().collection('Profiles')
-             .doc('ProfileTemplate').update({DistanceHiked: this.state.myDetails.DistanceHiked + 1000});
+             .doc(clientId).update({DistanceHiked: this.state.myDetails.DistanceHiked + 1000});
         return isMounted = false;
     }
 
     updateHikesCompleted = async() => {
         let isMounted = true;
+        var clientId = firebase.auth().currentUser.uid;
          const userDocument = await firestore().collection('Profiles')
-             .doc('ProfileTemplate').update({HikesCompleted: this.state.myDetails.HikesCompleted + 1});
+             .doc(clientId).update({HikesCompleted: this.state.myDetails.HikesCompleted + 1});
         return isMounted = false;
     }
 
