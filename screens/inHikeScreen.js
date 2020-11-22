@@ -9,8 +9,6 @@
  */
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert, Svg } from 'react-native';
-import logo from '../images/logo.png';
-import mapGeneric from '../images/mapGeneric.jpg';
 import ShowMap from '../components/ShowMap';
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import Icon from 'react-native-vector-icons/FontAwesome';

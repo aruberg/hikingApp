@@ -5,7 +5,8 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
+  ImageBackground,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
@@ -58,56 +59,80 @@ class Profile extends Component{
     render() {
         const  { navigation } = this.props;
         return (
-            <View style={styles.container}>
-                <View style={styles.header}>
+          <ImageBackground 
+          source={ require('../images/background.jpg') }
+          resizeMode='cover' 
+          style={styles.backgroundImage}
+          imageStyle={{opacity: 0.2}}
+          >
+            {/* Header */}
+            <View style={styles.header}>
+              <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+              <View style={styles.userName}>  
+                <Text style={styles.name}>{this.state.user.FirstName} {this.state.user.LastName}</Text>
+              </View>
+            </View>
+              {/* Body */}
+            <View style={styles.boardContent}>
+                <View style={styles.statisticsBoard}>
+                    <Text>Statistics</Text>
+                    <Text style={styles.statisticsTextStyle}>Trails Hiked: {this.state.user.HikesCompleted}</Text>
+                    <Text style={styles.statisticsTextStyle}>Distance Hiked: {(this.state.user.DistanceHiked)/1000} km</Text>
+                    <Text style={styles.statisticsTextStyle}>Elevation Climbed: {this.state.user.ElevationClimbed} m</Text> 
+                </View>
+                <View>                 
+                    <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
+                          <Text>Hikes Completed </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
+                          <Text>Goals</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
+                          <Text>Sign Out</Text>
+                      </TouchableOpacity>
+                </View>
+                
+            </View>
 
-                </View>
-                <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-                <View style={styles.body}>
-                    <View style={styles.bodyContent}>
-                        <Text style={styles.name}>{this.state.user.FirstName} {this.state.user.LastName}</Text>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
-                            <Text>Hikes Completed </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
-                            <Text>Goals</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
-                            <Text>Sign Out</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.bodyContent}>
-                    <View style={styles.board}>
-                        <Text style={styles.boardTextStyle}>Total Distance: {(this.state.user.DistanceHiked)/1000}km</Text>
-                        <Text style={styles.boardTextStyle}>Awards:  </Text>
-                    </View>
-                </View>
-            </View>);
+          </ImageBackground>
+          
+        );
     }
 }
 
 export default Profile;
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: '100%',
+    flex: 1,
+    //alignItems: 'center',
+    //justifyContent: 'center', 
+    backgroundColor: "#3C413E",  
+  },
   header:{
-    backgroundColor: "#679267",
-    height:200,
+    flexDirection: 'row',
+    backgroundColor: "#453D5F",
+    height: "22%",
+    alignItems: 'center',
+    paddingHorizontal: "4%",
   },
   avatar: {
-    width: 130,
-    height: 130,
+    width: 100,
+    height: 100,
     borderRadius: 63,
     borderWidth: 4,
-    borderColor: "white",
-    marginBottom:10,
-    alignSelf:'center',
-    position: 'absolute',
-    marginTop:130
+    borderColor: "#C9C8B9",
+    marginRight: "4%",
+  },
+  userName: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginLeft: "10%",
   },
   body:{
-    marginTop:40,
-    
+    backgroundColor: 'red',
   },
   bodyContent: {
     flex: 1,
@@ -115,10 +140,13 @@ const styles = StyleSheet.create({
     padding:30,
     
   },
+  boardContent: {
+    alignItems: 'center',
+  },
   name:{
     fontSize:28,
-    color: "#696969",
-    fontWeight: "600"
+    color: "#C9C8B9",
+    fontWeight: "600",
   },
   buttonContainer: {
     marginTop:10,
@@ -131,37 +159,26 @@ const styles = StyleSheet.create({
     borderRadius:30,
     backgroundColor: "#C98F39",
   },
-  board: {
-    width: 370,
-    height: 200,
+  statisticsBoard: {
+    width: "100%",
+    height: 100,
     backgroundColor: '#679267',
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 160,
-    marginBottom: 20,
-    borderRadius: 20,
-    borderWidth: 3, 
-    borderColor: '#3C413E',
-
-},
-boardTextStyle: {
-    fontSize:25,
-    marginTop: 30,
-    color: "#D6D6C7",
-    fontWeight: "600",
-    alignSelf: 'center',
-   
-},
-
-signOutButton: {
-  marginTop:10,
-  height:45,
-  flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginBottom:20,
-  width: "100%",
-  borderRadius:30,
-  backgroundColor: "#C98F39",
-},
+  },
+  statisticsTextStyle: {
+      fontSize:18,
+      color: "#D6D6C7",
+      fontWeight: "600",
+    
+  },
+  signOutButton: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width: "100%",
+    borderRadius:10,
+    backgroundColor: "#C98F39",
+  },
 });

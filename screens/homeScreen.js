@@ -9,7 +9,6 @@
 import React, {Component, useState, useEffect} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import { block } from 'react-native-reanimated';
-import hikePhoto from '../images/hikePhoto.jpg';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
@@ -172,13 +171,13 @@ class HomeScreen extends Component {
               style={styles.featuredHikeContainer} 
               onPress={() => navigation.navigate('HikeInfo', {item: this.state.featuredHike})}
             >
-              <Text style={styles.boardTextStyle}>Featured Hike</Text>
+              <Text style={styles.featuredTextStyle}>Featured Hike</Text>
               <View style={styles.featuredCenter}> 
                 <View style={styles.imageContainer}>
                   <Image style={styles.image} source={this.state.featuredHike.PhotoURL ? {uri: this.state.featuredHike.PhotoURL } : null}/>
                 </View>
                 <View style={styles.hikeDescription}>
-                  <Text style={styles.hikeDescription}>{this.state.featuredHike.ShortDescription}</Text>
+                  <Text style={styles.hikeText}>{this.state.featuredHike.ShortDescription}</Text>
                 </View>
               </View>
               
@@ -197,7 +196,7 @@ class HomeScreen extends Component {
                       thickness={7}
                       showsText={true}
                       animated={false}
-                      textStyle={{fontSize: 18}}
+                      textStyle={{fontSize: 17}}
                       borderWidth={2}
                     />
                   </View>
@@ -210,7 +209,7 @@ class HomeScreen extends Component {
                       thickness={7}
                       showsText={true}
                       animated={false}
-                      textStyle={{fontSize: 18}}
+                      textStyle={{fontSize: 17}}
                       borderWidth={2}
                     />
                   </View>
@@ -219,18 +218,18 @@ class HomeScreen extends Component {
                       style={styles.progressStyle} 
                       progress={this.state.userProfile.HikeCountProgress} 
                       size={60}
-                      color="#453D5F"
+                      color="#6F6035"
                       thickness={7}
                       showsText={true}
                       animated={false}
-                      textStyle={{fontSize: 18}}
+                      textStyle={{fontSize: 17}}
                       borderWidth={2}
                     />
                   </View>
                 </View>
               </View>
               <View style={styles.board}>
-                <Text style={styles.boardTextStyle}>Awards</Text>
+                <Text style={styles.boardTextStyle}>Awards Earned</Text>
                 <View style={styles.badgeContainer}>
                   <Image 
                     style={styles.badgeStyle} 
@@ -313,12 +312,20 @@ const styles = StyleSheet.create({
     },
     boardTextStyle: {
         color: '#C9C8B9',
-        backgroundColor: '#6F6035',
-        fontSize: 20,
-        textAlign: 'center',
+        backgroundColor: '#453D5F',
+        fontSize: 18,
         paddingVertical: "2%",
+        fontWeight: 'bold',
+        paddingLeft: "5%",
       },
-
+    featuredTextStyle: {
+      color: '#C9C8B9',
+      backgroundColor: '#453D5F',
+      fontSize: 22,
+      textAlign: 'center',
+      paddingVertical: "2%",
+      fontWeight: 'bold',
+    },
     featuredHikeContainer: {
       flex: 2,
       backgroundColor: '#C9C8B9',
@@ -327,17 +334,16 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       marginTop: "2%",     
     },
-
     featuredCenter: {
       alignItems: "center",
       justifyContent: "center",
     },
-
     hikeDescription: {
-      fontSize: 16,
-      marginTop: 5,
+      margin: 5,
     },
-
+    hikeText: {
+      fontSize: 16,
+    },
     badgeStyle: {
       width: "30%",
       height: "90%",
