@@ -13,10 +13,10 @@ import {
   FlatList,
   Dimensions,
   Alert,
-  ScrollView
+  ScrollView,
+  ImageBackground,
 } from 'react-native';
-import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
-import logo from '../images/logo.png';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // export default class ProductView extends Component {
 
@@ -52,56 +52,89 @@ import logo from '../images/logo.png';
     // render() {
     //   var mainImage = (this.state.selectedImage) ? this.state.selectedImage: this.state.product.images[0]; 
       return (
-        <View style={styles.container}>
-             <Image source={logo} style={styles.image} />
-          <ScrollView style={styles.content}>
-            <View style={styles.card}>
-              <View style={styles.cardHeader}>
-                {/* <Text style={styles.name}>{this.state.product.name}</Text> */}
-                <Text style={styles.trailTitle}>{item.TrailName}</Text>
-              </View>
-              <View style={styles.cardContent}>
-                <View style={styles.header}>
-                  <View style={styles.mainImageContainer}>
-                    <Image style={styles.mainImage} source={{uri:item.PhotoURL}}/>
-                  </View>
+        <ImageBackground 
+          source={ require('../images/background.jpg') }
+          resizeMode='cover' 
+          style={styles.backgroundImage}
+          imageStyle={{opacity: 0.2}}
+        >
+          <View style={styles.container}>
+            <ScrollView>
+              <View style={styles.card}>
+                <View style={styles.cardHeaderTitle}>
+                  <Text style={styles.trailTitle}>{item.TrailName}</Text>
+                </View>
+                <View style={styles.cardPhotoContainer}>
+                    <View style={styles.mainImageContainer}>
+                      <Image style={styles.mainImage} source={{uri:item.PhotoURL}}/>
+                    </View>
                 </View>
               </View>
-            </View>
-  
-            <View style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Description</Text>
+
+              {/* Description Card */}
+              <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.cardTitle}>Description</Text>
+                </View>
+                <View style={styles.cardContent}>
+                  <Text style={styles.cardText}>{item.Description}</Text>
+                </View>
               </View>
-              <View style={styles.cardContent}>
-                <Text>{item.Description}</Text>
+
+              {/* General Info Card */}
+              <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.cardTitle}>General Info</Text>
+                </View>
+                <View style={styles.cardContent}>
+                  {/* Distance */}
+                  <View style={styles.hikingStatsContainer}>
+                    <Icon name="map-marker" size={20} color={'#6F6035'} />
+                    <Text style={styles.metricTextTitle}>Distance</Text> 
+                    <Text style={styles.metricText}>{item.Distance / 1000} km</Text>
+                  </View>
+                  {/* Duration */}
+                  <View style={styles.hikingStatsContainer}>
+                    <Icon name="clock-o" size={20} color={'#6F6035'}/>
+                    <Text style={styles.metricTextTitle}>Duration</Text>
+                    <Text style={styles.metricText}>{Number(item.Duration/60).toPrecision(2)} hrs</Text>
+                  </View>
+                  {/* Elevation */}
+                  <View style={styles.hikingStatsContainer}>
+                    <Icon name="line-chart" size={20} color={'#6F6035'}/>
+                    <Text style={styles.metricTextTitle}>Elevation </Text>
+                    <Text style={styles.metricText}>{item.Elevation} m</Text>
+                  </View>
+                  {/* Rating */}
+                  <View style={styles.hikingStatsContainer}>
+                    <Icon name="check" size={20} color={'#6F6035'} />
+                    <Text style={styles.metricTextTitle}>Rating</Text> 
+                    <Text style={styles.metricText}>{item.Rating}</Text>
+                  </View>
+                  {/* Region */}
+                  <View style={styles.hikingStatsContainer}>
+                    <Icon name="map-o" size={20} color={'#6F6035'} />
+                    <Text style={styles.metricTextTitle}>Region</Text>
+                    <Text style={styles.metricText}>{item.Region}</Text>
+                  </View>           
+                </View>                
               </View>
-            </View>
-  
-            <View style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>General Info</Text>
+
+              {/* QR Hint Card */}
+              <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                  <Text style={styles.cardTitle}>QR Hint</Text>
+                </View>
+                <View style={styles.cardQR}>
+                  <Text style={styles.cardText}>{item.QRHint}</Text>
+                  <TouchableOpacity style={styles.shareButton} onPress={() => navigation.navigate('InHike', item)}>
+                    <Text style={styles.shareButtonText}>Hike it!</Text>  
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={styles.cardContent}>
-                {/* <Text style={styles.description}>{this.state.product.description}</Text> */}
-                {/* <Text>Start Location: {String.valueOf(item.StartLocation)}</Text> */}
-                <Text>Distance: {item.Distance}</Text>
-                <Text>Duration: {item.Duration}</Text>
-                <Text>Rating: {item.Rating}</Text>
-                <Text>Region: {item.Region}</Text>
-              </View>
-              
-            </View>
-  
-            <View style={styles.card}>
-              <View style={styles.cardContent}>
-                <TouchableOpacity style={styles.shareButton} onPress={() => navigation.navigate('InHike', item)}>
-                  <Text style={styles.shareButtonText}>Hike it!</Text>  
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
+            </ScrollView>
+          </View>
+        </ImageBackground>
       );
     };
   
@@ -143,40 +176,18 @@ import logo from '../images/logo.png';
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    marginTop:20,
-    backgroundColor:"#3C413E",
-  },
-  content:{
-    marginLeft:10,
-    marginRight:10,
-    marginTop:20,
-  },
-  header:{
-    flexDirection:'row',
   },
   mainImage:{
-    // width:200,
-    height:200,
-    width: "100%",
-  
+    flex: 1,
+    height: 200,
+    width:"100%",
+    resizeMode: 'cover',
   },
-
   mainImageContainer: {
     width: "100%",
     backgroundColor: "black",
     alignItems: 'center',
   },
-
-  
-  // smallImagesContainer:{
-  //   flexDirection:'column',
-  //   marginLeft:30
-  // },
-  // smallImage:{
-  //   width:60,
-  //   height:60,
-  //   marginTop:5, 
-  // },
   contentColors:{
     flexDirection:'row', 
   },
@@ -188,64 +199,97 @@ const styles = StyleSheet.create({
   description:{
     fontSize:18,
     color:"#696969",
-    
   },
   shareButton: {
-    marginTop:10,
+    marginTop:"7%",
+    marginBottom: "5%",
     height:45,
-    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius:30,
-    backgroundColor: "#C98F39",
+    borderRadius:10,
+    backgroundColor: "#6F6035",
+    width: "100%",
   },
   shareButtonText:{
-    color: "#3C413E",
+    color: "#C9C8B9",
     fontSize:20,
   },
-  image: {
-    resizeMode: "contain",
-    marginTop: 10,
-    marginHorizontal: 100
-},
   trailTitle: {
     textAlign: 'center',
-    color:"#453D5F",
-    fontSize:24,
+    color:"#C9C8B9",
+    fontSize:22,
     fontWeight:'bold'
   },
+  backgroundImage: {
+    width: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center', 
+    backgroundColor: "#3C413E"   
+},
+hikingStatsContainer:{
+  flex: 1,
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+metricText: {
+  fontWeight: '700',
+  color: '#3C413E',
+},
+metricTextTitle: {
+  textDecorationLine: 'underline',
+},
 
   /******** card **************/
   card:{
-    shadowColor: '#00000021',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-
-    marginVertical: 5,
-    backgroundColor:"#BECEB4",
-    marginHorizontal: 5,
+    marginVertical: "1.5%",
+    backgroundColor:"#C9C8B9",
+    marginHorizontal: "1.5%",
   },
   cardContent: {
-    paddingVertical: 12.5,
-    paddingHorizontal: 16,
+    flex: 1,
+    paddingVertical: "3%",
+    paddingHorizontal: "3%",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cardHeader:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 5,
+    paddingTop: "2%",
+    paddingBottom: "2%",
     paddingHorizontal: 16,
-    borderBottomLeftRadius: 1,
-    borderBottomRightRadius: 1,
+    backgroundColor: '#453D5F',
+  },
+  cardHeaderTitle:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    paddingHorizontal: 16,
+    backgroundColor: '#453D5F',
   },
   cardTitle:{
-    color:"#453D5F",
+    color:"#C9C8B9",
     fontSize:18,
     fontWeight:'bold'
+  },
+  cardText:{
+    color: 'black',
+  },
+  cardQR:{
+    flex: 1,
+    paddingVertical: "3%",
+    paddingHorizontal: "3%",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardPhotoContainer:{
+    flex: 1,
   }
   
 }); 

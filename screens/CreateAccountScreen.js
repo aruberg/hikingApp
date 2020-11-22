@@ -28,7 +28,7 @@ function createNewUser(email, password, first, last) {
                 DistanceHiked: 0,
                 ElevationClimbed: 0,
                 HikesCompleted: 0,
-                Goals: [0, 0, 0, 0], 
+                Goals: [25000, 5000, 25, 30], 
             })
          })
     .catch(error => {

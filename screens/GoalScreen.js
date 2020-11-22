@@ -20,7 +20,6 @@ import {
   ImageBackground
 } from 'react-native';
 import { StackRouter } from 'react-navigation';
-import hike1 from '../images/hike1.jpg';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { back } from 'react-native/Libraries/Animated/src/Easing';
@@ -43,8 +42,10 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
     constructor(props){
       super(props);
       this.getUser();
+      var clientId = firebase.auth().currentUser.uid;
+      this.getUser(clientId);
       this.subscriber = firestore().collection('Profiles')
-      .doc('ProfileTemplate').onSnapshot( doc => {
+      .doc(clientId).onSnapshot( doc => {
           this.setState({
               myGoals: {
                   DistanceHiked: doc.data().DistanceHiked,
@@ -71,70 +72,63 @@ render() {
  
     return (
       <>
-
         <View style={styles.container}>
         <ImageBackground 
-            source={ {uri: "https://www.srectrade.com/assets/img/public_site/homepage/stock-illustration-23256124-stock-market-chart.jpg" }}
-            resizeMode='cover' 
-            style={styles.backgroundImage}
-            imageStyle={{opacity: 0.15}}>            
-
-              <View style={styles.box}>
-                <View style={styles.info}>
-                  <Text  style={styles.name}>Goal 1</Text>
-                  
-                  <View style={styles.row}>
-                    <View style={styles.iconContainer}>
-                        <Image style={styles.icon} source={{uri: "https://cdn2.iconfinder.com/data/icons/road-and-navigation/180/02-512.png"}} />
-                        <Text>Distance</Text>
-                        <ProgressBar style={styles.progressBar}
-                        styleAttr="Horizontal"
-                        indeterminate={false}
-                        progress={(parseInt(this.state.myGoals.Distance))/ 100}
-                        />
-                        <Text>{(parseInt(this.state.myGoals.Distance))} Km</Text>
-                    </View>
-                    <View style={styles.iconContainer}>
-                        <Image style={styles.icon} source={{uri: "https://cdn0.iconfinder.com/data/icons/travel-37/94/mountain-512.png"}} />
-                        <Text>Elevation</Text>
-                        <ProgressBar style={styles.progressBar}
-                        styleAttr="Horizontal"
-                        indeterminate={false}
-                        progress={(parseInt(this.state.myGoals.Elevation))/ 100}
-                        />
-                         <Text>{(parseInt(this.state.myGoals.Elevation))} </Text>
-                    </View>
-                    
-                    <View style={styles.iconContainer}>
-                        <Image style={styles.icon} source={{uri: "https://image.flaticon.com/icons/png/512/55/55281.png"}} />
-                        <Text>Days</Text>
-                        <ProgressBar style={styles.progressBar}
-                        styleAttr="Horizontal"
-                        indeterminate={false}
-                        progress={(parseInt(this.state.myGoals.DaysToComplete))/ 100}
-                        />
-                        <Text>{(parseInt(this.state.myGoals.DaysToComplete))} </Text>
-                    </View>
-                    <View style={styles.iconContainer}>
-                        <Image style={styles.icon} source={{uri: "https://static.thenounproject.com/png/204712-200.png"}} />
-                        <Text>Hikes:</Text>
-                        <Text>{parseInt(this.state.myGoals.NumHikes)}</Text>
-                        
-                    </View>
-                    
-                    
-                  </View>
+          source={ {uri: "https://www.srectrade.com/assets/img/public_site/homepage/stock-illustration-23256124-stock-market-chart.jpg" }}
+          resizeMode='cover' 
+          style={styles.backgroundImage}
+          imageStyle={{opacity: 0.15}}
+        >            
+          <View style={styles.box}>
+            <View style={styles.info}>
+              <Text  style={styles.name}>Goal 1</Text>
+              
+              <View style={styles.row}>
+                <View style={styles.iconContainer}>
+                    <Image style={styles.icon} source={{uri: "https://cdn2.iconfinder.com/data/icons/road-and-navigation/180/02-512.png"}} />
+                    <Text>Distance</Text>
+                    <ProgressBar style={styles.progressBar}
+                    styleAttr="Horizontal"
+                    indeterminate={false}
+                    progress={(parseInt(this.state.myGoals.Distance))/ 100}
+                    />
+                    <Text>{(parseInt(this.state.myGoals.Distance))} Km</Text>
                 </View>
+                <View style={styles.iconContainer}>
+                    <Image style={styles.icon} source={{uri: "https://cdn0.iconfinder.com/data/icons/travel-37/94/mountain-512.png"}} />
+                    <Text>Elevation</Text>
+                    <ProgressBar style={styles.progressBar}
+                    styleAttr="Horizontal"
+                    indeterminate={false}
+                    progress={(parseInt(this.state.myGoals.Elevation))/ 100}
+                    />
+                      <Text>{(parseInt(this.state.myGoals.Elevation))} </Text>
+                </View>
+                
+                <View style={styles.iconContainer}>
+                    <Image style={styles.icon} source={{uri: "https://image.flaticon.com/icons/png/512/55/55281.png"}} />
+                    <Text>Days</Text>
+                    <ProgressBar style={styles.progressBar}
+                    styleAttr="Horizontal"
+                    indeterminate={false}
+                    progress={(parseInt(this.state.myGoals.DaysToComplete))/ 100}
+                    />
+                    <Text>{(parseInt(this.state.myGoals.DaysToComplete))} </Text>
+                </View>
+                <View style={styles.iconContainer}>
+                    <Image style={styles.icon} source={{uri: "https://static.thenounproject.com/png/204712-200.png"}} />
+                    <Text>Hikes:</Text>
+                    <Text>{parseInt(this.state.myGoals.NumHikes)}</Text>
+                    
+                </View>
+                
+                
               </View>
-              </ImageBackground>
-</View>
-
-
-        
-
- 
+            </View>
+          </View>
+          </ImageBackground>
+        </View>
       </>
-
      )
   }
 }

@@ -9,11 +9,13 @@
 import React, {Component, useState, useEffect} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import { block } from 'react-native-reanimated';
-import hikePhoto from '../images/hikePhoto.jpg';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { NavigationActions } from 'react-navigation';
+import * as Progress from 'react-native-progress';
+import {Surface, Shape} from '@react-native-community/art';
+
 
 const defaultStoragebucket = storage();
 
@@ -29,18 +31,27 @@ class HomeScreen extends Component {
         PhotoURL: "",
         Rating: "",
         Region: "",
+        ShortDescription: "",
         StartLocation: [],
         Description: "",
 
 
     },
 
+    userProfile: {
+      DistanceHiked: 0,
+      ElevationClimbed: 0,
+      HikesCompleted: 0,
+      DistanceGoal: 0,
+      ElevationGoal: 0,
+      NumHikesGoal: 0,
+      DaysToCompleteGoal: 0,
+    },
+
   }
 
   constructor(props){
     super(props);
-    // var clientId = firebase.auth().currentUser.uid;
-    // this.getUser(clientId);
     this.subscriber = firestore().collection('FeaturedHike')
     .doc('FeaturedHikeDetails').onSnapshot( doc => {
         this.setState({
@@ -54,14 +65,39 @@ class HomeScreen extends Component {
                 Path: doc.data().Path,
                 Rating: doc.data().Rating,
                 Region: doc.data().Region,
+                ShortDescription: doc.data().ShortDescription,
                 StartLocation: doc.data().StartLocation,
             },    
         });
     })
 
+    // User Profile
+    var clientId = firebase.auth().currentUser.uid;
+    this.getUser(clientId);
+    this.subscriber2 = firestore().collection('Profiles')
+    .doc(clientId).onSnapshot( doc => {
+        this.setState({
+            userProfile: {
+                DistanceHiked: doc.data().DistanceHiked,
+                ElevationClimbed: doc.data().ElevationClimbed,
+                HikesCompleted: doc.data().HikesCompleted,
+                DistanceGoal: doc.data().Goals[0],
+                ElevationGoal: doc.data().Goals[1],
+                NumHikesGoal: doc.data().Goals[2],
+                DaysToCompleteGoal: doc.data().Goals[3],
+                DistanceProgress: doc.data().DistanceHiked / doc.data().Goals[0],
+                ElevationProgress: doc.data().ElevationClimbed / doc.data().Goals[1],
+                HikeCountProgress: doc.data().HikesCompleted / doc.data().Goals[2],
+            }
+        });
+    })
+
   }
 
-
+  getUser = async(cId) => {
+    const userDocument = await firestore().collection('Profiles')
+        .doc(cId).get();
+}
 
 
 // getUser = async(cId) => {
@@ -69,56 +105,56 @@ class HomeScreen extends Component {
 //       .doc(cId).get();
 // }
 
-  getElevationAward = (elevationGained) => {
-    switch (true)
-    {
-      case (elevationGained > 20000):
-        return '../images/100-hikes-badge.png.png';
-        break; 
-      case (elevationGained > 10000):
-        return '../images/50-hikes-badge.png.png';
-        break;
-      case (elevationGained > 5000):
-        return '../images/25-hikes-badge.png.png';
-        break;
-      default:
-        return '';
-    }
-  }
+  // getElevationAward = (elevationGained) => {
+  //   switch (true)
+  //   {
+  //     case (elevationGained > 20000):
+  //       return '../images/20-km-elevation-badge.png';
+  //       break; 
+  //     case (elevationGained > 10000):
+  //       return '../images/10-km-elevation-badge.png';
+  //       break;
+  //     case (elevationGained > 5000):
+  //       return '../images/5-km-elevation-badge.png';
+  //       break;
+  //     default:
+  //       return '../images/no-elevation-badge.png';
+  //   }
+  // }
 
-  getHikeCountAward = () => {
-    switch (true)
-    {
-      case (hikesCompleted > 100):
-        return '../images/100-hikes-badge.png.png';
-        break; 
-      case (hikesCompleted > 50):
-        return '../images/50-hikes-badge.png.png';
-        break;
-      case (hikesCompleted > 25):
-        return '../images/25-hikes-badge.png.png';
-        break;
-      default:
-        return '';
-    }
-  }
+  // getHikeCountAward = () => {
+  //   switch (true)
+  //   {
+  //     case (hikesCompleted > 100):
+  //       return '../images/100-hikes-badge.png';
+  //       break; 
+  //     case (hikesCompleted > 50):
+  //       return '../images/50-hikes-badge.png';
+  //       break;
+  //     case (hikesCompleted > 25):
+  //       return '../images/25-hikes-badge.png';
+  //       break;
+  //     default:
+  //       return '../images/no-hikes-badge.png';
+  //   }
+  // }
 
-  getDistanceAward = (kmCompleted) => {
-    switch (true)
-    {
-      case (kmCompleted > 100000):
-        return '../images/100-hikes-badge.png.png';
-        break; 
-      case (kmCompleted > 50000):
-        return '../images/50-hikes-badge.png.png';
-        break;
-      case (kmCompleted > 25000):
-        return '../images/25-hikes-badge.png.png';
-        break;
-      default:
-        return '';
-    }
-  }
+  // getDistanceAward = (kmCompleted) => {
+  //   switch (true)
+  //   {
+  //     case (kmCompleted > 100000):
+  //       return '../images/100-kilometres-badge.png';
+  //       break; 
+  //     case (kmCompleted > 50000):
+  //       return '../images/50-kilometres-badge.png';
+  //       break;
+  //     case (kmCompleted > 25000):
+  //       return '../images/25-kilometres-badge.png';
+  //       break;
+  //     default:
+  //       return '../images/no-kms-badge.png';
+  //   }
+  // }
 
   render() {
     const  { navigation } = this.props;
@@ -135,28 +171,88 @@ class HomeScreen extends Component {
               style={styles.featuredHikeContainer} 
               onPress={() => navigation.navigate('HikeInfo', {item: this.state.featuredHike})}
             >
-              <Text style={styles.boardTextStyle}>Featured Hike</Text>
+              <Text style={styles.featuredTextStyle}>Featured Hike</Text>
               <View style={styles.featuredCenter}> 
                 <View style={styles.imageContainer}>
                   <Image style={styles.image} source={this.state.featuredHike.PhotoURL ? {uri: this.state.featuredHike.PhotoURL } : null}/>
                 </View>
                 <View style={styles.hikeDescription}>
-                  <Text style={styles.hikeDescription}>{this.state.featuredHike.Description}</Text>
+                  <Text style={styles.hikeText}>{this.state.featuredHike.ShortDescription}</Text>
                 </View>
-     
               </View>
               
             </TouchableOpacity>     
             
               <View style={styles.board}>
                 <Text style={styles.boardTextStyle}>Goals</Text>
+                <View style={styles.badgeContainer}>
+                  <View styles={styles.individualBadgeContainer}>
+                    <Text>Distance</Text>
+                    <Progress.Circle 
+                      style={styles.progressStyle} 
+                      progress={this.state.userProfile.DistanceProgress}
+                      size={60}
+                      color="#407F33"
+                      thickness={7}
+                      showsText={true}
+                      animated={false}
+                      textStyle={{fontSize: 17}}
+                      borderWidth={2}
+                    />
+                  </View>
+                  <View styles={styles.individualBadgeContainer}>
+                    <Progress.Circle 
+                      style={styles.progressStyle} 
+                      progress={this.state.userProfile.ElevationProgress} 
+                      size={60}
+                      color="#C98F39"
+                      thickness={7}
+                      showsText={true}
+                      animated={false}
+                      textStyle={{fontSize: 17}}
+                      borderWidth={2}
+                    />
+                  </View>
+                  <View styles={styles.individualBadgeContainer}>
+                    <Progress.Circle 
+                      style={styles.progressStyle} 
+                      progress={this.state.userProfile.HikeCountProgress} 
+                      size={60}
+                      color="#6F6035"
+                      thickness={7}
+                      showsText={true}
+                      animated={false}
+                      textStyle={{fontSize: 17}}
+                      borderWidth={2}
+                    />
+                  </View>
+                </View>
               </View>
               <View style={styles.board}>
-                <Text style={styles.boardTextStyle}>Awards</Text>
+                <Text style={styles.boardTextStyle}>Awards Earned</Text>
                 <View style={styles.badgeContainer}>
-                  <Image style={styles.badgeStyle} source={ require('../images/25-hikes-badge.png.png') }/>
-                  <Image style={styles.badgeStyle} source={ require('../images/50-kilometres-badge.png') }/>
-                  <Image style={styles.badgeStyle} source={ require('../images/100-hikes-badge.png.png') }/>
+                  <Image 
+                    style={styles.badgeStyle} 
+                    source={this.state.userProfile.DistanceHiked > 100000 ? require('../images/100-kilometres-badge.png'): 
+                    this.state.userProfile.DistanceHiked > 50000 ? require('../images/50-kilometres-badge.png'): 
+                    this.state.userProfile.DistanceHiked > 25000 ? require('../images/25-kilometres-badge.png'): 
+                    require('../images/no-kms-badge.png')}
+                  />
+                  <Image 
+                    style={styles.badgeStyle} 
+                    source={this.state.userProfile.ElevationClimbed > 20000 ? require('../images/20-km-elevation-badge.png'): 
+                    this.state.userProfile.ElevationClimbed > 10000 ? require('../images/10-km-elevation-badge.png'): 
+                    this.state.userProfile.ElevationClimbed > 5000 ? require('../images/5-km-elevation-badge.png'): 
+                    require('../images/no-elevation-badge.png')}
+                  />
+                  <Image 
+                    style={styles.badgeStyle} 
+                    source={this.state.userProfile.HikesCompleted > 100 ? require('../images/100-hikes-badge.png'): 
+                    this.state.userProfile.HikesCompleted > 50 ? require('../images/50-hikes-badge.png'): 
+                    this.state.userProfile.HikesCompleted > 25 ? require('../images/25-hikes-badge.png'): 
+                    require('../images/no-hikes-badge.png')}
+                  />
+
                 </View>
               </View>
           </View>
@@ -174,7 +270,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center', 
       backgroundColor: "#3C413E"   
-  },
+    },
     masterContainer: {
       flex: 1,
     },
@@ -194,12 +290,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#C98F39",
 
       },
-      buttonTextStyle: {
-        color: '#C9C8B9',
-        paddingVertical: 10,
-        fontSize: 16,
-      },
-      image: {
+    image: {
         width: "100%",
         height: "100%",
         // marginTop: 30,
@@ -207,51 +298,52 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
       width: "100%",
-      height: "50%",
+      height: 150,
       margin: 0,
     },
     board: {
       flex: 1,
         // width: 330,
         // height: "15%",
-        backgroundColor: '#679267',
+        backgroundColor: '#C9C8B9',
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 20,
-        borderRadius: 20,
-
     },
     boardTextStyle: {
         color: '#C9C8B9',
-        // paddingVertical: 10,
-        fontSize: 20,
-        textAlign: 'center',
+        backgroundColor: '#453D5F',
+        fontSize: 18,
+        paddingVertical: "2%",
+        fontWeight: 'bold',
+        paddingLeft: "5%",
       },
-
+    featuredTextStyle: {
+      color: '#C9C8B9',
+      backgroundColor: '#453D5F',
+      fontSize: 22,
+      textAlign: 'center',
+      paddingVertical: "2%",
+      fontWeight: 'bold',
+    },
     featuredHikeContainer: {
-      flex: 3,
-      // width: "95%",
-      // height: "50%",
-      backgroundColor: '#679267',
+      flex: 2,
+      backgroundColor: '#C9C8B9',
       marginLeft: 10,
       marginRight: 10,
       marginBottom: 20,
-      marginTop: "2%",
-      borderRadius: 20,
-      
+      marginTop: "2%",     
     },
-
     featuredCenter: {
       alignItems: "center",
       justifyContent: "center",
     },
-
     hikeDescription: {
-      color: '#C9C8B9',
-      fontSize: 16,
-      marginTop: 5,
+      margin: 5,
     },
-
+    hikeText: {
+      fontSize: 16,
+    },
     badgeStyle: {
       width: "30%",
       height: "90%",
@@ -260,6 +352,16 @@ const styles = StyleSheet.create({
     badgeContainer: {
       flex: 1,
       flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    progressStyle: {
+      marginHorizontal: 20,
+    },
+    individualBadgeContainer: {
+      flex: 1,
+      resizeMode: 'contain',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
     },

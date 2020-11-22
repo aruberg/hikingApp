@@ -12,6 +12,7 @@
   "dependencies": {
     "@firebase/app-types": "0.x",
     "@mapbox/mapbox-sdk": "^0.11.0",
+    "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-community/masked-view": "^0.1.10",
@@ -37,6 +38,7 @@
     "react-native-gesture-handler": "^1.8.0",
     "react-native-image-progress": "^1.1.1",
     "react-native-permissions": "^2.2.2",
+    "react-native-progress": "^4.1.2",
     "react-native-progress-bar": "^0.1.2",
     "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.13.1",
