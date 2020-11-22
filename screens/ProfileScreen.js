@@ -8,7 +8,7 @@ import {
   Alert
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { firebase } from '@react-native-firebase/firestore';
 
 function signOutUser() {
   auth()
@@ -32,25 +32,25 @@ class Profile extends Component{
 
     constructor(props){
         super(props);
-        this.getUser();
+        var clientId = firebase.auth().currentUser.uid;
+        this.getUser(clientId);
         this.subscriber = firestore().collection('Profiles')
-        .doc('ProfileTemplate').onSnapshot( doc => {
+        .doc(clientId).onSnapshot( doc => {
             this.setState({
                 user: {
                     DistanceHiked: doc.data().DistanceHiked,
                     ElevationClimbed: doc.data().ElevationClimbed,
-                    First: doc.data().First,
+                    FirstName: doc.data().FirstName,
                     HikesCompleted: doc.data().HikesCompleted,
-                    Last: doc.data().Last,
-                    Nickname: doc.data().Nickname
+                    LastName: doc.data().LastName,
                 }
             });
         })
     }
 
-    getUser = async() => {
+    getUser = async(cId) => {
         const userDocument = await firestore().collection('Profiles')
-            .doc('ProfileTemplate').get();
+            .doc(cId).get();
         console.log(userDocument);
     }
 
@@ -66,7 +66,7 @@ class Profile extends Component{
                 <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
                 <View style={styles.body}>
                     <View style={styles.bodyContent}>
-                        <Text style={styles.name}>Nickname: {this.state.user.Nickname}</Text>
+                        <Text style={styles.name}>{this.state.user.FirstName} {this.state.user.LastName}</Text>
                         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
                             <Text>Set a new goal </Text>
                         </TouchableOpacity>

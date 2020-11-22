@@ -45,18 +45,13 @@ class QRScreen extends Component {
         console.error(err)
     }
 
-    render(){
-        const previewStyle = {
-            height: 240,
-            width: 320,
-    }
-
      getUser = async() => {
          const userDocument = await firestore().collection('Profiles')
              .doc('ProfileTemplate').get();
          console.log(userDocument);
      }
 
+     // Used QR guide as reference https://www.npmjs.com/package/react-qr-scanner
     updateUser = async() => {
         let isMounted = true;
          const userDocument = await firestore().collection('Profiles')
@@ -70,10 +65,25 @@ class QRScreen extends Component {
              .doc('ProfileTemplate').update({HikesCompleted: this.state.myDetails.HikesCompleted + 1});
         return isMounted = false;
     }
+<<<<<<< HEAD
+=======
+
+    render() {
+        const previewStyle = {
+            height: 240,
+            width: 320,
+        };
+        
+>>>>>>> 32c68a3962920055e52bf0559640f992e57caa43
         return (
             <>
                 <View style={styles.background}>
-                    <QRCodeScanner  /> 
+                    <QRCodeScanner
+                        delay={this.state.delay}
+                        style={previewStyle}
+                        onError={this.handleError}
+                        onScan={this.handleScan}
+                    /> 
                 </View>
                 <View>
                     <TouchableOpacity
@@ -81,6 +91,9 @@ class QRScreen extends Component {
                     >
                         <Text>Write to Profile</Text>
                     </TouchableOpacity>
+                </View>
+                <View>
+                    <Text>{this.state.result}</Text>
                 </View>
             </>
         );

@@ -11,9 +11,12 @@ MapboxGL.setAccessToken(accessToken);
 const directionsClient = MapboxDirectionsFactory({accessToken});
 
 function ShowMap() {
+  const {item} = route.params;
 
-  const startingPoint = [-120.329369, 50.666869];
-  const destinationPoint = [-120.329947, 50.659692];
+  console.log(item)
+
+  const startingPoint = [3.3362400, 6.5790100];
+  const destinationPoint = [ 3.3750014, 6.5367877 ];
 
   const [route, setRoute] = useState(null);
 
@@ -86,6 +89,6 @@ function ShowMap() {
       </MapboxGL.MapView>
     </View>
   )
-};
+      }
 
 export default ShowMap;

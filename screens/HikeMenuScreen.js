@@ -51,8 +51,36 @@ const defaultStoragebucket = storage();
 function HikeMenuScreen({navigation}) {
   const [loading, setLoading] = useState(true); // Set Loading to true on component mount
   const [trails, setTrails] = useState([]); // Initial empty array of trails
-  const [data, setData] = useState([]);
-  const [filterTrails, setFilterTrails] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [search, setSearch] = useState('');
+
+  // Referenced https://aboutreact.com/react-native-search-bar-filter-on-listview/
+
+  // Search bar functionality
+  const searchFilterFunction = (searchText) => {
+    // Check if searched text is not blank
+    if (searchText) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = trails.filter(
+        function (item) {
+          // Applying filter for the inserted text in search bar
+          const itemData = item.TrailName
+              ? item.TrailName.toUpperCase()
+              : ''.toUpperCase();
+          const textData = searchText.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        }
+      );
+      setFilteredDataSource(newData);
+      setSearch(searchText);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(trails);
+      setSearch(searchText);
+    }
+  };
 
   useEffect(() => {
     const trailsCollection = firestore()
@@ -67,6 +95,7 @@ function HikeMenuScreen({navigation}) {
           });
         });
 
+        setFilteredDataSource(trails);
         setTrails(trails);
         setLoading(false);
       });
@@ -89,14 +118,15 @@ function HikeMenuScreen({navigation}) {
           <TextInput style={styles.inputs}
             useRef={'txtSearch'}
             placeholder="Search"
+            value={search}
             underlineColorAndroid='transparent'
-            //onChangeText={text => searchFilterFunction(text, trails)}
+            onChangeText={(text) => searchFilterFunction(text)}
           />
         </View>
       </View>
       <FlatList
-      style={styles.notificationList}
-        data={trails}
+        style={styles.notificationList}
+        data={filteredDataSource}
         renderItem={({ item }) => (
           <View>
             <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('HikeInfo', {item})}>
@@ -123,61 +153,6 @@ function HikeMenuScreen({navigation}) {
 };
 
 export default HikeMenuScreen;
-
-
-
-  //   <View style={styles.container}>
-  //   <View style={styles.formContent}>
-  //     <View style={styles.inputContainer}>
-  //       <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://png.icons8.com/search/androidL/100/000000'}}/>
-  //       <TextInput style={styles.inputs}
-  //         useRef={'txtSearch'}
-  //         placeholder="Search"
-  //         underlineColorAndroid='transparent'
-  //         onChangeText={(name_address) => this.setState({name_address})}/>
-  //     </View>
-
-  //   </View>
-
-  //   <FlatList 
-  //     style={styles.notificationList}
-  //     data={trails}
-  //     keyExtractor= {(item) => {
-  //       return item.id;
-  //     }}
-  //     renderItem={({item}) => {
-  //       return (
-  //         <TouchableOpacity style={[styles.card, {borderColor:item.color}]} onPress={() => {this.cardClickEventListener(item)}}>
-  //           <View style={styles.cardContent}>
-  //             <Image style={[styles.image, styles.imageContent]} source={{uri: item.icon}}/>
-  //             <Text style={styles.name}>{item.name}</Text>
-  //           </View>
-  //           <View style={[styles.cardContent, styles.tagsContent]}>
-  //             {/* {this.renderTags(item)} */}
-  //           </View>
-  //         </TouchableOpacity>
-  //       )
-  //     }}/>
-  // </View>
-
-// cardClickEventListener = (item) => {
-//   Alert.alert(item.TrailName);
-// }
-
-// tagClickEventListener = (tagName) => {
-//   Alert.alert(tagName);
-// }
-
-// renderTags = (item) =>{
-//   return item.tags.map((tag, key) => {
-//     return (
-//       <TouchableOpacity key={key} style={styles.btnColor} onPress={() => {this.tagClickEventListener(tag)}}>
-//         <Text>{tag}</Text>
-//       </TouchableOpacity> 
-//     );
-//   })
-// }
-
 
 const styles = StyleSheet.create({
   backgroundImage: {
