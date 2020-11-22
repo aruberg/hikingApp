@@ -70,12 +70,6 @@ class QRScreen extends Component {
              .doc('ProfileTemplate').update({HikesCompleted: this.state.myDetails.HikesCompleted + 1});
         return isMounted = false;
     }
-
-    onSuccessfulQRScan() {
-
-    }
-
-    render() {
         return (
             <>
                 <View style={styles.background}>

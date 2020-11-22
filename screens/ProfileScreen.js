@@ -68,7 +68,7 @@ class Profile extends Component{
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>Nickname: {this.state.user.Nickname}</Text>
                         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
-                            <Text>Hikes Completed </Text>
+                            <Text>Set a new goal </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
                             <Text>Goals</Text>
