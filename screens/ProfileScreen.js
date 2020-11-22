@@ -90,10 +90,20 @@ class Profile extends Component{
                       <TouchableOpacity style={styles.signOutButton} onPress={() => signOutUser()}>
                           <Text>Sign Out</Text>
                       </TouchableOpacity>
+                <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+                <View style={styles.body}>
+                    <View style={styles.bodyContent}>
+                        <Text style={styles.name}>{this.state.user.FirstName} {this.state.user.LastName}</Text>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
+                            <Text>Set a new goal </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
+                            <Text>Goals</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                
+              </View> 
             </View>
-
           </ImageBackground>
           
         );

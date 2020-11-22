@@ -10,6 +10,8 @@ target 'hikingApp' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'react-native-progress-bar-android', :path => '../node_modules/@react-native-community/progress-bar-android'
+
   target 'hikingAppTests' do
     inherit! :complete
     # Pods for testing
