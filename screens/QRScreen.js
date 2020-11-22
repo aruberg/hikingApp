@@ -70,6 +70,10 @@ class QRScreen extends Component {
         return isMounted = false;
     }
     render() {
+        const previewStyle = {
+            height: 240,
+            width: 320,
+        };
         return (
             <>
                 <View style={styles.background}>

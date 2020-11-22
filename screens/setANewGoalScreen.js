@@ -15,7 +15,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { StackRouter } from 'react-navigation';
-import hike1 from '../images/hike1.jpg';
+//import hike1 from '../images/hike1.jpg';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { back } from 'react-native/Libraries/Animated/src/Easing';
