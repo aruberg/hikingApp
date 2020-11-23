@@ -60,7 +60,7 @@ function ProfileStack() {
             }}
         >
             <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }}/>
-            <Stack.Screen name="Goal" component={GoalScreen} options={{ title: 'Goals' }}/> 
+            <Stack.Screen name="Goals" component={GoalScreen} options={{ title: 'Goals' }}/> 
             <Stack.Screen name="SetANewGoal" component={SetANewGoalScreen} options={{ title: 'Set Goals' }}/> 
         </Stack.Navigator>
     )

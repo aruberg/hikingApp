@@ -44,8 +44,8 @@ class HomeScreen extends Component {
       HikesCompleted: 0,
       DistanceGoal: 0,
       ElevationGoal: 0,
-      NumHikesGoal: 0,
-      DaysToCompleteGoal: 0,
+      HikeCountGoal: 0,
+      DaysToComplete: 0,
     },
 
   }
@@ -81,13 +81,13 @@ class HomeScreen extends Component {
                 DistanceHiked: doc.data().DistanceHiked,
                 ElevationClimbed: doc.data().ElevationClimbed,
                 HikesCompleted: doc.data().HikesCompleted,
-                DistanceGoal: doc.data().Goals[0],
-                ElevationGoal: doc.data().Goals[1],
-                NumHikesGoal: doc.data().Goals[2],
-                DaysToCompleteGoal: doc.data().Goals[3],
-                DistanceProgress: doc.data().DistanceHiked / doc.data().Goals[0],
-                ElevationProgress: doc.data().ElevationClimbed / doc.data().Goals[1],
-                HikeCountProgress: doc.data().HikesCompleted / doc.data().Goals[2],
+                DistanceGoal: doc.data().DistanceGoal,
+                ElevationGoal: doc.data().ElevationGoal,
+                HikeCountGoal: doc.data().HikeCountGoal,
+                DaysToComplete: doc.data().DaysToComplete,
+                DistanceProgress: doc.data().DistanceHiked / doc.data().DistanceGoal,
+                ElevationProgress: doc.data().ElevationClimbed / doc.data().ElevationGoal,
+                HikeCountProgress: doc.data().HikesCompleted / doc.data().HikeCountGoal,
             }
         });
     })
@@ -95,8 +95,10 @@ class HomeScreen extends Component {
   }
 
   getUser = async(cId) => {
-    const userDocument = await firestore().collection('Profiles')
-        .doc(cId).get();
+    let isMounted = true;
+      const userDocument = await firestore().collection('Profiles')
+          .doc(cId).get();
+    isMounted = false;
 }
 
 
@@ -187,7 +189,6 @@ class HomeScreen extends Component {
                 <Text style={styles.boardTextStyle}>Goals</Text>
                 <View style={styles.badgeContainer}>
                   <View styles={styles.individualBadgeContainer}>
-                    <Text>Distance</Text>
                     <Progress.Circle 
                       style={styles.progressStyle} 
                       progress={this.state.userProfile.DistanceProgress}
@@ -196,9 +197,10 @@ class HomeScreen extends Component {
                       thickness={7}
                       showsText={true}
                       animated={false}
-                      textStyle={{fontSize: 17}}
+                      textStyle={[{fontSize: 17}, {fontWeight: 'bold'}]}
                       borderWidth={2}
                     />
+                    <Text style={[styles.goalLabel, styles.goalLabelColour]}>Of Distance Goal</Text>
                   </View>
                   <View styles={styles.individualBadgeContainer}>
                     <Progress.Circle 
@@ -209,9 +211,10 @@ class HomeScreen extends Component {
                       thickness={7}
                       showsText={true}
                       animated={false}
-                      textStyle={{fontSize: 17}}
+                      textStyle={[{fontSize: 17}, {fontWeight: 'bold'}]}
                       borderWidth={2}
                     />
+                    <Text style={[styles.goalLabel, styles.elevationLabelColour]}>Of Elevation Goal</Text>
                   </View>
                   <View styles={styles.individualBadgeContainer}>
                     <Progress.Circle 
@@ -222,9 +225,13 @@ class HomeScreen extends Component {
                       thickness={7}
                       showsText={true}
                       animated={false}
-                      textStyle={{fontSize: 17}}
+                      textStyle={[{fontSize: 17}, {fontWeight: 'bold'}]}
                       borderWidth={2}
+                      justifyContent={'center'}
+                      //alignItems={'center'}
+                      //textAlign={'center'}
                     />
+                    <Text style={[styles.goalLabel, styles.hikesLabelColour]}>Of Hike Count Goal</Text>
                   </View>
                 </View>
               </View>
@@ -236,21 +243,21 @@ class HomeScreen extends Component {
                     source={this.state.userProfile.DistanceHiked > 100000 ? require('../images/100-kilometres-badge.png'): 
                     this.state.userProfile.DistanceHiked > 50000 ? require('../images/50-kilometres-badge.png'): 
                     this.state.userProfile.DistanceHiked > 25000 ? require('../images/25-kilometres-badge.png'): 
-                    require('../images/no-kms-badge.png')}
+                    require('../images/0-distance-badge.png')}
                   />
                   <Image 
                     style={styles.badgeStyle} 
                     source={this.state.userProfile.ElevationClimbed > 20000 ? require('../images/20-km-elevation-badge.png'): 
                     this.state.userProfile.ElevationClimbed > 10000 ? require('../images/10-km-elevation-badge.png'): 
                     this.state.userProfile.ElevationClimbed > 5000 ? require('../images/5-km-elevation-badge.png'): 
-                    require('../images/no-elevation-badge.png')}
+                    require('../images/0-elevation-badge.png')}
                   />
                   <Image 
                     style={styles.badgeStyle} 
                     source={this.state.userProfile.HikesCompleted > 100 ? require('../images/100-hikes-badge.png'): 
                     this.state.userProfile.HikesCompleted > 50 ? require('../images/50-hikes-badge.png'): 
                     this.state.userProfile.HikesCompleted > 25 ? require('../images/25-hikes-badge.png'): 
-                    require('../images/no-hikes-badge.png')}
+                    require('../images/0-distance-badge.png')}
                   />
 
                 </View>
@@ -356,7 +363,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     progressStyle: {
-      marginHorizontal: 20,
+      marginLeft: 35,
     },
     individualBadgeContainer: {
       flex: 1,
@@ -364,5 +371,22 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      marginHorizontal: 10,
+      textAlign: 'center',
     },
+    goalLabel: {
+      marginHorizontal: 5,
+    },
+    goalLabelColour: {
+      color: "#407F33",
+      fontWeight: 'bold',
+    },
+    elevationLabelColour: {
+      color: "#C98F39",
+      fontWeight: 'bold',
+    },
+    hikesLabelColour: {
+      color: "#6F6035",
+      fontWeight: 'bold',
+    }
 });

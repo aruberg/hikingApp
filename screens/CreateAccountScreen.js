@@ -28,7 +28,10 @@ function createNewUser(email, password, first, last) {
                 DistanceHiked: 0,
                 ElevationClimbed: 0,
                 HikesCompleted: 0,
-                Goals: [25000, 5000, 25, 30], 
+                DaysToComplete: 30,
+                DistanceGoal: 25000,
+                ElevationGoal: 5000,
+                HikeCountGoal: 25, 
             })
          })
     .catch(error => {

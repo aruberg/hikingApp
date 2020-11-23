@@ -39,7 +39,6 @@
     "react-native-image-progress": "^1.1.1",
     "react-native-permissions": "^2.2.2",
     "react-native-progress": "^4.1.2",
-    "react-native-progress-bar": "^0.1.2",
     "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
