@@ -29,13 +29,13 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
   class GoalScreen extends Component {
     state = {
         myGoals: {
-            DistanceHiked: 0,
-            ElevationClimbed: 0,
-            HikesCompleted: 0,
-            Goals: [],
-            Distance: 0,
-            Elevation: 0,
-            DaysToComplete: 0,
+          DistanceHiked:0,
+          ElevationClimbed: 0,
+          HikesCompleted: 0,
+          DistanceGoal:0,
+          ElevationGoal: 0,
+          HikeCountGoal: 0,
+          DaysToComplete: 0,
         }
     }
 
@@ -48,14 +48,13 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
       .doc(clientId).onSnapshot( doc => {
           this.setState({
               myGoals: {
-                  DistanceHiked: doc.data().DistanceHiked,
-                  ElevationClimbed: doc.data().ElevationClimbed,
-                  HikesCompleted: doc.data().HikesCompleted,
-                  Goals: doc.data().Goals,
-                  Distance: doc.data().Goals[0],
-                  Elevation: doc.data().Goals[1],
-                  NumHikes: doc.data().Goals[2],
-                  DaysToComplete: doc.data().Goals[3],
+                DistanceHiked: parseInt(doc.data().DistanceHiked),
+                ElevationClimbed: parseInt(doc.data().ElevationClimbed),
+                HikesCompleted: parseInt(doc.data().HikesCompleted),
+                DistanceGoal: parseInt(doc.data().DistanceGoal),
+                ElevationGoal: parseInt(doc.data().ElevationGoal),
+                HikeCountGoal: parseInt(doc.data().HikeCountGoal),
+                DaysToComplete: parseInt(doc.data().DaysToComplete),
               }
           });
       })
@@ -90,9 +89,9 @@ render() {
                     <ProgressBar style={styles.progressBar}
                     styleAttr="Horizontal"
                     indeterminate={false}
-                    progress={(parseInt(this.state.myGoals.Distance))/ 100}
+                    progress={(parseInt(this.state.myGoals.DistanceGoal))/ 100}
                     />
-                    <Text>{(parseInt(this.state.myGoals.Distance))} Km</Text>
+                    <Text>{(parseInt(this.state.myGoals.DistanceGoal))} Km</Text>
                 </View>
                 <View style={styles.iconContainer}>
                     <Image style={styles.icon} source={{uri: "https://cdn0.iconfinder.com/data/icons/travel-37/94/mountain-512.png"}} />
@@ -100,9 +99,9 @@ render() {
                     <ProgressBar style={styles.progressBar}
                     styleAttr="Horizontal"
                     indeterminate={false}
-                    progress={(parseInt(this.state.myGoals.Elevation))/ 100}
+                    progress={(parseInt(this.state.myGoals.ElevationGoal))/ 100}
                     />
-                      <Text>{(parseInt(this.state.myGoals.Elevation))} </Text>
+                      <Text>{(parseInt(this.state.myGoals.ElevationGoal))} </Text>
                 </View>
                 
                 <View style={styles.iconContainer}>
@@ -118,7 +117,7 @@ render() {
                 <View style={styles.iconContainer}>
                     <Image style={styles.icon} source={{uri: "https://static.thenounproject.com/png/204712-200.png"}} />
                     <Text>Hikes:</Text>
-                    <Text>{parseInt(this.state.myGoals.NumHikes)}</Text>
+                    <Text>{parseInt(this.state.myGoals.HikeCountGoal)}</Text>
                     
                 </View>
                 
