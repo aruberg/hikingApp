@@ -29,44 +29,46 @@ export default class setANewGoal extends Component {
             newTaskName: '',
             loading: false,           
         });     
-        this.ref = firebase.firestore().collection('Profiles');
-    }
-    componentDidMount() {
-        this.unsubscribe = this.ref.onSnapshot((querySnapshot) => {
-            const Goals = [];
-            querySnapshot.forEach((doc) => {
-                Goals.push({
-                    Goals: doc.data().Goals,
-                    Distance: doc.data().Goals[0],
-                    Elevation: doc.data().Goals[1],
-                    NumHikes: doc.data().Goals[2],
-                    DaysToComplete: doc.data().Goals[3],
-                });
-            });
-            this.setState({
-                Goals: Goals.sort((a, b) => {
-                    return (a.Goals < b.Goals);
-                }),
-                loading: false,
-            });
+        
+
+      var clientId = firebase.auth().currentUser.uid;
+      this.ref = firebase.firestore().collection('Profiles').doc(clientId);
+      this.getUser(clientId);
+      this.subscriber2 = firestore().collection('Profiles')
+      .doc(clientId).onSnapshot( doc => {
+        this.setState({
+            userProfile: {
+                DistanceHiked: parseInt(doc.data().DistanceHiked),
+                ElevationClimbed: parseInt(doc.data().ElevationClimbed),
+                HikesCompleted: parseInt(doc.data().HikesCompleted),
+                DistanceGoal: parseInt(doc.data().DistanceGoal),
+                ElevationGoal: parseInt(doc.data().ElevationGoal),
+                HikeCountGoal: parseInt(doc.data().HikeCountGoal),
+                DaysToComplete: parseInt(doc.data().DaysToComplete),
+            }
         });
+    })
+
+
     }
+    getUser = async(cId) => {
+      const userDocument = await firestore().collection('Profiles')
+          .doc(cId).get();
+  }
     onPressAdd = () => {
         if(this.state === '') {
             alert('task name is blank');
             return;
         }
-        this.ref.add({
-            Goals: this.state.Goals,
-            Distance: this.state.Goals[0],
-            Elevation: this.state.Goals[1],
-            NumHikes: this.state.Goals[2],
-            DaysToComplete: this.state.Goals[3],
+        this.ref.update({
+            DistanceGoal: this.state.DistanceGoal,
+            ElevationGoal: this.state.ElevationGoal,
+            HikeCountGoal: this.state.HikeCountGoal,
+            DaysToComplete: this.state.DaysToComplete,
 
         }).then((data) => {
             console.log(`added data = ${data}`);
             this.setState({
-                Goals: '',
                 Distance:'',
                 Elevation:'',
                 NumHikes:'',
@@ -76,7 +78,7 @@ export default class setANewGoal extends Component {
         }).catch((error) => {
             console.log(`error adding Firestore document = ${error}`);
             this.setState({
-                Goals: '',
+
                 Distance:'',
                 Elevation:'',
                 NumHikes:'',
@@ -99,12 +101,12 @@ export default class setANewGoal extends Component {
                  <Text style = {styles.TextStyle} >Distance: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
-                    placeholder = "in Km "
+                    placeholder = "in km "
                     placeholderTextColor = "#453D5F"
                     autoCapitalize = "none"
                     onChangeText={e => {
                      this.setState({
-                       Distance: e,
+                      DistanceGoal: (parseInt(e) * 1000)
                      });
                      }
                  }/>
@@ -114,12 +116,12 @@ export default class setANewGoal extends Component {
                  <Text style = {styles.TextStyle} >Elevation: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
-                    placeholder = "0.0 "
+                    placeholder = "in km "
                     placeholderTextColor = "#453D5F"
                     autoCapitalize = "none"
                     onChangeText={e => {
                      this.setState({
-                       Elevation: e,
+                       ElevationGoal: (parseInt(e) * 1000)
                      });
                      }
                  }/>
@@ -134,7 +136,7 @@ export default class setANewGoal extends Component {
                     autoCapitalize = "none"
                     onChangeText={e => {
                      this.setState({
-                       NumHikes: e,
+                       HikeCountGoal: parseInt(e),
                      });
                      }
                  }/>
@@ -149,7 +151,7 @@ export default class setANewGoal extends Component {
                     autoCapitalize = "none"
                     onChangeText={e => {
                      this.setState({
-                       DaysToComplete: e,
+                       DaysToComplete: parseInt(e),
                      });
                      }
                  }/>
