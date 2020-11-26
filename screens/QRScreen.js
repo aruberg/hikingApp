@@ -1,3 +1,7 @@
+/*
+* The QRScreen features a QR scanner that the user can use to scan QR codes on their hikes. This screen
+* gives functionality to the geocaching/scavenger hunt component of the app.
+*/
 import React, {Component} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import QRCodeScanner from '../components/QRCodeScanner';
@@ -9,6 +13,7 @@ import auth from '@react-native-firebase/auth';
 class QRScreen extends Component {
     
     state = {
+        // Declare/initialize state
         myDetails: {
             DistanceHiked: 0,
             ElevationClimbed: 0,
@@ -20,6 +25,7 @@ class QRScreen extends Component {
 
     constructor(props){
         super(props);
+        // Get user's hiking information from Profiles collection in FireStore
         var clientId = firebase.auth().currentUser.uid;
         this.getUser(clientId);
         this.subscriber = firestore().collection('Profiles')
@@ -62,6 +68,7 @@ class QRScreen extends Component {
         return isMounted = false;
     }
 
+    // Increments the number of hikes completed 
     updateHikesCompleted = async() => {
         let isMounted = true;
         var clientId = firebase.auth().currentUser.uid;

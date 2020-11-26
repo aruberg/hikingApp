@@ -1,4 +1,7 @@
-
+/*
+* The LoginScreen is used to log a user in once they have created an account. To login, the user enters
+* their email address and password.
+*/
 import React, {Component, Button, useState, useEffect } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
 import { 
@@ -9,14 +12,14 @@ import {
     TouchableOpacity, 
     ImageBackground,
 } from 'react-native';
-
 import logo from '../images/logo.png';
-import background from '../images/background.jpg';
 import auth from '@react-native-firebase/auth';
 
+// Function to sign in user on button press
 function signInUser(email, password) {
     auth()
         .signInWithEmailAndPassword(email, password)
+        // Error checking
         .then(() => {
             console.log('User account created & signed in!');
          })
@@ -38,54 +41,58 @@ function LoginScreen({navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-        return (
-            <>
-
-                    <ImageBackground 
-                        source={ require('../images/background.jpg') }
-                        resizeMode='cover' 
-                        style={styles.backgroundImage}
-                        imageStyle={{opacity: 0.2}}
-                        >
-                            <View style={styles.logoContainer}>
-                                <Image source={logo} style={styles.image} />
-                            </View>
-                            <View style={styles.userInput}>
-                                <TextInput
-                                    style={styles.inputText}
-                                    placeholder="Email address"
-                                    placeholderTextColor="#fff"
-                                    onChangeText={
-                                        text => setEmail(text)
-                                    }
-                                />       
-                            </View>
-                            <View style={styles.userInput}>
-                                <TextInput
-                                    style={styles.inputText}
-                                    placeholder="Password"
-                                    placeholderTextColor="#fff"
-                                    secureTextEntry={true}
-                                    onChangeText={
-                                        text => setPassword(text)
-                                    }
-                                />       
-                            </View>
-                            <TouchableOpacity style={styles.loginButton} onPress={() => signInUser(email, password)}>
-                                <Text style={styles.loginText}>Login</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Text style={styles.forgotPassword}>Forgot Password</Text>
-                            </TouchableOpacity>
-                            <View style={styles.googleContainer}>
-                            </View>
-                            <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('SignUp')}>
-                                <Text style={styles.signUpText}>Create Account</Text>
-                            </TouchableOpacity>
-                    </ImageBackground>
-
-            </>       
-        );
+    return (
+        <>
+            <ImageBackground 
+                source={ require('../images/background.jpg') }
+                resizeMode='cover' 
+                style={styles.backgroundImage}
+                imageStyle={{opacity: 0.2}}
+                >
+                    {/* Logo image */}
+                    <View style={styles.logoContainer}>
+                        <Image source={logo} style={styles.image} />
+                    </View>                       
+                    {/* Email address */}
+                    <View style={styles.userInput}>
+                        <TextInput
+                            style={styles.inputText}
+                            placeholder="Email address"
+                            placeholderTextColor="#fff"
+                            onChangeText={
+                                text => setEmail(text)
+                            }
+                        />       
+                    </View>
+                    {/* Password */}
+                    <View style={styles.userInput}>
+                        <TextInput
+                            style={styles.inputText}
+                            placeholder="Password"
+                            placeholderTextColor="#fff"
+                            secureTextEntry={true}
+                            onChangeText={
+                                text => setPassword(text)
+                            }
+                        />       
+                    </View>
+                    {/* Login button */}
+                    <TouchableOpacity style={styles.loginButton} onPress={() => signInUser(email, password)}>
+                        <Text style={styles.loginText}>Login</Text>
+                    </TouchableOpacity>
+                    {/* Forgot password button */}
+                    <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+                        <Text style={styles.forgotPassword}>Forgot Password</Text>
+                    </TouchableOpacity>
+                    <View style={styles.googleContainer}>
+                    </View>
+                    {/* Sign up button */}
+                    <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={styles.signUpText}>Create Account</Text>
+                    </TouchableOpacity>
+            </ImageBackground>
+        </>       
+    );
 }
 
 export default LoginScreen;
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
     image: {
         resizeMode: "contain"
     },
-
+    
     userInput: {
         width: "70%",
         backgroundColor: "#6F6035",

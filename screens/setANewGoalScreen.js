@@ -15,7 +15,6 @@ import {
   ImageBackground
 } from 'react-native';
 import { StackRouter } from 'react-navigation';
-//import hike1 from '../images/hike1.jpg';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { back } from 'react-native/Libraries/Animated/src/Easing';
@@ -172,32 +171,32 @@ export default class setANewGoal extends Component {
      }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#3C413E',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    inputContainer:{
-    borderBottomColor: '#453D5F',
-    backgroundColor: '#BECEB4',
-    borderRadius:30,
-    borderBottomWidth: 1,
-    width:300,
-    height:45,
-    marginBottom:20,
-    flexDirection: 'row',
-    alignItems:'center',
+  container: {
+      flex: 1,
+      backgroundColor: '#3C413E',
+      justifyContent: 'center',
+      alignItems: 'center',
+  },
+  inputContainer:{
+  borderBottomColor: '#453D5F',
+  backgroundColor: '#BECEB4',
+  borderRadius:30,
+  borderBottomWidth: 1,
+  width:300,
+  height:45,
+  marginBottom:20,
+  flexDirection: 'row',
+  alignItems:'center',
 
-    shadowColor: "#808080",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+  shadowColor: "#808080",
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
 
-    elevation: 5,
+  elevation: 5,
   },
   inputs:{
     height:45,
@@ -215,39 +214,36 @@ const styles = StyleSheet.create({
     borderRadius:30,
     backgroundColor:'transparent'
   },
-    submitButton: {
-        backgroundColor: '#C98F39',
-        borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#C98F39',
-        height: 60,
-        width: 150,
+  submitButton: {
+      backgroundColor: '#C98F39',
+      borderWidth: 0,
+      color: '#FFFFFF',
+      borderColor: '#C98F39',
+      height: 60,
+      width: 150,
+      alignItems: 'center',
+      borderRadius: 30,
+      marginLeft: 10,
+      marginRight: 10,
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    buttonTextStyle: {
+      color: '#C9C8B9',
+      paddingVertical:10,
+      fontSize: 25,
+    },
+      TextStyle: {
+      color: '#453D5F',
+      paddingVertical:10,
+      fontSize: 16,
+      margin: 20,
+    },
+    backgroundImage: {
+        width: "100%",
+        flex: 1,
+        backgroundColor: '#3C413E',
+        justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 20,
-        marginBottom: 20,
-
-      },
-      buttonTextStyle: {
-        color: '#C9C8B9',
-        paddingVertical:10,
-        fontSize: 25,
-
-      },
-       TextStyle: {
-        color: '#453D5F',
-        paddingVertical:10,
-        fontSize: 16,
-        margin: 20,
-      },
-      backgroundImage: {
-         width: "100%",
-         flex: 1,
-         backgroundColor: '#3C413E',
-         justifyContent: 'center',
-         alignItems: 'center',
-     },
-
-     })
+    },
+})
