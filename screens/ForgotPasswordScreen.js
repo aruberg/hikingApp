@@ -19,65 +19,16 @@ import { initialWindowMetrics } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 
-// On button click, create new user in Firestore
-// function createNewUser(email, password, first, last) {
-//     auth()
-//         .createUserWithEmailAndPassword(email, password)
-//         .then(() => {
-//             var clientId = firebase.auth().currentUser.uid;
-//             console.log(clientId);
-//             // Add user to Firestore and populate fields
-//             firebase.firestore().collection('Profiles').doc(clientId).set({
-//                 FirstName: first,
-//                 LastName: last,
-//                 DistanceHiked: 0,
-//                 ElevationClimbed: 0,
-//                 HikesCompleted: 0,
-//                 DaysToComplete: 30,
-//                 DistanceGoal: 25000,
-//                 ElevationGoal: 5000,
-//                 HikeCountGoal: 25, 
-//             })
-//          })
-//     .catch(error => {
-//         if (error.code === 'auth/email-already-in-use') {
-//             console.log('That email address is already in use!');
-//         }
 
-//         if (error.code === 'auth/invalid-email') {
-//             console.log('That email address is invalid!');
-//         }
+class ForgotPasswordScreen extends Component {
 
-//     console.error(error);
-//   });
-// }
+    constructor(props){
+        super(props);
+        this.state = {email: ""};
+    }
 
-
-function ForgotPasswordScreen({navigation})  {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    // Reset password functions
-    passwordReset(() => {
-        return firebase.auth().sendPasswordResetEmail(email)
-    })
-
-    handlePasswordReset = async (values, actions) => {
-        const { email } = values;
-      
-        try {
-          await this.props.firebase.passwordReset(email);
-          console.log('Password reset email sent successfully');
-          navigation.navigate('Login');
-        } catch (error) {
-          actions.setFieldError('general', error.message);
-        }
-      };
-      
-    
+ 
+  render() {
     return (
         <>
             <ImageBackground 
@@ -100,16 +51,14 @@ function ForgotPasswordScreen({navigation})  {
                             placeholder="Enter email"
                             placeholderTextColor="#fff"
                             onChangeText={
-                                text => setEmail(text)
+                                text => this.state.email
                             }
                         />       
                     </View>    
                     {/* Send Email button */}
                     <TouchableOpacity 
                         style={styles.signUpButton} 
-                        onSubmit={(values, actions) => {
-                            this.handlePasswordReset(values, actions)
-                        }}
+                        onPress={() => firebase.auth().sendPasswordResetEmail(this.state.email)}
                     >
                         <Text style={styles.signUpText}>Send Email</Text>
                     </TouchableOpacity>
@@ -118,6 +67,7 @@ function ForgotPasswordScreen({navigation})  {
 
         </>       
     );
+  }
     
 }
 
