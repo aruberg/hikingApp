@@ -19,16 +19,36 @@ import { initialWindowMetrics } from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 
+function ForgotPasswordScreen({navigation}) {
+    const [email, setEmail] = useState('');
 
-class ForgotPasswordScreen extends Component {
+    // Function to send user an email 
+    // Reference: https://stackoverflow.com/questions/54515444/how-to-reset-firebase-auth-password-in-react-native
+    const forgotPassword = (email) => {
+        auth()
+            // Check to see if the email exists in firebase
+            .fetchSignInMethodsForEmail(email)
+                .then(() => {
+                    console.log('Valid email entered')
+                })
+                // if email address is invalid
+                .catch(error => {
+                    alert('Please enter a valid email address')
+                    // exit function
+                    //return;
+                })
 
-    constructor(props){
-        super(props);
-        this.state = {email: ""};
-    }
+            // Otherwise, send reset email
+            .sendPasswordResetEmail(email)
+                .then(() => {
+                    alert('Please check your() email to reset your password...')
+                }).catch(error => {
+                    console.log('ERROR: Email not sent');   
+                })
+    
+        navigation.navigate('Login');
+      }
 
- 
-  render() {
     return (
         <>
             <ImageBackground 
@@ -51,26 +71,23 @@ class ForgotPasswordScreen extends Component {
                             placeholder="Enter email"
                             placeholderTextColor="#fff"
                             onChangeText={
-                                text => this.state.email
+                                text => setEmail(text)
                             }
                         />       
                     </View>    
                     {/* Send Email button */}
                     <TouchableOpacity 
                         style={styles.signUpButton} 
-                        onPress={() => firebase.auth().sendPasswordResetEmail(this.state.email)}
+                        onPress={() => forgotPassword(email)}
                     >
                         <Text style={styles.signUpText}>Send Email</Text>
                     </TouchableOpacity>
             </ImageBackground>
             
-
         </>       
     );
   }
     
-}
-
 export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
