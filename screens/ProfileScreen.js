@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
@@ -75,6 +76,7 @@ class Profile extends Component{
           style={styles.backgroundImage}
           imageStyle={{opacity: 0.2}}
           >
+            <ScrollView>
             {/* Header */}
             <View style={styles.header}>
               <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
@@ -90,12 +92,12 @@ class Profile extends Component{
               <View style={styles.featuredCenter}> 
                 <View style={styles.imageContainer}>
                   <View style={styles.statsView}>
-                    <Icon name="hiking" size={40} color={'#6F6035'} />
+                    <Icon name="hiking" size={40} color={'#407F33'} />
                     <Text style={styles.statTextLabel}>Distance Hiked</Text>
                     <Text style={styles.statisticsTextStyle}>{(this.state.user.DistanceHiked)/1000} km</Text>
                   </View>
                   <View style={styles.statsView}>
-                    <Icon name="mountain" size={40} color={'#6F6035'} />
+                    <Icon name="mountain" size={40} color={'#C98F39'} />
                     <Text style={styles.statTextLabel}>Elevation Climbed</Text>
                     <Text style={styles.statisticsTextStyle}>{this.state.user.ElevationClimbed} m</Text>
                   </View>
@@ -108,19 +110,16 @@ class Profile extends Component{
               </View>
 
               {/* Goals */}
-              <TouchableOpacity 
-              style={styles.board} 
-              onPress={() => navigation.navigate('Goals')}
-              >              
+              <View style={styles.goalsBoard}>              
                 <Text style={styles.boardTextStyle}>Goals</Text>
                 <View style={styles.badgeContainer}>
                   <View style={styles.individualBadgeContainer}>
-                    <Icon name="route" size={40} color={'#6F6035'} />
+                    <Icon name="route" size={40} color={'#407F33'} />
                     <Text>Distance Goal</Text>
                     <Text style={styles.statisticsTextStyle}>{this.state.user.DistanceGoal/1000} km</Text>
                   </View>
                   <View style={styles.individualBadgeContainer}>
-                    <Icon name="chart-area" size={40} color={'#6F6035'} />
+                    <Icon name="chart-area" size={40} color={'#C98F39'} />
                     <Text>Elevation Goal</Text>
                     <Text style={styles.statisticsTextStyle}>{this.state.user.ElevationGoal} m</Text>
                   </View>
@@ -130,7 +129,10 @@ class Profile extends Component{
                     <Text style={styles.statisticsTextStyle}>{this.state.user.HikeCountGoal} Trails</Text>
                   </View>
                 </View>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.shareButton} onPress={() => navigation.navigate('Goals')}>
+                  <Text style={styles.shareButtonText}>Set Goals</Text>  
+                </TouchableOpacity>
+              </View>
                
               {/* Awards */}
               <View style={styles.board}>
@@ -159,19 +161,7 @@ class Profile extends Component{
                     />
                   </View>
                 </View>
-       
-
-
-                          
-                    <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('SetANewGoal')}>
-                          <Text>Hikes Completed </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Goal')}>
-                          <Text>Goals</Text>
-                      </TouchableOpacity>
-
-
-          
+              </ScrollView>
           </ImageBackground>
 
           
@@ -287,11 +277,10 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flexDirection: 'row',
-    width: "98%",
+    marginHorizontal: '2%',
     justifyContent: 'center',
     alignItems: 'center',
     height: 150,
-    margin: 0,
     marginBottom: 10,
     backgroundColor: '#C9C8B9',
   },
@@ -314,12 +303,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   board: {
-    //flex: 1,
+      flex: 1,
       // width: 330,
       height: 150,
       backgroundColor: '#C9C8B9',
       margin: "2%",
+      marginBottom: 20,
   },
+  goalsBoard: {
+    // width: 330,
+    height: 250,
+    backgroundColor: '#C9C8B9',
+    margin: "2%",
+},
   boardTextStyle: {
       color: '#C9C8B9',
       backgroundColor: '#453D5F',
@@ -342,5 +338,18 @@ const styles = StyleSheet.create({
       borderStyle: "solid",
       borderWidth: 3.25,
       borderColor: '#3C413E'
+    },
+    shareButton: {
+      marginTop:"7%",
+      marginBottom: "5%",
+      height:45,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius:10,
+      backgroundColor: '#6F6035',
+      marginHorizontal: '10%',
+    },
+    shareButtonText: {
+      color: '#C9C8B9',
     },
 });

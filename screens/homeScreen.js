@@ -5,7 +5,7 @@
 * Furthermore, it calculates and displays awards earned for achieving hiking goals and milestones.
 */
 import React, {Component, useState, useEffect} from 'react';
-import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity, Alert, ImageBackground } from 'react-native';
+import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity, Alert, ImageBackground, ScrollView } from 'react-native';
 import { block } from 'react-native-reanimated';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -110,6 +110,7 @@ class HomeScreen extends Component {
         imageStyle={{opacity: 0.2}}
         >
           <View style={styles.masterContainer}> 
+          <ScrollView>
           {/* Featured hike container/button */}
             <TouchableOpacity 
               style={styles.featuredHikeContainer} 
@@ -210,6 +211,7 @@ class HomeScreen extends Component {
                   />
                 </View>
               </View>
+              </ScrollView>
           </View>
         </ImageBackground>
       );
@@ -310,7 +312,7 @@ const styles = StyleSheet.create({
 
     badgeStyle: {
       width: "30%",
-      height: "90%",
+      height: 150,
       resizeMode: 'contain',
     },
 
@@ -323,6 +325,7 @@ const styles = StyleSheet.create({
 
     progressStyle: {
       marginLeft: 35,
+      marginVertical: "5%",
     },
 
     individualBadgeContainer: {

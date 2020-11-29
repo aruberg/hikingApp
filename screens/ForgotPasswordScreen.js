@@ -26,27 +26,14 @@ function ForgotPasswordScreen({navigation}) {
     // Reference: https://stackoverflow.com/questions/54515444/how-to-reset-firebase-auth-password-in-react-native
     const forgotPassword = (email) => {
         auth()
-            // Check to see if the email exists in firebase
-            .fetchSignInMethodsForEmail(email)
-                .then(() => {
-                    console.log('Valid email entered')
-                })
-                // if email address is invalid
-                .catch(error => {
-                    alert('Please enter a valid email address')
-                    // exit function
-                    //return;
-                })
-
-            // Otherwise, send reset email
+            //Send reset email
             .sendPasswordResetEmail(email)
                 .then(() => {
-                    alert('Please check your() email to reset your password...')
+                    alert('Please check your email to reset your password...')
+                    navigation.navigate('Login');
                 }).catch(error => {
-                    console.log('ERROR: Email not sent');   
-                })
-    
-        navigation.navigate('Login');
+                    alert('Please enter a valid email address');
+                })       
       }
 
     return (
