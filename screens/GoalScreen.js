@@ -2,8 +2,8 @@
  * This Screen should display the information about a particular users goals accordingly. 
  * It should pull from the database and populate sections. 
  * 
- * Potential improvements: 
- * Set a new goal Button 
+ * Improvements: 
+ * Fix error lol Nov 23 
  */
 import React, { Component, useState, useEffect} from 'react';
 import {
@@ -15,7 +15,7 @@ import {
   ScrollView,
   ActivityIndicator,
   FlatList,
-  Button,
+  TextInput,
   Image,
   ImageBackground
 } from 'react-native';
@@ -65,6 +65,37 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
         .doc('ProfileTemplate').get();
     console.log(userDocument);
   }
+  onPressAdd = () => {
+    if(this.state === '') {
+        alert('task name is blank');
+        return;
+    }
+    this.ref.update({
+        DistanceGoal: this.state.myGoals.DistanceGoal,
+        ElevationGoal: this.state.myGoals.ElevationGoal,
+        HikeCountGoal: this.state.myGoals.HikeCountGoal,
+        DaysToComplete: this.state.myGoals.DaysToComplete,
+
+    }).then((data) => {
+        console.log(`added data = ${data}`);
+        this.setState({
+            Distance:'',
+            Elevation:'',
+            NumHikes:'',
+            DaysToComplete:'',
+            loading: true
+        });
+    }).catch((error) => {
+        console.log(`error adding Firestore document = ${error}`);
+        this.setState({
+            Distance:'',
+            Elevation:'',
+            NumHikes:'',
+            DaysToComplete:'',
+            loading: true
+        });
+    });
+}
 
 
 render() {
@@ -80,7 +111,7 @@ render() {
         >            
           <View style={styles.box}>
             <View style={styles.info}>
-              <Text  style={styles.name}>Goal 1</Text>
+              <Text  style={styles.name}>Your Goal! </Text>
               
               <View style={styles.row}>
                 <View style={styles.iconContainer}>
@@ -125,6 +156,78 @@ render() {
               </View>
             </View>
           </View>
+          <View style = {styles.box2}>
+          <View style={{flex: 1, flexDirection: 'column'}}>
+          <View style = {{flexDirection: 'row'}, styles.inputContainer}>
+                 <Text style = {styles.TextStyle} >Distance: </Text>
+                 <TextInput style = {styles.inputs}
+                    underlineColorAndroid = "transparent"
+                    placeholder = "in km "
+                    placeholderTextColor = "#453D5F"
+                    autoCapitalize = "none"
+                    onChangeText={e => {
+                     this.setState({
+                      DistanceGoal: (parseInt(e) * 1000)
+                     });
+                     }
+                 }/>
+                    </View> 
+
+                    <View style = {{flexDirection: 'row'},styles.inputContainer}>
+                 <Text style = {styles.TextStyle} >Elevation: </Text>
+                 <TextInput style = {styles.inputs}
+                    underlineColorAndroid = "transparent"
+                    placeholder = "in km "
+                    placeholderTextColor = "#453D5F"
+                    autoCapitalize = "none"
+                    onChangeText={e => {
+                     this.setState({
+                       ElevationGoal: (parseInt(e) * 1000)
+                     });
+                     }
+                 }/>
+                    </View> 
+
+                    <View style = {{flexDirection: 'row'},styles.inputContainer}>
+                 <Text style = {styles.TextStyle} >Number of Hikes: </Text>
+                 <TextInput style = {styles.inputs}
+                    underlineColorAndroid = "transparent"
+                    placeholder = "0 "
+                    placeholderTextColor = "#453D5F"
+                    autoCapitalize = "none"
+                    onChangeText={e => {
+                     this.setState({
+                       HikeCountGoal: parseInt(e),
+                     });
+                     }
+                 }/>
+                    </View> 
+
+                 <View style = {{flexDirection: 'row'},styles.inputContainer}>
+                 <Text style = {styles.TextStyle} >Days to complete: </Text>
+                 <TextInput style = {styles.inputs}
+                    underlineColorAndroid = "transparent"
+                    placeholder = "0 "
+                    placeholderTextColor = "#453D5F"
+                    autoCapitalize = "none"
+                    onChangeText={e => {
+                     this.setState({
+                       DaysToComplete: parseInt(e),
+                     });
+                     }
+                 }/>
+                    </View> 
+                 
+                 <TouchableOpacity
+                    style = {styles.buttonContainer, styles.submitButton}
+                    onPress={this.onPressAdd}
+                    >
+                    <Text style = {styles.buttonTextStyle}> Save </Text>
+                 </TouchableOpacity>
+                 
+                 </View>
+                 </View>
+
           </ImageBackground>
         </View>
       </>
@@ -207,6 +310,24 @@ const styles = StyleSheet.create({
     },
     elevation:2
   },
+  box2: {
+    flexDirection: 'column',
+    shadowColor: 'black',
+    shadowOpacity: .2,
+    marginHorizontal: 50, 
+    paddingTop: 30,
+    height: 400,
+    width: 300,
+    marginTop:20,
+    shadowOffset: {
+      height:1,
+      width:-2
+
+    },
+    elevation:2,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   info: {
     flex:1,
     flexDirection: 'column',
@@ -241,4 +362,67 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 },
+inputContainer:{
+  borderBottomColor: '#453D5F',
+  backgroundColor: '#BECEB4',
+  borderRadius:30,
+  borderBottomWidth: 1,
+  width:300,
+  height:45,
+  marginBottom:20,
+  flexDirection: 'row',
+  alignItems:'center',
+
+  shadowColor: "#808080",
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+
+  elevation: 5,
+},
+inputs:{
+  height:45,
+  marginLeft:16,
+  borderBottomColor: '#FFFFFF',
+  flex:1,
+},
+buttonContainer: {
+  height:45,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginBottom:20,
+  width:300,
+  borderRadius:30,
+  backgroundColor:'transparent'
+},
+  submitButton: {
+      backgroundColor: '#C98F39',
+      borderWidth: 0,
+      color: '#FFFFFF',
+      borderColor: '#C98F39',
+      height: 60,
+      width: 150,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 30,
+      marginLeft: 70,
+      marginRight: 10,
+      marginTop: 0,
+  },
+  buttonTextStyle: {
+    color: '#C9C8B9',
+    paddingVertical:10,
+    fontSize: 25,
+
+  },
+   TextStyle: {
+    color: '#453D5F',
+    paddingVertical:10,
+    fontSize: 16,
+    margin: 20,
+  },
 }); 
