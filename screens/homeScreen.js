@@ -48,6 +48,52 @@ class HomeScreen extends Component {
   constructor(props){
     super(props);
     // Retreive FeaturedHikeDetails document/Fields from FeaturedHike collection in FireStore
+    this._isMounted = false;
+    // this.subscriber = firestore().collection('FeaturedHike')
+    // .doc('FeaturedHikeDetails').onSnapshot( doc => {
+    //     this.setState({
+    //         featuredHike: {
+    //             TrailName: doc.data().TrailName,
+    //             PhotoURL: doc.data().PhotoURL,
+    //             Description: doc.data().Description,
+    //             Distance: doc.data().Distance,
+    //             Duration: doc.data().Duration,
+    //             Elevation: doc.data().Elevation,
+    //             Path: doc.data().Path,
+    //             Rating: doc.data().Rating,
+    //             Region: doc.data().Region,
+    //             ShortDescription: doc.data().ShortDescription,
+    //             StartLocation: doc.data().StartLocation,
+    //         },    
+    //     });
+    // })
+
+    // // User Profile
+    // var clientId = firebase.auth().currentUser.uid;
+    // this.getUser(clientId);
+    // // Retreive user document/Fields from Profiles collection in FireStore
+    // this.subscriber2 = firestore().collection('Profiles')
+    // .doc(clientId).onSnapshot( doc => {
+    //     this.setState({
+    //         userProfile: {
+    //             DistanceHiked: doc.data().DistanceHiked,
+    //             ElevationClimbed: doc.data().ElevationClimbed,
+    //             HikesCompleted: doc.data().HikesCompleted,
+    //             DistanceGoal: doc.data().DistanceGoal,
+    //             ElevationGoal: doc.data().ElevationGoal,
+    //             HikeCountGoal: doc.data().HikeCountGoal,
+    //             DaysToComplete: doc.data().DaysToComplete,
+    //             DistanceProgress: doc.data().DistanceHiked / doc.data().DistanceGoal,
+    //             ElevationProgress: doc.data().ElevationClimbed / doc.data().ElevationGoal,
+    //             HikeCountProgress: doc.data().HikesCompleted / doc.data().HikeCountGoal,
+    //         }
+    //     });
+    // })
+
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
     this.subscriber = firestore().collection('FeaturedHike')
     .doc('FeaturedHikeDetails').onSnapshot( doc => {
         this.setState({
@@ -88,7 +134,12 @@ class HomeScreen extends Component {
             }
         });
     })
+  }
 
+  componentWillUnmount() {
+      this._isMounted = false;
+      this.subscriber();
+      this.subscriber2();
   }
 
     // Function to get uID document for the currently signed in user
@@ -137,8 +188,8 @@ class HomeScreen extends Component {
                     {/* Distance goal */}
                     <Progress.Circle 
                       style={styles.progressStyle} 
-                      progress={this.state.userProfile.DistanceProgress}
-                      size={60}
+                      progress={this.state.userProfile.DistanceProgress > 1 ? 1:this.state.userProfile.DistanceProgress}
+                      size={70}
                       color="#407F33"
                       thickness={7}
                       showsText={true}
@@ -152,8 +203,8 @@ class HomeScreen extends Component {
                   <View styles={styles.individualBadgeContainer}>
                     <Progress.Circle 
                       style={styles.progressStyle} 
-                      progress={this.state.userProfile.ElevationProgress} 
-                      size={60}
+                      progress={this.state.userProfile.ElevationProgress > 1 ? 1:this.state.userProfile.ElevationProgress} 
+                      size={70}
                       color="#C98F39"
                       thickness={7}
                       showsText={true}
@@ -167,8 +218,8 @@ class HomeScreen extends Component {
                   <View styles={styles.individualBadgeContainer}>
                     <Progress.Circle 
                       style={styles.progressStyle} 
-                      progress={this.state.userProfile.HikeCountProgress} 
-                      size={60}
+                      progress={this.state.userProfile.HikeCountProgress > 1 ? 1:this.state.userProfile.HikeCountProgress} 
+                      size={70}
                       color="#6F6035"
                       thickness={7}
                       showsText={true}
@@ -311,9 +362,10 @@ const styles = StyleSheet.create({
     },
 
     badgeStyle: {
-      width: "30%",
-      height: 150,
+      width: "25%",
+      height: 100,
       resizeMode: 'contain',
+      marginHorizontal: "3%",
     },
 
     badgeContainer: {

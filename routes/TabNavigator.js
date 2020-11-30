@@ -9,7 +9,6 @@ import path from '../images/path.png';
 
 import HomeScreen from '../screens/HomeScreen';
 import HikeMenuScreen from '../screens/HikeMenuScreen';
-import SetANewGoalScreen from '../screens/SetANewGoalScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import InHikeScreen from '../screens/InHikeScreen';
 import GoalScreen from '../screens/GoalScreen'; 
@@ -61,7 +60,6 @@ function ProfileStack() {
         >
             <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }}/>
             <Stack.Screen name="Goals" component={GoalScreen} options={{ title: 'Goals' }}/> 
-            <Stack.Screen name="SetANewGoal" component={SetANewGoalScreen} options={{ title: 'Set Goals' }}/> 
         </Stack.Navigator>
     )
 }

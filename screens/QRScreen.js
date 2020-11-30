@@ -4,11 +4,11 @@
 */
 import React, {Component} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import QRCodeScanner from '../components/QRCodeScanner';
 import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
 
 class QRScreen extends Component {
     
@@ -19,13 +19,18 @@ class QRScreen extends Component {
             ElevationClimbed: 0,
             HikesCompleted: 0,
         },
-        delay: 0,
-        result: '',       
+        delay: 0,      
     }
 
     constructor(props){
         super(props);
-        // Get user's hiking information from Profiles collection in FireStore
+        this._isMounted = false
+        this.onSuccess = this.onSuccess.bind(this);
+        this.updateProfile = this.updateProfile.bind(this);
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
         var clientId = firebase.auth().currentUser.uid;
         this.getUser(clientId);
         this.subscriber = firestore().collection('Profiles')
@@ -37,18 +42,34 @@ class QRScreen extends Component {
                     HikesCompleted: doc.data().HikesCompleted,
                 },
                 delay: 100,
-                result: 'No result',
             });
-        })
-
-        this.handleScan = this.handleScan.bind(this)
+        });
     }
 
-    handleScan(data){
-        this.setState({
-          result: data,
-        })
-      }
+    componentWillUnmount() {
+        this._isMounted = false
+        this.subscriber();
+    }
+
+    // Used QR guide as reference https://www.npmjs.com/package/react-qr-scanner
+    updateProfile = async(distanceAdded, elevationAdded) => {
+        let isMounted = true;
+        console.log(distanceAdded)
+        console.log(elevationAdded)
+            var clientId = firebase.auth().currentUser.uid;
+            const userDocument = await firestore().collection('Profiles')
+                .doc(clientId).update({
+                    DistanceHiked: this.state.myDetails.DistanceHiked + distanceAdded,
+                    ElevationClimbed: this.state.myDetails.ElevationClimbed + elevationAdded,
+                    HikesCompleted: this.state.myDetails.HikesCompleted + 1  
+                });
+        return isMounted = false;
+    }
+
+    onSuccess(data){
+        var trailData = JSON.parse(data.data);
+        this.updateProfile(trailData.Distance, trailData.Elevation)
+    }
 
     handleError(err){
         console.error(err)
@@ -85,21 +106,12 @@ class QRScreen extends Component {
             <>
                 <View style={styles.background}>
                     <QRCodeScanner
+                        onRead={this.onSuccess}
+                        flashMode={RNCamera.Constants.FlashMode.torch}
+                        showMarker={true}
                         delay={this.state.delay}
                         style={previewStyle}
-                        onError={this.handleError}
-                        onScan={this.handleScan}
                     /> 
-                </View>
-                <View>
-                    <TouchableOpacity
-                        onPress={() => this.updateUser()}
-                    >
-                        <Text>Write to Profile</Text>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <Text>{this.state.result}</Text>
                 </View>
             </>
         );

@@ -24,9 +24,11 @@ import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { back } from 'react-native/Libraries/Animated/src/Easing';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
   class GoalScreen extends Component {
+
     state = {
         myGoals: {
           DistanceHiked:0,
@@ -44,6 +46,7 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
       this.getUser();
       var clientId = firebase.auth().currentUser.uid;
       this.getUser(clientId);
+      this.ref = firebase.firestore().collection('Profiles').doc(clientId);
       this.subscriber = firestore().collection('Profiles')
       .doc(clientId).onSnapshot( doc => {
           this.setState({
@@ -65,36 +68,59 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
         .doc('ProfileTemplate').get();
     console.log(userDocument);
   }
+
   onPressAdd = () => {
+
     if(this.state === '') {
         alert('task name is blank');
         return;
     }
+    let isMounted = true;
     this.ref.update({
-        DistanceGoal: this.state.myGoals.DistanceGoal,
-        ElevationGoal: this.state.myGoals.ElevationGoal,
-        HikeCountGoal: this.state.myGoals.HikeCountGoal,
-        DaysToComplete: this.state.myGoals.DaysToComplete,
 
-    }).then((data) => {
-        console.log(`added data = ${data}`);
-        this.setState({
-            Distance:'',
-            Elevation:'',
-            NumHikes:'',
-            DaysToComplete:'',
-            loading: true
-        });
-    }).catch((error) => {
-        console.log(`error adding Firestore document = ${error}`);
-        this.setState({
-            Distance:'',
-            Elevation:'',
-            NumHikes:'',
-            DaysToComplete:'',
-            loading: true
-        });
+        DistanceGoal: this.state.DistanceGoal,
+        ElevationGoal: this.state.ElevationGoal,
+        HikeCountGoal: this.state.HikeCountGoal,
+        DaysToComplete: this.state.DaysToComplete,
+    
+
+    // }).then((data) => {
+    //     console.log(`added data = ${data}`);
+    //     this.setState({
+    //         Distance:'',
+    //         Elevation:'',
+    //         NumHikes:'',
+    //         DaysToComplete:'',
+    //         loading: true
+    //     });
+    // }).catch((error) => {
+    //     console.log(`error adding Firestore document = ${error}`);
+    //     this.setState({
+    //         Distance:'',
+    //         Elevation:'',
+    //         NumHikes:'',
+    //         DaysToComplete:'',
+    //         loading: true
+    //     });
     });
+    return isMounted = false;
+
+  //   updateUser = async() => {
+  //     let isMounted = true;
+  //      var clientId = firebase.auth().currentUser.uid;
+  //      const userDocument = await firestore().collection('Profiles')
+  //          .doc(clientId).update({DistanceHiked: this.state.myDetails.DistanceHiked + 1000});
+  //     return isMounted = false;
+  // }
+
+  // // Increments the number of hikes completed 
+  // updateHikesCompleted = async() => {
+  //     let isMounted = true;
+  //     var clientId = firebase.auth().currentUser.uid;
+  //      const userDocument = await firestore().collection('Profiles')
+  //          .doc(clientId).update({HikesCompleted: this.state.myDetails.HikesCompleted + 1});
+  //     return isMounted = false;
+  // }
 }
 
 
@@ -111,31 +137,32 @@ render() {
         >            
           <View style={styles.box}>
             <View style={styles.info}>
-              <Text  style={styles.name}>Your Goal! </Text>
+              <Text  style={styles.name}>Your Goals! </Text>
               
               <View style={styles.row}>
-                <View style={styles.iconContainer}>
-                    <Image style={styles.icon} source={{uri: "https://cdn2.iconfinder.com/data/icons/road-and-navigation/180/02-512.png"}} />
+                <View style={styles.iconContainer}>                   
+                    {/* <Image style={styles.icon} source={{uri: "https://cdn2.iconfinder.com/data/icons/road-and-navigation/180/02-512.png"}} /> */}
+                    <Icon name="route" size={40} color={'#324648'} />
                     <Text>Distance</Text>
-                    <ProgressBar style={styles.progressBar}
+                    {/* <ProgressBar style={styles.progressBar}
                     styleAttr="Horizontal"
                     indeterminate={false}
                     progress={(parseInt(this.state.myGoals.DistanceGoal))/ 100}
-                    />
-                    <Text>{(parseInt(this.state.myGoals.DistanceGoal))} Km</Text>
+                    /> */}
+                    <Text>{(parseInt(this.state.myGoals.DistanceGoal)) /1000} km</Text>
                 </View>
                 <View style={styles.iconContainer}>
-                    <Image style={styles.icon} source={{uri: "https://cdn0.iconfinder.com/data/icons/travel-37/94/mountain-512.png"}} />
+                <Icon name="chart-area" size={40} color={'#324648'} />
                     <Text>Elevation</Text>
-                    <ProgressBar style={styles.progressBar}
+                    {/* <ProgressBar style={styles.progressBar}
                     styleAttr="Horizontal"
                     indeterminate={false}
                     progress={(parseInt(this.state.myGoals.ElevationGoal))/ 100}
-                    />
-                      <Text>{(parseInt(this.state.myGoals.ElevationGoal))} </Text>
+                    /> */}
+                      <Text>{(parseInt(this.state.myGoals.ElevationGoal))} m</Text>
                 </View>
                 
-                <View style={styles.iconContainer}>
+                {/* <View style={styles.iconContainer}>
                     <Image style={styles.icon} source={{uri: "https://image.flaticon.com/icons/png/512/55/55281.png"}} />
                     <Text>Days</Text>
                     <ProgressBar style={styles.progressBar}
@@ -144,10 +171,10 @@ render() {
                     progress={(parseInt(this.state.myGoals.DaysToComplete))/ 100}
                     />
                     <Text>{(parseInt(this.state.myGoals.DaysToComplete))} </Text>
-                </View>
+                </View> */}
                 <View style={styles.iconContainer}>
-                    <Image style={styles.icon} source={{uri: "https://static.thenounproject.com/png/204712-200.png"}} />
-                    <Text>Hikes:</Text>
+                    <Icon name="globe-americas" size={40} color={'#324648'} />
+                    <Text>Hikes</Text>
                     <Text>{parseInt(this.state.myGoals.HikeCountGoal)}</Text>
                     
                 </View>
@@ -162,7 +189,7 @@ render() {
                  <Text style = {styles.TextStyle} >Distance: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
-                    placeholder = "in km "
+                    placeholder = "in kilometers "
                     placeholderTextColor = "#453D5F"
                     autoCapitalize = "none"
                     onChangeText={e => {
@@ -177,12 +204,12 @@ render() {
                  <Text style = {styles.TextStyle} >Elevation: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
-                    placeholder = "in km "
+                    placeholder = "in meters "
                     placeholderTextColor = "#453D5F"
                     autoCapitalize = "none"
                     onChangeText={e => {
                      this.setState({
-                       ElevationGoal: (parseInt(e) * 1000)
+                       ElevationGoal: (parseInt(e))
                      });
                      }
                  }/>
@@ -203,7 +230,7 @@ render() {
                  }/>
                     </View> 
 
-                 <View style = {{flexDirection: 'row'},styles.inputContainer}>
+                 {/* <View style = {{flexDirection: 'row'},styles.inputContainer}>
                  <Text style = {styles.TextStyle} >Days to complete: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
@@ -216,7 +243,7 @@ render() {
                      });
                      }
                  }/>
-                    </View> 
+                    </View>  */}
                  
                  <TouchableOpacity
                     style = {styles.buttonContainer, styles.submitButton}
@@ -298,25 +325,27 @@ const styles = StyleSheet.create({
     height:100
   },
   box: {
+    flex: 1,
     backgroundColor: '#BECEB4',
     flexDirection: 'row',
     shadowColor: 'black',
     shadowOpacity: .2,
-    marginHorizontal: 20, 
-    height: 140,
+    //height: 140,
     shadowOffset: {
       height:1,
       width:-2
     },
-    elevation:2
+    elevation:2,
+    margin: '6%',
   },
   box2: {
+    flex: 2,
     flexDirection: 'column',
     shadowColor: 'black',
     shadowOpacity: .2,
-    marginHorizontal: 50, 
-    paddingTop: 30,
-    height: 400,
+    marginHorizontal: '6%',
+    //paddingTop: 30,
+    //height: 400,
     width: 300,
     marginTop:20,
     shadowOffset: {

@@ -76,6 +76,7 @@ class Profile extends Component{
           style={styles.backgroundImage}
           imageStyle={{opacity: 0.2}}
           >
+            <View style={styles.masterContainer}>
             <ScrollView>
             {/* Header */}
             <View style={styles.header}>
@@ -162,6 +163,7 @@ class Profile extends Component{
                   </View>
                 </View>
               </ScrollView>
+              </View>
           </ImageBackground>
 
           
@@ -179,6 +181,9 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     //justifyContent: 'center', 
     backgroundColor: "#3C413E",  
+  },
+  masterContainer: {
+    flex: 1,
   },
   header:{
     flexDirection: 'row',
@@ -304,14 +309,12 @@ const styles = StyleSheet.create({
   },
   board: {
       flex: 1,
-      // width: 330,
       height: 150,
       backgroundColor: '#C9C8B9',
       margin: "2%",
-      marginBottom: 20,
+      marginBottom: 60,
   },
   goalsBoard: {
-    // width: 330,
     height: 250,
     backgroundColor: '#C9C8B9',
     margin: "2%",
@@ -325,8 +328,8 @@ const styles = StyleSheet.create({
       paddingLeft: "5%",
     },
     badgeStyle: {
-      width: "33%",
-      height: "90%",
+      width: "25%",
+      marginHorizontal: '3%',
       resizeMode: 'contain',
     },
     individualBadgeContainer: {
@@ -340,14 +343,12 @@ const styles = StyleSheet.create({
       borderColor: '#3C413E'
     },
     shareButton: {
-      marginTop:"7%",
-      marginBottom: "5%",
+      margin: '3%',
       height:45,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius:10,
       backgroundColor: '#6F6035',
-      marginHorizontal: '10%',
     },
     shareButtonText: {
       color: '#C9C8B9',
