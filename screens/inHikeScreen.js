@@ -28,6 +28,7 @@ class InHikeScreen extends Component {
     state = {
         geopointsArray: [],
         route: [],
+        qrHint: "",
     }
 
     constructor(props){
@@ -46,20 +47,14 @@ class InHikeScreen extends Component {
         }
 
         const reqOptions = {
-            waypoints: coordinateObjects,
-            // waypoints: [
-            //     {coordinates: [-120.329369, 50.666869]},
-            //     {coordinates: [-120.329947, 50.659692]},
-            // ],
+          waypoints: coordinateObjects,
           profile: 'walking',
           geometries: 'geojson',
         };
 
-        const res = await directionsClient.getDirections(reqOptions).send();
-        // console.log(res.body.routes[0].geometry.coordinates);
-        // console.log(res);
-        const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
-        this.state.route = newRoute;
+        //const res = await directionsClient.getDirections(reqOptions).send();
+        //const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
+        //this.state.route = newRoute;
     };
         
 
@@ -70,71 +65,76 @@ class InHikeScreen extends Component {
         {
            coordinatesArray.push([item.Path[i]['longitude'], item.Path[i]['latitude']]);
         }
-        this.state = {geopointsArray: coordinatesArray}
-
+        this.state = {geopointsArray: coordinatesArray, qrHint: item.QRHint}
+        
         return isMounted = false;
     }
 
-    // Renders a specific coordinate
-    renderAnnotation() {
-        // const id = 'pointAnnotation' + i;
-        // const key = 'pointAnnotation' + i;
-        return ( 
-            // <MapboxGL.PointAnnotation 
-            //     key={key}
-            //     id={id} 
-            //     coordinate={this.state.geopointsArray[i]}
-            // > 
-            //     <View style={styles.annotation}
-
-            //     /> 
-            // </MapboxGL.PointAnnotation> 
-
+    renderLegend() {
+        var colours = ['rgb(47, 228, 209)', 'rgb(47, 155, 228)', 'rgb(47, 65, 228)', 'rgb(119, 47, 228)', 'rgb(209, 47, 228)', 'rgb(228, 47, 155)', 'rgb(228, 47, 65)', 'rgb(228, 119, 47)', 'rgb(228, 209, 47)', 'rgb(155, 228, 47)', 'rgb(65, 228, 47)', 'rgb(47, 228, 119)'];
+        var indexNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
+        var qrIndex = Math.floor(this.state.geopointsArray.length / 2);
+        colours[qrIndex] = 'white';
+        indexNumbers[qrIndex] = "QR";
+        
+        return (
             this.state.geopointsArray.map((point, index) => (
+
+               
+                <View style={{
+                    height: 30, 
+                    width: 30, 
+                    backgroundColor: colours[index], 
+                    borderColor: '#3C413E', 
+                    borderWidth: 3,
+                    flex: 1,
+                    }} 
+                    key={`${index}-legend`}
+                    id={`${index}-ledend`}
+                
+                > 
+                    <Text style={styles.colorIndexNumbers}>{indexNumbers[index]}</Text>
+                </View>
+                )
+            )
+        )
+    }
+
+    // Renders coordinates
+    renderAnnotation() {
+        //var colours = ['rgba(201, 143, 57, 0.6)', 'rgba(201, 143, 57, 0.7)', 'rgba(201, 143, 57, 0.8)', 'rgba(201, 143, 57, 0.9)', 'rgb(201, 143, 57)', 'rgb(218, 142, 36)', 'rgb(174, 114, 29)', 'rgb(130, 85, 22)', 'rgb(87, 57, 14)', 'rgb(43, 28, 7)'];
+        //var colours = ['rgb(189, 124, 59)', 'rgb(189, 189, 59)', 'rgb(124, 189, 59)', 'rgb(59, 189, 59)', 'rgb(59, 189, 124)', 'rgb(59, 189, 189)', 'rgb(59, 124, 189)', 'rgb(59, 59, 189)', 'rgb(124, 59, 189)', 'rgb(189, 59, 189)', 'rgb(189, 59, 124)'];
+        var colours = ['rgb(47, 228, 209)', 'rgb(47, 155, 228)', 'rgb(47, 65, 228)', 'rgb(119, 47, 228)', 'rgb(209, 47, 228)', 'rgb(228, 47, 155)', 'rgb(228, 47, 65)', 'rgb(228, 119, 47)', 'rgb(228, 209, 47)', 'rgb(155, 228, 47)', 'rgb(65, 228, 47)', 'rgb(47, 228, 119)'];
+        var indexNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
+        var qrIndex = Math.floor(this.state.geopointsArray.length / 2);
+        colours[qrIndex] = 'white';
+        indexNumbers[qrIndex] = "QR";
+
+        return (           
+            this.state.geopointsArray.map((point, index) => (
+               
                 <MapboxGL.PointAnnotation
                     key={`${index}-PointAnnotation`}
                     id={`${index}-PointAnnotation`}
                     coordinate={point}
                 > 
-                    {/* <Text>
-                        <Image 
-                            source={require('../images/1.svg')}
-                            style={{
-                                flex: 1,
-                                resizeMode: 'contain',
-                                width: 25,
-                                height: 25
-                            }}  
-                        />
-                    </Text> */}
-
                     <View style={{
                         height: 30, 
                         width: 30, 
-                        backgroundColor: '#00cccc', 
+                        backgroundColor: colours[index], 
                         borderRadius: 50, 
-                        borderColor: '#fff', 
+                        borderColor: '#3C413E', 
                         borderWidth: 3
                         }} 
-                    /> 
+                    > 
+                        <Text style={styles.colorIndexNumbers}>{indexNumbers[index]}</Text>
+                    </View>
+                    
  
-                
-
                 </MapboxGL.PointAnnotation>
   ))
         ); 
     }
-
-    // // Loop through each coordinate and render annotation
-    // renderAnnotations() {
-    //     const points = [];
-
-    //     for (let i = 0; i < this.state.geopointsArray.length; i++) {
-    //         points.push(this.renderAnnotation(i));
-    //     }
-
-    //     return points;
-    // }
 
     render() {
         const  { navigation } = this.props;
@@ -142,6 +142,9 @@ class InHikeScreen extends Component {
         <>
         <View style={{height: "80%", width: "100%", backgroundColor:"#3C413E"}}>
             <View style={{ height: "100%", width: "100%", backgroundColor:"#3C413E"}}>
+                <View style={styles.rowExpansion}>
+                    {this.renderLegend()}
+                </View>
                 <MapboxGL.MapView
                     styleURL={MapboxGL.StyleURL.Street}
                     zoomLevel={14}
@@ -165,19 +168,29 @@ class InHikeScreen extends Component {
                 </MapboxGL.MapView>
             </View>
         </View>
-        <View style={styles.container}>    
-            <TouchableOpacity
-            style={styles.buttonContainerCircle}
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('QRScanner')}
-            >
-            <Text style={styles.buttonTextStyle}>QR Scan</Text>
-            <Icon name="qrcode" size={75} color={'#C9C8B9'}/>
-            
-            </TouchableOpacity>
+         {/* QR Hint Card */}
+         <View style={styles.container}>
+            <View style={styles.card}>
+                <View style={styles.cardHeader}>
+                    <Text style={styles.cardTitle}>QR Hint</Text>
+                </View>
+                <View style={styles.cardQR}>
+                    <Text style={styles.cardText}>{this.state.qrHint}</Text>
+                </View>
+            </View>
+            <View style={styles.buttonContainer}>    
+                <TouchableOpacity
+                    style={styles.buttonContainerCircle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate('QRScanner')}
+                >
+                    <Text style={styles.buttonTextStyle}>QR Scan</Text>
+                    <Icon name="qrcode" size={75} color={'#C9C8B9'}/>
+                </TouchableOpacity>
+            </View>
         </View>
         </>
-        // <ShowMap />
+
         );
             
     }
@@ -187,6 +200,7 @@ export default InHikeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'row',
         backgroundColor: '#3C413E',
         justifyContent: 'center',
         alignItems: 'center',
@@ -194,15 +208,12 @@ const styles = StyleSheet.create({
 
     buttonContainerCircle: {
         backgroundColor: '#453D5F',
-        //borderWidth: 5,
         color: '#6F6035',
-        //borderColor: 'black',
-        height: "80%",
-        width: "90%",
+        // height: "100%",
+        // width: "100%",
         alignItems: 'center',
-        borderRadius: 50,
-        paddingBottom: 10,
-
+        borderRadius: 10,
+        marginHorizontal: "10%"
       },
       buttonTextStyle: {
         color: '#C9C8B9',
@@ -253,4 +264,65 @@ const styles = StyleSheet.create({
         borderColor: '#fff', 
         borderWidth: 3, 
     },
+    rowExpansion: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    colorIndexNumbers: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 16, 
+    },
+    buttonContainer: {
+        flex: 1,
+    },
+      /******** card **************/
+  card:{
+    backgroundColor:"#C9C8B9",
+    flex: 2,
+  },
+  cardContent: {
+    flex: 1,
+    paddingVertical: "3%",
+    paddingHorizontal: "3%",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardHeader:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    paddingHorizontal: 16,
+    backgroundColor: '#453D5F',
+  },
+  cardHeaderTitle:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    paddingHorizontal: 16,
+    backgroundColor: '#453D5F',
+  },
+  cardTitle:{
+    color:"#C9C8B9",
+    fontSize:18,
+    fontWeight:'bold'
+  },
+  cardText:{
+    color: 'black',
+  },
+  cardQR:{
+    flex: 1,
+    paddingVertical: "3%",
+    paddingHorizontal: "3%",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardPhotoContainer:{
+    flex: 1,
+  },
 });

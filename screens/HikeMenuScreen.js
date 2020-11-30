@@ -1,8 +1,8 @@
-/**
- * This Screen should display a type of menu with all the trails available. 
- * It should pull from the database and populate sections accordingly. 
- * It may still need some work on the design and pictures.
- */
+/*
+* The HikeMenuScreen displays a selection of trails from the database that the user can choose to hike.
+* It display important information about each hike such as the distance, time, elevation and difficulty
+* rating. Users can search for a specific hike using the search bar at the top of the screen.
+*/
 import React, { Component, useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -21,33 +21,6 @@ import firestore from '@react-native-firebase/firestore';
 import storage, {firebase} from '@react-native-firebase/storage';
 import { back } from 'react-native/Libraries/Animated/src/Easing';
 
-// export default class HikeMenuScreen extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       data: [
-//         {id:1, color:"#679267", icon: "https://thumbs.dreamstime.com/z/hike-canada-hiking-man-canadian-mountains-popular-recreation-activity-north-america-there-lot-picturesque-150773459.jpg" , name: "Hike 1", tags:['Distance: ', 'Rating: ', 'Location: ', 'Elevation: ']},
-//         {id:2, color:"#C98F39", icon:"https://coresites-cdn-adm.imgix.net/mpora_new/wp-content/uploads/2017/06/GettyImages-528503230.jpg", name: "Hike 2", tags:['Distance: ', 'Rating: ', 'Location: ', 'Elevation: ']},
-//         {id:3, color:"#679267", icon:"https://adventuresoflilnicki.com/wp-content/uploads/2020/03/Mirador-Las-Torres-Torres-del-Paine-National-Park-Chile-2.jpg", name: "Hike 3", tags:['Distance: ', 'Rating: ', 'Location: ', 'Elevation: ']},
-//         {id:4, color:"#C98F39", icon:"https://canadamosaic.tso.ca/wp-content/uploads/2016/08/Kamloops.png", name: "Hike 4", tags:['Distance: ', 'Rating: ', 'Location: ', 'Elevation: ']},  
-//       ],
-//     };
-//   }
-// function searchFilterFunction(text, trails) {    
-//   const newTrails = trails.filter(item => {      
-//     const itemData = `${item.TrailName}`;
-    
-//      const textData = text.toUpperCase();
-      
-//      return itemData.indexOf(textData) > -1;    
-//   });
-  
-//   setFilterTrails(newTrails);  
-// };
-
-const defaultStoragebucket = storage();
-
 function HikeMenuScreen({navigation}) {
   const [loading, setLoading] = useState(true); // Set Loading to true on component mount
   const [trails, setTrails] = useState([]); // Initial empty array of trails
@@ -61,7 +34,7 @@ function HikeMenuScreen({navigation}) {
     // Check if searched text is not blank
     if (searchText) {
       // Inserted text is not blank
-      // Filter the masterDataSource and update FilteredDataSource
+      // Filter trails and update FilteredDataSource
       const newData = trails.filter(
         function (item) {
           // Applying filter for the inserted text in search bar
@@ -76,7 +49,7 @@ function HikeMenuScreen({navigation}) {
       setSearch(searchText);
     } else {
       // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
+      // Update FilteredDataSource with trails
       setFilteredDataSource(trails);
       setSearch(searchText);
     }
@@ -87,7 +60,7 @@ function HikeMenuScreen({navigation}) {
       .collection('Trails')
       .onSnapshot(querySnapshot => {
         const trails = [];
-
+        // query each document in the trails collection
         querySnapshot.forEach(documentSnapshot => {
           trails.push({
             ...documentSnapshot.data(),
@@ -113,6 +86,7 @@ function HikeMenuScreen({navigation}) {
     style={styles.backgroundImage}
     imageStyle={{opacity: 0.2}}
     >
+      {/* Search bar */}
       <View style={styles.formContent}>
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
@@ -124,6 +98,7 @@ function HikeMenuScreen({navigation}) {
           />
         </View>
       </View>
+      {/* Flatlist */}
       <FlatList
         style={styles.notificationList}
         data={filteredDataSource}
@@ -234,7 +209,6 @@ const styles = StyleSheet.create({
     height: "100%",
     overflow: 'hidden',
   },
-
   btnColor: {
     paddingTop: 10,
     paddingBottom: 10,
