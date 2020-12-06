@@ -218,7 +218,7 @@ class HomeScreen extends Component {
                   <View styles={styles.individualBadgeContainer}>
                     <Progress.Circle 
                       style={styles.progressStyle} 
-                      progress={this.state.userProfile.HikeCountProgress > 1 ? 1:this.state.userProfile.HikeCountProgress}
+                      progress={this.state.userProfile.HikeCountProgress > 1 ? 1:this.state.userProfile.HikeCountProgress} 
                       size={70}
                       color="#6F6035"
                       thickness={7}
