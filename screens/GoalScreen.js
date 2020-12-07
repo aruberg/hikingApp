@@ -99,11 +99,13 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
         //DaysToComplete: this.state.DaysToComplete,
       });
 
-      return isMounted = false;
+
     }
 
     else
       alert("Please enter a numeric value in all fields")
+
+    return isMounted = false;
 
 }
 

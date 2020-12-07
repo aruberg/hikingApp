@@ -31,8 +31,8 @@ function createNewUser(email, password, first, last) {
             firebase.firestore().collection('Profiles').doc(clientId).set({
                 FirstName: first,
                 LastName: last,
-                DistanceHiked: 0,
-                ElevationClimbed: 0,
+                DistanceHiked: 1,
+                ElevationClimbed: 1,
                 HikesCompleted: 0,
                 DaysToComplete: 30,
                 DistanceGoal: 25000,
@@ -139,6 +139,10 @@ function CreateAccountScreen({navigation})  {
                         style={styles.signUpButton} 
                         onPress={() => 
                             {
+                                //let passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{​​6,}​​)");
+                                //emailRegex = "/^[a-zA-Z_]"
+
+
                                 // Error checking
                                 if (password.length < 6)
                                     alert("Password must be at least 6 characters");
@@ -154,15 +158,28 @@ function CreateAccountScreen({navigation})  {
                                 {
                                     alert("Please enter your last name")
                                 }
+
+                                // If email is correct
+                                else if (!(/[@]/.test(email) && /[.]/.test(email) && /[^$(){}#!&*]/.test(email)))
+                                {
+                                    alert("Please enter a valid email address")
+                                }
+
+                                // If password passes the complexity test
+                                else if (!(/[A-Z]/.test(password) && /[0-9]/.test(password) && /^[A-Za-z0-9]{6,}$/.test(password)))
+                                {
+                                    alert("Weak password: please enter a password that includes a number and a symbol")
+                                }
                                 
                                 // create new account
                                 else
                                 {
-                                    password == confirmPassword ? createNewUser(email, password, firstName, lastName) : alert("Password does not match")}
-
+                                    password == confirmPassword ? createNewUser(email, password, firstName, lastName) : alert("Password does not match")
                                 }
-                                    
+
                             }
+                                    
+                        }
                     >
                         <Text style={styles.signUpText}>Sign Up</Text>
                     </TouchableOpacity>
