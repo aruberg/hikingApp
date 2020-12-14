@@ -47,6 +47,48 @@ class HomeScreen extends Component {
 
   constructor(props){
     super(props);
+    // Retreive FeaturedHikeDetails document/Fields from FeaturedHike collection in FireStore
+    this._isMounted = false;
+    // this.subscriber = firestore().collection('FeaturedHike')
+    // .doc('FeaturedHikeDetails').onSnapshot( doc => {
+    //     this.setState({
+    //         featuredHike: {
+    //             TrailName: doc.data().TrailName,
+    //             PhotoURL: doc.data().PhotoURL,
+    //             Description: doc.data().Description,
+    //             Distance: doc.data().Distance,
+    //             Duration: doc.data().Duration,
+    //             Elevation: doc.data().Elevation,
+    //             Path: doc.data().Path,
+    //             Rating: doc.data().Rating,
+    //             Region: doc.data().Region,
+    //             ShortDescription: doc.data().ShortDescription,
+    //             StartLocation: doc.data().StartLocation,
+    //         },    
+    //     });
+    // })
+
+    // // User Profile
+    // var clientId = firebase.auth().currentUser.uid;
+    // this.getUser(clientId);
+    // // Retreive user document/Fields from Profiles collection in FireStore
+    // this.subscriber2 = firestore().collection('Profiles')
+    // .doc(clientId).onSnapshot( doc => {
+    //     this.setState({
+    //         userProfile: {
+    //             DistanceHiked: doc.data().DistanceHiked,
+    //             ElevationClimbed: doc.data().ElevationClimbed,
+    //             HikesCompleted: doc.data().HikesCompleted,
+    //             DistanceGoal: doc.data().DistanceGoal,
+    //             ElevationGoal: doc.data().ElevationGoal,
+    //             HikeCountGoal: doc.data().HikeCountGoal,
+    //             DaysToComplete: doc.data().DaysToComplete,
+    //             DistanceProgress: doc.data().DistanceHiked / doc.data().DistanceGoal,
+    //             ElevationProgress: doc.data().ElevationClimbed / doc.data().ElevationGoal,
+    //             HikeCountProgress: doc.data().HikesCompleted / doc.data().HikeCountGoal,
+    //         }
+    //     });
+    // })
 
   }
 
@@ -75,11 +117,9 @@ class HomeScreen extends Component {
     var clientId = firebase.auth().currentUser.uid;
     this.getUser(clientId);
     // Retreive user document/Fields from Profiles collection in FireStore
-    this.subscriber2 = firestore().collection('Profiles') 
+    this.subscriber2 = firestore().collection('Profiles')
     .doc(clientId).onSnapshot( doc => {
-      if (doc.exists)
-      {
-          this.setState({
+        this.setState({
             userProfile: {
                 DistanceHiked: doc.data().DistanceHiked,
                 ElevationClimbed: doc.data().ElevationClimbed,
@@ -93,15 +133,13 @@ class HomeScreen extends Component {
                 HikeCountProgress: doc.data().HikesCompleted / doc.data().HikeCountGoal,
             }
         });
-      }
     })
-  
   }
 
   componentWillUnmount() {
       this._isMounted = false;
-        this.subscriber();
-        this.subscriber2();  
+      this.subscriber();
+      this.subscriber2();
   }
 
     // Function to get uID document for the currently signed in user
