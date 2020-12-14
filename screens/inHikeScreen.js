@@ -1,23 +1,14 @@
 /**
  * This is the Screen users will see when they are perfoming a hike. 
- * The map should be the trail chosen and it should indicate where the QR code is 
- * The button when clicked it should open the camera to be able to scan the QR code. 
+ * The map displays the trail chosen and indicates where the QR code is located. 
+ * QR scan button 
  * 
- * Improvements: 
- * Add a exit hike button 
- * Set 24h timer HERE after QR has been scan
  */
 import React, {Component} from 'react';
 import { View, Image, Text, StyleSheet, Animated,  TouchableOpacity,Alert, Svg } from 'react-native';
-import ShowMap from '../components/ShowMap';
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {lineString as makeLineString} from '@turf/helpers';
 import MapboxDirectionsFactory from '@mapbox/mapbox-sdk/services/directions';
-
-//MapboxGL.setAccessToken('pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg',);
-// const accessToken = 'pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg';
-
 
 const accessToken = 'pk.eyJ1Ijoia2FtbG9vcHNoaWtpbmdhcHAiLCJhIjoiY2tnOXB6eHZrMDNiazJ4cGJsemRzbDIzayJ9.KxdkKCtiVF9F9MDptsdRZg';
 MapboxGL.setAccessToken(accessToken);
@@ -52,9 +43,6 @@ class InHikeScreen extends Component {
           geometries: 'geojson',
         };
 
-        //const res = await directionsClient.getDirections(reqOptions).send();
-        //const newRoute = makeLineString(res.body.routes[0].geometry.coordinates);
-        //this.state.route = newRoute;
     };
         
 
@@ -79,8 +67,7 @@ class InHikeScreen extends Component {
         
         return (
             this.state.geopointsArray.map((point, index) => (
-
-               
+            
                 <View style={{
                     height: 30, 
                     width: 30, 
@@ -102,8 +89,6 @@ class InHikeScreen extends Component {
 
     // Renders coordinates
     renderAnnotation() {
-        //var colours = ['rgba(201, 143, 57, 0.6)', 'rgba(201, 143, 57, 0.7)', 'rgba(201, 143, 57, 0.8)', 'rgba(201, 143, 57, 0.9)', 'rgb(201, 143, 57)', 'rgb(218, 142, 36)', 'rgb(174, 114, 29)', 'rgb(130, 85, 22)', 'rgb(87, 57, 14)', 'rgb(43, 28, 7)'];
-        //var colours = ['rgb(189, 124, 59)', 'rgb(189, 189, 59)', 'rgb(124, 189, 59)', 'rgb(59, 189, 59)', 'rgb(59, 189, 124)', 'rgb(59, 189, 189)', 'rgb(59, 124, 189)', 'rgb(59, 59, 189)', 'rgb(124, 59, 189)', 'rgb(189, 59, 189)', 'rgb(189, 59, 124)'];
         var colours = ['rgb(47, 228, 209)', 'rgb(47, 155, 228)', 'rgb(47, 65, 228)', 'rgb(119, 47, 228)', 'rgb(209, 47, 228)', 'rgb(228, 47, 155)', 'rgb(228, 47, 65)', 'rgb(228, 119, 47)', 'rgb(228, 209, 47)', 'rgb(155, 228, 47)', 'rgb(65, 228, 47)', 'rgb(47, 228, 119)'];
         var indexNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
         var qrIndex = Math.floor(this.state.geopointsArray.length / 2);
@@ -129,8 +114,6 @@ class InHikeScreen extends Component {
                     > 
                         <Text style={styles.colorIndexNumbers}>{indexNumbers[index]}</Text>
                     </View>
-                    
- 
                 </MapboxGL.PointAnnotation>
   ))
         ); 
@@ -209,15 +192,12 @@ const styles = StyleSheet.create({
     buttonContainerCircle: {
         backgroundColor: '#453D5F',
         color: '#6F6035',
-        // height: "100%",
-        // width: "100%",
         alignItems: 'center',
         borderRadius: 10,
         marginHorizontal: "10%"
       },
       buttonTextStyle: {
         color: '#C9C8B9',
-        //paddingVertical: 30,
         fontSize: 20,
       },
       image: {

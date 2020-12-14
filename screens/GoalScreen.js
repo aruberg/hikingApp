@@ -123,29 +123,29 @@ render() {
         >            
           <View style={styles.box}>
             <View style={styles.info}>
-              <Text  style={styles.name}>Your Goals! </Text>
+              <Text  style={styles.name}>Goals</Text>
               
               <View style={styles.row}>
                 <View style={styles.iconContainer}>                   
                     {/* <Image style={styles.icon} source={{uri: "https://cdn2.iconfinder.com/data/icons/road-and-navigation/180/02-512.png"}} /> */}
                     <Icon name="route" size={40} color={'#324648'} />
-                    <Text>Distance</Text>
+                    <Text style={styles.goalName}>Distance</Text>
                     {/* <ProgressBar style={styles.progressBar}
                     styleAttr="Horizontal"
                     indeterminate={false}
                     progress={(parseInt(this.state.myGoals.DistanceGoal))/ 100}
                     /> */}
-                    <Text>{(parseInt(this.state.myGoals.DistanceGoal)) /1000} km</Text>
+                    <Text style={styles.goalValue}>{(parseInt(this.state.myGoals.DistanceGoal)) /1000} km</Text>
                 </View>
                 <View style={styles.iconContainer}>
                 <Icon name="chart-area" size={40} color={'#324648'} />
-                    <Text>Elevation</Text>
+                    <Text style={styles.goalName}>Elevation</Text>
                     {/* <ProgressBar style={styles.progressBar}
                     styleAttr="Horizontal"
                     indeterminate={false}
                     progress={(parseInt(this.state.myGoals.ElevationGoal))/ 100}
                     /> */}
-                      <Text>{(parseInt(this.state.myGoals.ElevationGoal))} m</Text>
+                      <Text style={styles.goalValue}>{(parseInt(this.state.myGoals.ElevationGoal))} m</Text>
                 </View>
                 
                 {/* <View style={styles.iconContainer}>
@@ -160,8 +160,8 @@ render() {
                 </View> */}
                 <View style={styles.iconContainer}>
                     <Icon name="globe-americas" size={40} color={'#324648'} />
-                    <Text>Hikes</Text>
-                    <Text>{parseInt(this.state.myGoals.HikeCountGoal)}</Text>
+                    <Text style={styles.goalName}>My Hikes</Text>
+                    <Text style={styles.goalValue}>{parseInt(this.state.myGoals.HikeCountGoal)}</Text>
                     
                 </View>
                 
@@ -170,8 +170,8 @@ render() {
             </View>
           </View>
           <View style = {styles.box2}>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style = {{flexDirection: 'row'}, styles.inputContainer}>
+            <View style={styles.inputSection}>
+              <View style = {{flexDirection: 'row'}, styles.inputContainer}>
                  <Text style = {styles.TextStyle} >Distance: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
@@ -185,9 +185,9 @@ render() {
                          });
                       }
                  }/>
-                    </View> 
+              </View> 
 
-                    <View style = {{flexDirection: 'row'},styles.inputContainer}>
+              <View style = {{flexDirection: 'row'},styles.inputContainer}>
                  <Text style = {styles.TextStyle} >Elevation: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
@@ -201,9 +201,9 @@ render() {
                      });
                      }
                  }/>
-                    </View> 
+              </View> 
 
-                    <View style = {{flexDirection: 'row'},styles.inputContainer}>
+              <View style = {{flexDirection: 'row'},styles.inputContainer}>
                  <Text style = {styles.TextStyle} >Number of Hikes: </Text>
                  <TextInput style = {styles.inputs}
                     underlineColorAndroid = "transparent"
@@ -217,36 +217,19 @@ render() {
                      });
                      }
                  }/>
-                    </View> 
-
-                 {/* <View style = {{flexDirection: 'row'},styles.inputContainer}>
-                 <Text style = {styles.TextStyle} >Days to complete: </Text>
-                 <TextInput style = {styles.inputs}
-                    underlineColorAndroid = "transparent"
-                    placeholder = "0 "
-                    placeholderTextColor = "#453D5F"
-                    autoCapitalize = "none"
-                    onChangeText={e => {
-                     this.setState({
-                       DaysToComplete: parseInt(e),
-                     });
-                     }
-                 }/>
-                    </View>  */}
+              </View> 
                  
                  <TouchableOpacity
                     style = {styles.buttonContainer, styles.submitButton}
                     onPress={this.onPressAdd}
                     >
                     <Text style = {styles.buttonTextStyle}> Save </Text>
-                 </TouchableOpacity>
-                 
-                 </View>
-                 </View>
-
-          </ImageBackground>
-        </View>
-      </>
+                 </TouchableOpacity>        
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
+    </>
      )
   }
 }
@@ -319,7 +302,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     shadowColor: 'black',
     shadowOpacity: .2,
-    //height: 140,
     shadowOffset: {
       height:1,
       width:-2
@@ -333,9 +315,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: .2,
     marginHorizontal: '6%',
-    //paddingTop: 30,
-    //height: 400,
-    width: 300,
+    width: "100%",
     marginTop:20,
     shadowOffset: {
       height:1,
@@ -353,19 +333,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   name: {
-    fontSize:20,
-    marginTop:10,
+    fontSize:25,
     color: '#333'
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 40,
-    marginTop:10
+    marginTop:10,
+    width: "100%",
   },
   iconContainer: {
     flex: 1,
-    alignItems:'center'
+    alignItems:'center',
+    width: "33%",
+  },
+  goalName: {
+    textDecorationLine: 'underline',
+    fontSize: 20,
+  },
+  goalValue: {
+    fontSize: 18,
   },
   iconFonts: {
     color: 'gray',
@@ -385,8 +373,8 @@ inputContainer:{
   backgroundColor: '#BECEB4',
   borderRadius:30,
   borderBottomWidth: 1,
-  width:300,
-  height:45,
+  width:"90%",
+  height: 65,
   marginBottom:20,
   flexDirection: 'row',
   alignItems:'center',
@@ -406,6 +394,7 @@ inputs:{
   marginLeft:16,
   borderBottomColor: '#FFFFFF',
   flex:1,
+  fontSize: 20,
 },
 buttonContainer: {
   height:45,
@@ -413,34 +402,38 @@ buttonContainer: {
   justifyContent: 'center',
   alignItems: 'center',
   marginBottom:20,
-  width:300,
+  width:"100%",
   borderRadius:30,
   backgroundColor:'transparent'
 },
-  submitButton: {
-      backgroundColor: '#C98F39',
-      borderWidth: 0,
-      color: '#FFFFFF',
-      borderColor: '#C98F39',
-      height: 60,
-      width: 150,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 30,
-      marginLeft: 70,
-      marginRight: 10,
-      marginTop: 0,
+submitButton: {
+    backgroundColor: '#C98F39',
+    borderWidth: 0,
+    color: '#FFFFFF',
+    borderColor: '#C98F39',
+    height: 60,
+    width: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    // marginLeft: 70,
+    // marginRight: 10,
+    marginTop: 20,
+  },
+  inputSection: {
+    flex: 1, 
+    flexDirection: 'column', 
+    alignItems: 'center'
   },
   buttonTextStyle: {
     color: '#C9C8B9',
     paddingVertical:10,
     fontSize: 25,
-
   },
    TextStyle: {
     color: '#453D5F',
     paddingVertical:10,
-    fontSize: 16,
+    fontSize: 20,
     margin: 20,
   },
 }); 

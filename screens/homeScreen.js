@@ -75,12 +75,11 @@ class HomeScreen extends Component {
     var clientId = firebase.auth().currentUser.uid;
     this.getUser(clientId);
     // Retreive user document/Fields from Profiles collection in FireStore
-    if (this.getUser(clientId))
-    {
-      this.subscriber2 = firestore().collection('Profiles')
-    
+    this.subscriber2 = firestore().collection('Profiles') 
     .doc(clientId).onSnapshot( doc => {
-        this.setState({
+      if (doc.exists)
+      {
+          this.setState({
             userProfile: {
                 DistanceHiked: doc.data().DistanceHiked,
                 ElevationClimbed: doc.data().ElevationClimbed,
@@ -94,8 +93,9 @@ class HomeScreen extends Component {
                 HikeCountProgress: doc.data().HikesCompleted / doc.data().HikeCountGoal,
             }
         });
+      }
     })
-  }
+  
   }
 
   componentWillUnmount() {
