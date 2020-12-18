@@ -1,2 +1,2 @@
 # hikingApp
-![alt text]("http://github.com/ashtonmyers1/hikingApp/activity diagram.png")
+![alt text](activity diagram.png)
