@@ -1,2 +1,2 @@
 # hikingApp
-![alt text](activity diagram.png)
+![alt text](./activity diagram.png)
