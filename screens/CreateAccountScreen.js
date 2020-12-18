@@ -168,7 +168,7 @@ function CreateAccountScreen({navigation})  {
                                 // If password passes the complexity test
                                 else if (!(/[A-Z]/.test(password) && /[0-9]/.test(password) && /^[A-Za-z0-9]{6,}$/.test(password)))
                                 {
-                                    alert("Weak password: please enter a password that includes a number and a symbol")
+                                    alert("Weak password: please enter a password with at least 6 characters. Must include a capital letter and a number.")
                                 }
                                 
                                 // create new account

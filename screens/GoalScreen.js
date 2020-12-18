@@ -116,7 +116,7 @@ render() {
       <>
         <View style={styles.container}>
         <ImageBackground 
-          source={ {uri: "https://www.srectrade.com/assets/img/public_site/homepage/stock-illustration-23256124-stock-market-chart.jpg" }}
+          source={ require('../images/chart.jpg') }
           resizeMode='cover' 
           style={styles.backgroundImage}
           imageStyle={{opacity: 0.15}}

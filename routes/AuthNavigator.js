@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react'
 import auth from '@react-native-firebase/auth'
-import SignInStack from './SignInStack'
 import SignOutStack from './SignOutStack'
 import SplashScreen from '../screens/SplashScreen'
 import TabNavigator from './TabNavigator'
